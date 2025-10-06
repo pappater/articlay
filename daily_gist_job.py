@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent / "scrapers"))
 
 import requests
+from gist_config import GIST_ID, GIST_FILENAME
 
 # Import all scraper functions
 def import_scraper(module_name, func_name):
@@ -43,24 +44,35 @@ def run_all_scrapers():
             print(f"Error running {module}: {e}")
     return all_articles
 
-def save_to_gist(data, date_str, github_token):
-    url = "https://api.github.com/gists"
+def fetch_existing_gist(gist_id, filename, github_token):
+    url = f"https://api.github.com/gists/{gist_id}"
     headers = {"Authorization": f"token {github_token}"}
-    filename = f"magazine-articles-{date_str}.json"
+    resp = requests.get(url, headers=headers)
+    if resp.status_code == 200:
+        files = resp.json().get("files", {})
+        if filename in files:
+            content = files[filename]["content"]
+            try:
+                return json.loads(content)
+            except Exception:
+                return {}
+    return {}
+
+def update_gist(data, github_token):
+    url = f"https://api.github.com/gists/{GIST_ID}"
+    headers = {"Authorization": f"token {github_token}"}
     payload = {
-        "description": f"Magazine articles for {date_str}",
-        "public": True,
         "files": {
-            filename: {"content": json.dumps(data, indent=2)}
+            GIST_FILENAME: {"content": json.dumps(data, indent=2)}
         }
     }
-    resp = requests.post(url, headers=headers, json=payload)
-    if resp.status_code == 201:
+    resp = requests.patch(url, headers=headers, json=payload)
+    if resp.status_code == 200:
         gist_url = resp.json()["html_url"]
-        print(f"Gist created: {gist_url}")
+        print(f"Gist updated: {gist_url}")
         return gist_url
     else:
-        print(f"Failed to create gist: {resp.text}")
+        print(f"Failed to update gist: {resp.text}")
         return None
 
 def main():
@@ -70,7 +82,10 @@ def main():
         return
     date_str = datetime.now().strftime("%Y-%m-%d")
     all_articles = run_all_scrapers()
-    save_to_gist(all_articles, date_str, github_token)
+    # Fetch existing data
+    existing = fetch_existing_gist(GIST_ID, GIST_FILENAME, github_token)
+    existing[date_str] = all_articles
+    update_gist(existing, github_token)
 
 if __name__ == "__main__":
     main()

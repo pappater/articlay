@@ -1,0 +1,11 @@
+{
+  "github_token": "your_github_personal_access_token_here",
+  "default_magazine_count": 10,
+  "default_article_count": 5,
+  "archive_to_gist": true,
+  "magzter": {
+    "base_url": "https://www.magzter.com",
+    "popular_path": "/popular",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  }
+}

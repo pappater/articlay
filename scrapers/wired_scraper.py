@@ -15,7 +15,15 @@ def fetch_wired_articles(limit: int = 5) -> List[Dict]:
         for item in items:
             title = item.title.text.strip()
             link = item.link.text.strip()
-            articles.append({"title": title, "link": link})
+            description = item.description.text.strip() if item.description else ""
+            pubdate = item.pubDate.text.strip() if item.pubDate else ""
+            articles.append({
+                "title": title,
+                "link": link,
+                "description": description,
+                "pubDate": pubdate,
+                "category": "Technology"
+            })
     except Exception as e:
         print(f"Error fetching Wired articles: {e}")
     return articles

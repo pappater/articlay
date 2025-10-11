@@ -14,7 +14,15 @@ def fetch_npr_articles(limit: int = 5) -> List[Dict]:
         for item in items:
             title = item.title.text.strip()
             link = item.link.text.strip()
-            articles.append({"title": title, "link": link})
+            description = item.description.text.strip() if item.description else ""
+            pubdate = item.pubDate.text.strip() if item.pubDate else ""
+            articles.append({
+                "title": title,
+                "link": link,
+                "description": description,
+                "pubDate": pubdate,
+                "category": "World"
+            })
     except Exception as e:
         print(f"Error fetching NPR articles: {e}")
     return articles

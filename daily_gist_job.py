@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 # Add scrapers directory to sys.path
@@ -56,13 +56,28 @@ SCRAPERS = [
 
 def run_all_scrapers():
     all_articles = {}
+    successful = 0
+    failed = 0
+    
     for module, func in SCRAPERS:
         try:
             fetch_func = import_scraper(module, func)
             articles = fetch_func()
-            all_articles[module.replace('_scraper','').capitalize()] = articles
+            
+            # Only store if we got articles
+            if articles and len(articles) > 0:
+                source_name = module.replace('_scraper', '').capitalize()
+                all_articles[source_name] = articles
+                successful += 1
+                print(f"✓ {source_name}: {len(articles)} articles")
+            else:
+                failed += 1
+                print(f"✗ {module}: No articles returned")
         except Exception as e:
-            print(f"Error running {module}: {e}")
+            failed += 1
+            print(f"✗ {module}: Error - {str(e)[:100]}")
+    
+    print(f"\nSummary: {successful} sources successful, {failed} sources failed")
     return all_articles
 
 def fetch_existing_gist(gist_id, filename, github_token):
@@ -101,11 +116,26 @@ def main():
     if not github_token:
         print("GITHUB_TOKEN not set in environment.")
         return
-    date_str = datetime.now().strftime("%Y-%m-%d")
+    
+    # Use IST timezone (UTC+5:30)
+    ist = timezone(timedelta(hours=5, minutes=30))
+    date_str = datetime.now(ist).strftime("%Y-%m-%d")
+    
+    print(f"Starting article scraping for {date_str} IST")
+    print("=" * 60)
+    
     all_articles = run_all_scrapers()
+    
+    if not all_articles:
+        print("\nNo articles fetched. Exiting without updating Gist.")
+        return
+    
     # Fetch existing data
+    print("\nFetching existing Gist data...")
     existing = fetch_existing_gist(GIST_ID, GIST_FILENAME, github_token)
     existing[date_str] = all_articles
+    
+    print("\nUpdating Gist...")
     update_gist(existing, github_token)
 
 if __name__ == "__main__":

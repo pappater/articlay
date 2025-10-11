@@ -46,41 +46,42 @@ GITHUB_TOKEN=your_github_personal_access_token
 
 ## Usage
 
-### Basic Usage
+### Daily Automation (Recommended)
 
-Fetch 5 random articles from top 10 magazines:
+The repository is configured to automatically fetch articles every day at **6:00 AM IST** via GitHub Actions. The scraped articles are:
+1. Stored in a GitHub Gist
+2. Displayed on the [live UI](https://pappater.github.io/articlay/)
+
+No manual intervention is required!
+
+### Manual Execution
+
+To manually run the article scraper:
+
 ```bash
+# Set your GitHub token (required for Gist storage)
+export GITHUB_TOKEN="your_github_token_here"
+
+# Run the daily scraper
+python daily_gist_job.py
+```
+
+This will:
+- Fetch 5 articles from each news source
+- Store them in the configured GitHub Gist
+- Organize them by date and category
+
+### Legacy Magzter Tool
+
+The original `articlay.py` tool for Magzter is still available:
+
+```bash
+# Basic usage
 python articlay.py
+
+# With options
+python articlay.py --magazines 20 --articles 10
 ```
-
-### Advanced Options
-
-Fetch from top 20 magazines:
-```bash
-python articlay.py --magazines 20
-```
-
-Fetch 10 articles instead of 5:
-```bash
-python articlay.py --articles 10
-```
-
-Fetch from top 30 magazines, 7 articles, skip Gist archiving:
-```bash
-python articlay.py --magazines 30 --articles 7 --no-archive
-```
-
-Pass GitHub token directly:
-```bash
-python articlay.py --token YOUR_GITHUB_TOKEN
-```
-
-### Command Line Arguments
-
-- `--magazines, -m`: Number of top magazines to consider (choices: 10, 20, 30, default: 10)
-- `--articles, -a`: Number of articles to select (default: 5)
-- `--no-archive`: Skip archiving to GitHub Gist
-- `--token, -t`: GitHub personal access token
 
 ## Output
 
@@ -118,13 +119,36 @@ Selecting 5 random articles from different magazines...
 ✓ Articles saved to: articlay-2024-01-15.json
 ```
 
-## GitHub Gist Archiving
+## Setup for Your Own Instance
 
-To use Gist archiving, you need a GitHub Personal Access Token:
+If you want to run Articlay on your own repository:
 
-1. Go to GitHub Settings → Developer settings → Personal access tokens
-2. Generate a new token with `gist` scope
-3. Set the token as an environment variable or pass it via `--token`
+1. **Fork the repository**
+
+2. **Create a GitHub Gist**
+   - Go to https://gist.github.com/
+   - Create a new gist with filename `magazine-articles.json`
+   - Initialize it with `{}`
+   - Copy the Gist ID from the URL
+
+3. **Update Configuration**
+   - Edit `gist_config.py` with your Gist ID
+   - Edit `docs/index.html` to update the `GIST_ID` constant
+
+4. **Set up GitHub Token**
+   - Go to GitHub Settings → Developer settings → Personal access tokens
+   - Generate a new token with `gist` scope
+   - Add it as a repository secret named `GIST_TOKEN`
+
+5. **Enable GitHub Pages**
+   - Go to repository Settings → Pages
+   - Source: Deploy from a branch
+   - Branch: main, folder: /docs
+   - Save
+
+6. **Enable GitHub Actions**
+   - The workflows will run automatically
+   - Articles will be fetched daily at 6 AM IST
 
 ## Requirements
 

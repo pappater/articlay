@@ -1,16 +1,18 @@
 # Articlay 📰
 
-A tool to aggregate popular magazine articles from Magzter and archive them to GitHub Gist.
+A comprehensive news aggregator that fetches articles from popular magazines and news sources worldwide, including India and Tamil Nadu, and presents them in a beautiful, minimalistic UI.
 
 ## Features
 
-- 🔍 Fetches popular magazines from Magzter
-- 📚 Gets latest editions of magazines
-- 🎲 Randomly selects articles from different magazines (no duplicates from same magazine)
-- ⚙️ Configurable to fetch from top 10, 20, or 30 magazines
-- 📝 Lists article titles and links
-- 💾 Archives articles to GitHub Gist daily
-- 📄 Saves local backup in JSON format
+- 🌍 **Global Coverage**: Fetches from 30+ news sources including Reuters, Forbes, The Economist, Wired, Nature, and more
+- 🇮🇳 **Indian News**: Includes The Hindu, Times of India, Indian Express, NDTV, Hindustan Times
+- 🏛️ **Tamil Nadu News**: Features Dinamalar, Dinamani, Daily Thanthi
+- 📂 **Categorized Articles**: Organized by World, India, Tamil Nadu, Business, Technology, Science, and Culture
+- 🕐 **Daily Automation**: Runs automatically every day at 6:00 AM IST
+- 💾 **Gist Storage**: Archives all article data (title, description, link, publish date, category) to GitHub Gist
+- 🌐 **GitHub Pages UI**: Beautiful, minimalistic interface to browse articles day-wise
+- 📱 **Responsive Design**: Works perfectly on desktop, tablet, and mobile
+- 🎯 **One Article Per Source**: Displays one article from each news source per day
 
 ## Installation
 
@@ -131,9 +133,38 @@ See `requirements.txt`:
 - beautifulsoup4>=4.12.0
 - lxml>=4.9.0
 
-## Note
+## Live Demo
 
-This tool is designed to work with Magzter. Actual scraping implementation may need adjustments based on Magzter's structure and authentication requirements. The current implementation includes a framework that can be extended with proper Magzter API access or web scraping logic.
+Visit the live UI: [https://pappater.github.io/articlay/](https://pappater.github.io/articlay/)
+
+Browse daily articles in a clean, minimalistic interface organized by category.
+
+## News Sources
+
+### World News
+- Reuters, Time, The Atlantic, NPR
+
+### Business & Economics
+- Forbes, The Economist, Bloomberg
+
+### Technology
+- Wired
+
+### Science & Nature
+- National Geographic, Scientific American, Popular Science, New Scientist, Nature
+
+### Culture
+- The New Yorker, Smithsonian Magazine
+
+### India
+- The Hindu, Times of India, Indian Express, NDTV, Hindustan Times
+
+### Tamil Nadu
+- Dinamalar, Dinamani, Daily Thanthi
+
+## Automation
+
+Articles are automatically scraped and stored every day at **6:00 AM IST** via GitHub Actions. Non-working scrapers are gracefully skipped.
 
 ## License
 

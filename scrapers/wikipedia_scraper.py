@@ -136,6 +136,39 @@ def fetch_wikipedia_quote_of_day() -> List[Dict]:
         print(f"Error fetching Wikiquote Quote of the Day: {e}")
     return articles
 
+def fetch_on_this_day() -> List[Dict]:
+    """Fetch 'On This Day' events from Wikipedia."""
+    articles = []
+    try:
+        from datetime import datetime
+        today = datetime.now()
+        month_name = today.strftime("%B")
+        day = today.day
+        
+        url = f"https://en.wikipedia.org/wiki/{month_name}_{day}"
+        response = requests.get(url, timeout=10)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Find the events section
+        events_section = soup.find('span', {'id': 'Events'})
+        if events_section:
+            events_list = events_section.find_next('ul')
+            if events_list:
+                events = events_list.find_all('li')[:5]  # Get first 5 events
+                events_text = '\n'.join([f"• {event.get_text().strip()}" for event in events])
+                
+                articles.append({
+                    "title": f"On This Day in History ({month_name} {day})",
+                    "link": url,
+                    "description": events_text,
+                    "content": events_text,
+                    "pubDate": "",
+                    "category": "Wikipedia"
+                })
+    except Exception as e:
+        print(f"Error fetching On This Day: {e}")
+    return articles
+
 if __name__ == "__main__":
     print("Wikipedia Article of the Day:")
     for art in fetch_wikipedia_article_of_day():
@@ -151,4 +184,8 @@ if __name__ == "__main__":
     
     print("\nWikiquote Quote of the Day:")
     for art in fetch_wikipedia_quote_of_day():
+        print(f"{art['title']}\n{art['link']}\n")
+    
+    print("\nOn This Day:")
+    for art in fetch_on_this_day():
         print(f"{art['title']}\n{art['link']}\n")

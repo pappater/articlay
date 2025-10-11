@@ -64,6 +64,7 @@ SCRAPERS = [
     ("wikipedia_scraper", "fetch_wikipedia_image_of_day"),
     ("wikipedia_scraper", "fetch_random_wikipedia_article"),
     ("wikipedia_scraper", "fetch_wikipedia_quote_of_day"),
+    ("wikipedia_scraper", "fetch_on_this_day"),
     
     # Quotes & Inspiration
     ("quotes_scraper", "fetch_quote_of_day"),

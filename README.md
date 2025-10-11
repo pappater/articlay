@@ -4,15 +4,35 @@ A comprehensive news aggregator that fetches articles from popular magazines and
 
 ## Features
 
-- 🌍 **Global Coverage**: Fetches from 30+ news sources including Reuters, Forbes, The Economist, Wired, Nature, and more
-- 🇮🇳 **Indian News**: Includes The Hindu, Times of India, Indian Express, NDTV, Hindustan Times
+### News Aggregation
+- 🌍 **Global Coverage**: Fetches from 35+ news sources including Reuters, Forbes, The Economist, Wired, Nature, BBC, CNN, Al Jazeera, and more
+- 🇮🇳 **Indian News**: Includes The Hindu, Times of India, Indian Express, NDTV, Hindustan Times, Zee News, India Today, DD News
 - 🏛️ **Tamil Nadu News**: Features Dinamalar, Dinamani, Daily Thanthi
-- 📂 **Categorized Articles**: Organized by World, India, Tamil Nadu, Business, Technology, Science, and Culture
+- 📂 **Categorized Articles**: Organized by World, India, Tamil Nadu, Business, Technology, Science, Culture, Wikipedia, and Inspiration
 - 🕐 **Daily Automation**: Runs automatically every day at 6:00 AM IST
-- 💾 **Gist Storage**: Archives all article data (title, description, link, publish date, category) to GitHub Gist
+- 🔄 **Deduplication**: Intelligent article deduplication to prevent duplicates across sources
+- 🎯 **One Article Per Source**: Displays one unique article from each news source per day
+
+### Wikipedia & Special Content
+- 📚 **Wikipedia Article of the Day**: Featured article with full content
+- 🖼️ **Wikipedia Picture of the Day**: Beautiful daily images from Wikimedia Commons
+- 📜 **Wikipedia Quote of the Day**: Inspiring quotes from Wikiquote
+- 🎲 **Random Wikipedia Article**: Discover something new every day
+- 📅 **On This Day in History**: Historical events that happened on the current date
+- 💡 **Daily Quotes**: Inspirational quotes from multiple sources
+
+### User Interface
 - 🌐 **GitHub Pages UI**: Beautiful, minimalistic interface to browse articles day-wise
+- 🌓 **Dark Mode**: Toggle between light and dark themes with localStorage persistence
+- 🔍 **Search & Filter**: Real-time search across articles by title, source, or category
+- 📊 **Statistics Dashboard**: View article counts, sources, and categories at a glance
+- 🌤️ **Weather Widget**: Get weather updates for any city worldwide (using Open-Meteo API)
 - 📱 **Responsive Design**: Works perfectly on desktop, tablet, and mobile
-- 🎯 **One Article Per Source**: Displays one article from each news source per day
+- 🕐 **IST Timezone**: Accurate "Today" marker using Indian Standard Time
+
+### Data Management
+- 💾 **Gist Storage**: Archives all article data (title, description, link, publish date, category) to GitHub Gist
+- 📅 **Historical Archive**: Browse articles from any previous date
 
 ## Installation
 
@@ -165,26 +185,36 @@ Browse daily articles in a clean, minimalistic interface organized by category.
 
 ## News Sources
 
-### World News
-- Reuters, Time, The Atlantic, NPR
+### World News (7 sources)
+- Reuters, Time, The Atlantic, NPR, BBC, CNN, Al Jazeera
 
-### Business & Economics
+### Business & Economics (3 sources)
 - Forbes, The Economist, Bloomberg
 
-### Technology
+### Technology (1 source)
 - Wired
 
-### Science & Nature
+### Science & Nature (5 sources)
 - National Geographic, Scientific American, Popular Science, New Scientist, Nature
 
-### Culture
+### Culture (2 sources)
 - The New Yorker, Smithsonian Magazine
 
-### India
-- The Hindu, Times of India, Indian Express, NDTV, Hindustan Times
+### India (8 sources)
+- The Hindu, Times of India, Indian Express, NDTV, Hindustan Times, Zee News, India Today, DD News
 
-### Tamil Nadu
+### Tamil Nadu (3 sources)
 - Dinamalar, Dinamani, Daily Thanthi
+
+### Wikipedia & Special Content (6 sources)
+- Wikipedia Article of the Day
+- Wikipedia Picture of the Day
+- Random Wikipedia Article
+- Wikiquote Quote of the Day
+- On This Day in History
+- Daily Inspirational Quotes
+
+**Total: 35+ sources across 9 categories**
 
 ## Automation
 

@@ -17,6 +17,33 @@
             color: #333;
             background-color: #f5f5f5;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .container {
+            background-color: #2a2a2a;
+        }
+
+        body.dark-mode .article-card {
+            background-color: #3a3a3a;
+            border-color: #4a4a4a;
+        }
+
+        body.dark-mode .article-card:hover {
+            border-color: #5a9fd4;
+        }
+
+        body.dark-mode .article-title {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .article-description {
+            color: #b0b0b0;
         }
 
         .container {
@@ -33,6 +60,33 @@
             margin-bottom: 40px;
             padding-bottom: 20px;
             border-bottom: 2px solid #e0e0e0;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background-color: #2980b9;
+        }
+
+        body.dark-mode .theme-toggle {
+            background-color: #f39c12;
+        }
+
+        body.dark-mode .theme-toggle:hover {
+            background-color: #e67e22;
         }
 
         h1 {
@@ -69,6 +123,111 @@
 
         .date-selector select:hover {
             border-color: #2980b9;
+        }
+
+        .search-filter {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .search-filter input {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 500px;
+            transition: all 0.3s;
+        }
+
+        .search-filter input:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        body.dark-mode .search-filter input {
+            background-color: #3a3a3a;
+            border-color: #5a9fd4;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .date-selector select {
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+            border-color: #5a9fd4;
+        }
+
+        .weather-widget {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: white;
+        }
+
+        .weather-widget h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+        }
+
+        .weather-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .weather-controls input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .weather-controls button {
+            padding: 10px 20px;
+            background-color: white;
+            color: #667eea;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .weather-controls button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .weather-content {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            min-height: 60px;
+        }
+
+        .weather-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .weather-item {
+            text-align: center;
+        }
+
+        .weather-item .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .weather-item .value {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-top: 5px;
         }
 
         .today-badge {
@@ -214,6 +373,7 @@
 <body>
     <div class="container">
         <header>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
             <h1>📰 Articlay</h1>
             <p class="subtitle">Your Daily Curated News & Articles from Around the World</p>
         </header>
@@ -223,6 +383,21 @@
             <select id="date-select" onchange="loadArticles()">
                 <option value="">Loading dates...</option>
             </select>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" id="search-input" placeholder="🔍 Search articles by title, source, or category..." oninput="filterArticles()">
+        </div>
+
+        <div class="weather-widget" id="weather-widget">
+            <h3>🌤️ Weather</h3>
+            <div class="weather-controls">
+                <input type="text" id="location-input" placeholder="Enter city name (e.g., Mumbai, Chennai, Delhi)" value="Mumbai">
+                <button onclick="fetchWeather()">Get Weather</button>
+            </div>
+            <div id="weather-content" class="weather-content">
+                <p>Enter a location to see weather information</p>
+            </div>
         </div>
 
         <div id="content">
@@ -248,7 +423,9 @@
             'Business': '💼',
             'Technology': '💻',
             'Science': '🔬',
-            'Culture': '🎨'
+            'Culture': '🎨',
+            'Wikipedia': '📚',
+            'Inspiration': '💡'
         };
 
         async function fetchGistData() {
@@ -276,7 +453,11 @@
             }
 
             select.innerHTML = '';
-            const today = new Date().toISOString().split('T')[0];
+            // Use IST timezone (UTC+5:30) for today's date
+            const now = new Date();
+            const istOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+            const istDate = new Date(now.getTime() + istOffset);
+            const today = istDate.toISOString().split('T')[0];
             
             dates.forEach(date => {
                 const option = document.createElement('option');
@@ -290,11 +471,55 @@
             });
         }
 
+        let currentArticles = {}; // Store current articles for filtering
+        
+        function filterArticles() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            
+            if (!searchTerm) {
+                // If search is empty, reload all articles
+                loadArticles();
+                return;
+            }
+            
+            // Filter articles based on search term
+            const filteredData = {};
+            
+            for (const [source, articles] of Object.entries(currentArticles)) {
+                const filteredArticles = articles.filter(article => {
+                    const title = (article.title || '').toLowerCase();
+                    const description = (article.description || '').toLowerCase();
+                    const category = (article.category || '').toLowerCase();
+                    const sourceName = source.toLowerCase();
+                    
+                    return title.includes(searchTerm) || 
+                           description.includes(searchTerm) || 
+                           category.includes(searchTerm) || 
+                           sourceName.includes(searchTerm);
+                });
+                
+                if (filteredArticles.length > 0) {
+                    filteredData[source] = filteredArticles;
+                }
+            }
+            
+            renderArticles(filteredData);
+        }
+        
         function loadArticles() {
             const selectedDate = document.getElementById('date-select').value;
             if (!selectedDate) return;
 
             const dayData = allData[selectedDate];
+            currentArticles = dayData || {}; // Store for filtering
+            
+            // Clear search input when changing dates
+            document.getElementById('search-input').value = '';
+            
+            renderArticles(dayData);
+        }
+        
+        function renderArticles(dayData) {
             const content = document.getElementById('content');
 
             if (!dayData || Object.keys(dayData).length === 0) {
@@ -324,14 +549,37 @@
 
             // Render articles by category
             let html = '';
-            const today = new Date().toISOString().split('T')[0];
-            const isToday = selectedDate === today;
             
-            if (isToday) {
-                html += '<h2 style="text-align: center; color: #e74c3c; margin-bottom: 30px;">📅 Today\'s Top Stories</h2>';
+            // Calculate statistics
+            let totalArticles = 0;
+            let totalSources = 0;
+            for (const category in categorizedArticles) {
+                totalArticles += categorizedArticles[category].length;
             }
+            totalSources = Object.keys(dayData).length;
+            
+            // Add summary banner
+            html += `
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; text-align: center;">
+                    <h3 style="margin: 0 0 10px 0; font-size: 1.5em;">📊 Today's Summary</h3>
+                    <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+                        <div>
+                            <div style="font-size: 2em; font-weight: bold;">${totalArticles}</div>
+                            <div style="font-size: 0.9em; opacity: 0.9;">Articles</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2em; font-weight: bold;">${totalSources}</div>
+                            <div style="font-size: 0.9em; opacity: 0.9;">Sources</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2em; font-weight: bold;">${Object.keys(categorizedArticles).length}</div>
+                            <div style="font-size: 0.9em; opacity: 0.9;">Categories</div>
+                        </div>
+                    </div>
+                </div>
+            `;
 
-            const categoryOrder = ['India', 'Tamil Nadu', 'World', 'Business', 'Technology', 'Science', 'Culture', 'Other'];
+            const categoryOrder = ['Wikipedia', 'Inspiration', 'India', 'Tamil Nadu', 'World', 'Business', 'Technology', 'Science', 'Culture', 'Other'];
             
             categoryOrder.forEach(category => {
                 if (categorizedArticles[category]) {
@@ -347,16 +595,30 @@
                     
                     categorizedArticles[category].forEach(article => {
                         const description = article.description || '';
-                        const truncatedDesc = description.length > 150 
-                            ? description.substring(0, 150) + '...' 
-                            : description;
+                        const content = article.content || '';
+                        const imageUrl = article.image_url || '';
+                        
+                        // For Wikipedia and Inspiration categories, show more content
+                        let displayText = '';
+                        if (category === 'Wikipedia' || category === 'Inspiration') {
+                            displayText = content || description;
+                            // Don't truncate Wikipedia/Inspiration content as much
+                            if (displayText.length > 400) {
+                                displayText = displayText.substring(0, 400) + '...';
+                            }
+                        } else {
+                            displayText = description.length > 150 
+                                ? description.substring(0, 150) + '...' 
+                                : description;
+                        }
                         
                         html += `
                             <a href="${article.link}" target="_blank" class="article-link">
                                 <div class="article-card">
                                     <div class="article-source">${article.source}</div>
                                     <div class="article-title">${article.title}</div>
-                                    ${truncatedDesc ? `<div class="article-description">${truncatedDesc}</div>` : ''}
+                                    ${imageUrl ? `<img src="${imageUrl}" alt="${article.title}" style="width: 100%; border-radius: 5px; margin: 10px 0;">` : ''}
+                                    ${displayText ? `<div class="article-description">${displayText}</div>` : ''}
                                 </div>
                             </a>
                         `;
@@ -376,8 +638,123 @@
             content.innerHTML = html;
         }
 
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = '☀️ Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = '🌙 Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        
+        // Load saved theme preference
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggle.textContent = '☀️ Light Mode';
+            }
+        }
+        
+        // Weather functionality
+        async function fetchWeather() {
+            const locationInput = document.getElementById('location-input');
+            const weatherContent = document.getElementById('weather-content');
+            const location = locationInput.value.trim();
+            
+            if (!location) {
+                weatherContent.innerHTML = '<p>Please enter a location</p>';
+                return;
+            }
+            
+            weatherContent.innerHTML = '<p>Loading weather data...</p>';
+            
+            try {
+                // Using Open-Meteo API (free, no API key required)
+                // First, geocode the location
+                const geoResponse = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1&language=en&format=json`);
+                const geoData = await geoResponse.json();
+                
+                if (!geoData.results || geoData.results.length === 0) {
+                    weatherContent.innerHTML = '<p>Location not found. Please try another city.</p>';
+                    return;
+                }
+                
+                const { latitude, longitude, name, country } = geoData.results[0];
+                
+                // Fetch weather data
+                const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`);
+                const weatherData = await weatherResponse.json();
+                
+                const current = weatherData.current;
+                const temp = Math.round(current.temperature_2m);
+                const humidity = current.relative_humidity_2m;
+                const windSpeed = Math.round(current.wind_speed_10m);
+                
+                // Weather code descriptions
+                const weatherDescriptions = {
+                    0: 'Clear sky ☀️',
+                    1: 'Mainly clear 🌤️',
+                    2: 'Partly cloudy ⛅',
+                    3: 'Overcast ☁️',
+                    45: 'Foggy 🌫️',
+                    48: 'Foggy 🌫️',
+                    51: 'Light drizzle 🌦️',
+                    53: 'Drizzle 🌦️',
+                    55: 'Heavy drizzle 🌦️',
+                    61: 'Light rain 🌧️',
+                    63: 'Rain 🌧️',
+                    65: 'Heavy rain 🌧️',
+                    71: 'Light snow 🌨️',
+                    73: 'Snow 🌨️',
+                    75: 'Heavy snow 🌨️',
+                    95: 'Thunderstorm ⛈️'
+                };
+                
+                const weatherDesc = weatherDescriptions[current.weather_code] || 'Unknown';
+                
+                weatherContent.innerHTML = `
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <h4 style="margin: 0; font-size: 1.3em;">${name}, ${country}</h4>
+                    </div>
+                    <div class="weather-info">
+                        <div class="weather-item">
+                            <div class="label">Condition</div>
+                            <div class="value">${weatherDesc}</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="label">Temperature</div>
+                            <div class="value">${temp}°C</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="label">Humidity</div>
+                            <div class="value">${humidity}%</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="label">Wind Speed</div>
+                            <div class="value">${windSpeed} km/h</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error fetching weather:', error);
+                weatherContent.innerHTML = '<p>Failed to load weather data. Please try again.</p>';
+            }
+        }
+        
         // Initialize
+        loadTheme(); // Load saved theme preference
         fetchGistData();
+        fetchWeather(); // Load default weather on page load
     </script>
 </body>
 </html>

@@ -21,6 +21,9 @@ SCRAPERS = [
     ("time_scraper", "fetch_time_articles"),
     ("atlantic_scraper", "fetch_atlantic_articles"),
     ("npr_scraper", "fetch_npr_articles"),
+    ("bbc_scraper", "fetch_bbc_articles"),
+    ("cnn_scraper", "fetch_cnn_articles"),
+    ("aljazeera_scraper", "fetch_aljazeera_articles"),
     
     # Business & Economics
     ("forbes_scraper", "fetch_forbes_articles"),
@@ -47,17 +50,31 @@ SCRAPERS = [
     ("indianexpress_scraper", "fetch_indianexpress_articles"),
     ("ndtv_scraper", "fetch_ndtv_articles"),
     ("hindustantimes_scraper", "fetch_hindustantimes_articles"),
+    ("zeenews_scraper", "fetch_zeenews_articles"),
+    ("indiatoday_scraper", "fetch_indiatoday_articles"),
+    ("ddnews_scraper", "fetch_ddnews_articles"),
     
     # Tamil Nadu News
     ("dinamalar_scraper", "fetch_dinamalar_articles"),
     ("dinamani_scraper", "fetch_dinamani_articles"),
     ("thanthi_scraper", "fetch_thanthi_articles"),
+    
+    # Wikipedia & Special Content
+    ("wikipedia_scraper", "fetch_wikipedia_article_of_day"),
+    ("wikipedia_scraper", "fetch_wikipedia_image_of_day"),
+    ("wikipedia_scraper", "fetch_random_wikipedia_article"),
+    ("wikipedia_scraper", "fetch_wikipedia_quote_of_day"),
+    
+    # Quotes & Inspiration
+    ("quotes_scraper", "fetch_quote_of_day"),
+    ("quotes_scraper", "fetch_zen_quote"),
 ]
 
 def run_all_scrapers():
     all_articles = {}
     successful = 0
     failed = 0
+    seen_titles = set()  # Track seen article titles for deduplication
     
     for module, func in SCRAPERS:
         try:
@@ -66,10 +83,27 @@ def run_all_scrapers():
             
             # Only store if we got articles
             if articles and len(articles) > 0:
-                source_name = module.replace('_scraper', '').capitalize()
-                all_articles[source_name] = articles
-                successful += 1
-                print(f"✓ {source_name}: {len(articles)} articles")
+                # Deduplicate articles by title
+                unique_articles = []
+                for article in articles:
+                    title_key = article.get('title', '').lower().strip()
+                    if title_key and title_key not in seen_titles:
+                        unique_articles.append(article)
+                        seen_titles.add(title_key)
+                
+                if unique_articles:
+                    # Create a unique source name using both module and function
+                    if module == "wikipedia_scraper":
+                        # Special handling for Wikipedia scrapers
+                        source_name = func.replace('fetch_', '').replace('_', ' ').title()
+                    else:
+                        source_name = module.replace('_scraper', '').capitalize()
+                    
+                    all_articles[source_name] = unique_articles
+                    successful += 1
+                    print(f"✓ {source_name}: {len(unique_articles)} articles")
+                else:
+                    print(f"✓ {module}: All articles were duplicates")
             else:
                 failed += 1
                 print(f"✗ {module}: No articles returned")

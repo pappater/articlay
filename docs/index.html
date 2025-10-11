@@ -71,6 +71,78 @@
             border-color: #2980b9;
         }
 
+        .weather-widget {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: white;
+        }
+
+        .weather-widget h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+        }
+
+        .weather-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .weather-controls input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .weather-controls button {
+            padding: 10px 20px;
+            background-color: white;
+            color: #667eea;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .weather-controls button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .weather-content {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            min-height: 60px;
+        }
+
+        .weather-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .weather-item {
+            text-align: center;
+        }
+
+        .weather-item .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .weather-item .value {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
         .today-badge {
             display: inline-block;
             background-color: #e74c3c;
@@ -225,6 +297,17 @@
             </select>
         </div>
 
+        <div class="weather-widget" id="weather-widget">
+            <h3>🌤️ Weather</h3>
+            <div class="weather-controls">
+                <input type="text" id="location-input" placeholder="Enter city name (e.g., Mumbai, Chennai, Delhi)" value="Mumbai">
+                <button onclick="fetchWeather()">Get Weather</button>
+            </div>
+            <div id="weather-content" class="weather-content">
+                <p>Enter a location to see weather information</p>
+            </div>
+        </div>
+
         <div id="content">
             <div class="loading">Loading articles...</div>
         </div>
@@ -248,7 +331,9 @@
             'Business': '💼',
             'Technology': '💻',
             'Science': '🔬',
-            'Culture': '🎨'
+            'Culture': '🎨',
+            'Wikipedia': '📚',
+            'Inspiration': '💡'
         };
 
         async function fetchGistData() {
@@ -276,7 +361,11 @@
             }
 
             select.innerHTML = '';
-            const today = new Date().toISOString().split('T')[0];
+            // Use IST timezone (UTC+5:30) for today's date
+            const now = new Date();
+            const istOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+            const istDate = new Date(now.getTime() + istOffset);
+            const today = istDate.toISOString().split('T')[0];
             
             dates.forEach(date => {
                 const option = document.createElement('option');
@@ -324,14 +413,8 @@
 
             // Render articles by category
             let html = '';
-            const today = new Date().toISOString().split('T')[0];
-            const isToday = selectedDate === today;
-            
-            if (isToday) {
-                html += '<h2 style="text-align: center; color: #e74c3c; margin-bottom: 30px;">📅 Today\'s Top Stories</h2>';
-            }
 
-            const categoryOrder = ['India', 'Tamil Nadu', 'World', 'Business', 'Technology', 'Science', 'Culture', 'Other'];
+            const categoryOrder = ['Wikipedia', 'Inspiration', 'India', 'Tamil Nadu', 'World', 'Business', 'Technology', 'Science', 'Culture', 'Other'];
             
             categoryOrder.forEach(category => {
                 if (categorizedArticles[category]) {
@@ -347,16 +430,30 @@
                     
                     categorizedArticles[category].forEach(article => {
                         const description = article.description || '';
-                        const truncatedDesc = description.length > 150 
-                            ? description.substring(0, 150) + '...' 
-                            : description;
+                        const content = article.content || '';
+                        const imageUrl = article.image_url || '';
+                        
+                        // For Wikipedia and Inspiration categories, show more content
+                        let displayText = '';
+                        if (category === 'Wikipedia' || category === 'Inspiration') {
+                            displayText = content || description;
+                            // Don't truncate Wikipedia/Inspiration content as much
+                            if (displayText.length > 400) {
+                                displayText = displayText.substring(0, 400) + '...';
+                            }
+                        } else {
+                            displayText = description.length > 150 
+                                ? description.substring(0, 150) + '...' 
+                                : description;
+                        }
                         
                         html += `
                             <a href="${article.link}" target="_blank" class="article-link">
                                 <div class="article-card">
                                     <div class="article-source">${article.source}</div>
                                     <div class="article-title">${article.title}</div>
-                                    ${truncatedDesc ? `<div class="article-description">${truncatedDesc}</div>` : ''}
+                                    ${imageUrl ? `<img src="${imageUrl}" alt="${article.title}" style="width: 100%; border-radius: 5px; margin: 10px 0;">` : ''}
+                                    ${displayText ? `<div class="article-description">${displayText}</div>` : ''}
                                 </div>
                             </a>
                         `;
@@ -376,8 +473,95 @@
             content.innerHTML = html;
         }
 
+        // Weather functionality
+        async function fetchWeather() {
+            const locationInput = document.getElementById('location-input');
+            const weatherContent = document.getElementById('weather-content');
+            const location = locationInput.value.trim();
+            
+            if (!location) {
+                weatherContent.innerHTML = '<p>Please enter a location</p>';
+                return;
+            }
+            
+            weatherContent.innerHTML = '<p>Loading weather data...</p>';
+            
+            try {
+                // Using Open-Meteo API (free, no API key required)
+                // First, geocode the location
+                const geoResponse = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1&language=en&format=json`);
+                const geoData = await geoResponse.json();
+                
+                if (!geoData.results || geoData.results.length === 0) {
+                    weatherContent.innerHTML = '<p>Location not found. Please try another city.</p>';
+                    return;
+                }
+                
+                const { latitude, longitude, name, country } = geoData.results[0];
+                
+                // Fetch weather data
+                const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`);
+                const weatherData = await weatherResponse.json();
+                
+                const current = weatherData.current;
+                const temp = Math.round(current.temperature_2m);
+                const humidity = current.relative_humidity_2m;
+                const windSpeed = Math.round(current.wind_speed_10m);
+                
+                // Weather code descriptions
+                const weatherDescriptions = {
+                    0: 'Clear sky ☀️',
+                    1: 'Mainly clear 🌤️',
+                    2: 'Partly cloudy ⛅',
+                    3: 'Overcast ☁️',
+                    45: 'Foggy 🌫️',
+                    48: 'Foggy 🌫️',
+                    51: 'Light drizzle 🌦️',
+                    53: 'Drizzle 🌦️',
+                    55: 'Heavy drizzle 🌦️',
+                    61: 'Light rain 🌧️',
+                    63: 'Rain 🌧️',
+                    65: 'Heavy rain 🌧️',
+                    71: 'Light snow 🌨️',
+                    73: 'Snow 🌨️',
+                    75: 'Heavy snow 🌨️',
+                    95: 'Thunderstorm ⛈️'
+                };
+                
+                const weatherDesc = weatherDescriptions[current.weather_code] || 'Unknown';
+                
+                weatherContent.innerHTML = `
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <h4 style="margin: 0; font-size: 1.3em;">${name}, ${country}</h4>
+                    </div>
+                    <div class="weather-info">
+                        <div class="weather-item">
+                            <div class="label">Condition</div>
+                            <div class="value">${weatherDesc}</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="label">Temperature</div>
+                            <div class="value">${temp}°C</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="label">Humidity</div>
+                            <div class="value">${humidity}%</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="label">Wind Speed</div>
+                            <div class="value">${windSpeed} km/h</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error fetching weather:', error);
+                weatherContent.innerHTML = '<p>Failed to load weather data. Please try again.</p>';
+            }
+        }
+        
         // Initialize
         fetchGistData();
+        fetchWeather(); // Load default weather on page load
     </script>
 </body>
 </html>

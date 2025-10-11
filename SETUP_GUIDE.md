@@ -29,7 +29,7 @@ This guide will help you set up Articlay to run on your own GitHub repository.
 #### Update `gist_config.py`
 
 ```python
-GIST_ID = "your_gist_id_here"
+GIST_ID = "abc123def456"  # Replace with your actual Gist ID
 GIST_FILENAME = "magazine-articles.json"
 ```
 
@@ -38,8 +38,8 @@ GIST_FILENAME = "magazine-articles.json"
 Find these lines and update the GIST_ID:
 
 ```javascript
-const GIST_ID = 'your_gist_id_here';
-const GIST_FILENAME = 'magazine-articles.json';
+const GIST_ID = "abc123def456";  // Replace with your actual Gist ID
+const GIST_FILENAME = "magazine-articles.json";
 ```
 
 ### 4. Create GitHub Personal Access Token
@@ -123,10 +123,50 @@ SCRAPERS = [
 
 To add a new scraper:
 
-1. Create `scrapers/newsource_scraper.py`
-2. Implement `fetch_newsource_articles(limit=5)` function
-3. Return list of articles with: title, link, description, pubDate, category
-4. Add to SCRAPERS list in `daily_gist_job.py`
+1. **Create the scraper file**: `scrapers/newsource_scraper.py`
+
+2. **Implement the fetch function**:
+   ```python
+   import requests
+   from bs4 import BeautifulSoup
+   from typing import List, Dict
+
+   RSS_URL = "https://example.com/rss"
+
+   def fetch_newsource_articles(limit: int = 5) -> List[Dict]:
+       """Fetch latest articles from News Source RSS feed."""
+       articles = []
+       try:
+           resp = requests.get(RSS_URL, timeout=10)
+           resp.raise_for_status()
+           soup = BeautifulSoup(resp.content, features="xml")
+           items = soup.find_all('item')[:limit]
+           for item in items:
+               title = item.title.text.strip() if item.title else ""
+               link = item.link.text.strip() if item.link else ""
+               description = item.description.text.strip() if item.description else ""
+               pubdate = item.pubDate.text.strip() if item.pubDate else ""
+               articles.append({
+                   "title": title,
+                   "link": link,
+                   "description": description,
+                   "pubDate": pubdate,
+                   "category": "World"  # Choose appropriate category
+               })
+       except Exception as e:
+           print(f"Error fetching News Source articles: {e}")
+       return articles
+   ```
+
+3. **Add to SCRAPERS list** in `daily_gist_job.py`:
+   ```python
+   SCRAPERS = [
+       # ... existing scrapers ...
+       ("newsource_scraper", "fetch_newsource_articles"),
+   ]
+   ```
+
+The scraper will be automatically imported and called during the daily run.
 
 ### Customize UI
 

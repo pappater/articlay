@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
+# Note: RSS feed URLs vary by publisher (e.g., /feed/rss, /feeds/all, /rss.xml)
+# Each URL is based on the actual feed endpoint provided by the respective publication
 BONAPPETIT_RSS = "https://www.bonappetit.com/feed/rss"
 
 def fetch_bonappetit_articles(limit: int = 5) -> List[Dict]:

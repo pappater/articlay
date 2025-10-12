@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
-AXIOS_RSS = "https://api.axios.com/feed/"
+AXIOS_RSS = "https://www.axios.com/feeds/feed.rss"
 
 def fetch_axios_articles(limit: int = 5) -> List[Dict]:
     """Fetch latest news from Axios RSS feed."""

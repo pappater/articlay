@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
-TREEHUGGER_RSS = "https://www.treehugger.com/feeds"
+TREEHUGGER_RSS = "https://www.treehugger.com/feeds/all"
 
 def fetch_treehugger_articles(limit: int = 5) -> List[Dict]:
     """Fetch latest environment articles from TreeHugger RSS feed."""

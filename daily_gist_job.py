@@ -152,7 +152,7 @@ SCRAPERS = [
 ]
 
 def strip_images_from_description(description):
-    """Remove image tags and URLs from description."""
+    """Remove image tags and URLs from description, and strip remaining HTML."""
     if not description:
         return description
     
@@ -162,6 +162,9 @@ def strip_images_from_description(description):
     description = re.sub(r'!\[([^\]]*)\]\([^\)]*\)', r'\1', description)
     # Remove standalone image URLs (common patterns)
     description = re.sub(r'https?://[^\s]*\.(jpg|jpeg|png|gif|webp)', '', description, flags=re.IGNORECASE)
+    
+    # Strip all remaining HTML tags for text-only output
+    description = BeautifulSoup(description, 'html.parser').get_text()
     
     # Clean up extra whitespace
     description = ' '.join(description.split())

@@ -163,7 +163,7 @@ def strip_images_from_description(description):
     description = re.sub(r'https?://[^\s]*\.(jpg|jpeg|png|gif|webp)', '', description, flags=re.IGNORECASE)
     
     # Strip all remaining HTML tags for text-only output (efficient regex-based approach)
-    description = re.sub(r'<[^<]+?>', '', description)
+    description = re.sub(r'<[^>]*>', '', description)
     
     # Clean up extra whitespace
     description = ' '.join(description.split())

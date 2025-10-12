@@ -24,14 +24,21 @@ SCRAPERS = [
     ("bbc_scraper", "fetch_bbc_articles"),
     ("cnn_scraper", "fetch_cnn_articles"),
     ("aljazeera_scraper", "fetch_aljazeera_articles"),
+    ("guardian_scraper", "fetch_guardian_articles"),
+    ("axios_scraper", "fetch_axios_articles"),
     
     # Business & Economics
     ("forbes_scraper", "fetch_forbes_articles"),
     ("economist_scraper", "fetch_economist_articles"),
     ("bloomberg_scraper", "fetch_bloomberg_articles"),
+    ("wsj_scraper", "fetch_wsj_articles"),
     
     # Technology
     ("wired_scraper", "fetch_wired_articles"),
+    ("theverge_scraper", "fetch_theverge_articles"),
+    ("arstechnica_scraper", "fetch_arstechnica_articles"),
+    ("engadget_scraper", "fetch_engadget_articles"),
+    ("mashable_scraper", "fetch_mashable_articles"),
     
     # Science & Nature
     ("natgeo_scraper", "fetch_natgeo_articles"),
@@ -40,9 +47,42 @@ SCRAPERS = [
     ("newscientist_scraper", "fetch_newscientist_articles"),
     ("nature_scraper", "fetch_nature_articles"),
     
-    # Culture
+    # Space & Astronomy
+    ("space_scraper", "fetch_space_articles"),
+    
+    # Culture & Arts
     ("newyorker_scraper", "fetch_newyorker_articles"),
     ("smithsonian_scraper", "fetch_smithsonian_articles"),
+    ("artnet_scraper", "fetch_artnet_articles"),
+    
+    # Design
+    ("dezeen_scraper", "fetch_dezeen_articles"),
+    
+    # Sports
+    ("espn_scraper", "fetch_espn_articles"),
+    
+    # Health
+    ("healthline_scraper", "fetch_healthline_articles"),
+    
+    # Environment
+    ("treehugger_scraper", "fetch_treehugger_articles"),
+    
+    # Politics
+    ("politico_scraper", "fetch_politico_articles"),
+    
+    # Entertainment
+    ("variety_scraper", "fetch_variety_articles"),
+    ("rollingstone_scraper", "fetch_rollingstone_articles"),
+    
+    # Fashion & Lifestyle
+    ("vogue_scraper", "fetch_vogue_articles"),
+    ("gq_scraper", "fetch_gq_articles"),
+    
+    # Food
+    ("bonappetit_scraper", "fetch_bonappetit_articles"),
+    
+    # Education
+    ("edweek_scraper", "fetch_edweek_articles"),
     
     # India News
     ("thehindu_scraper", "fetch_thehindu_articles"),

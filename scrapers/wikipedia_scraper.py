@@ -3,49 +3,88 @@ from bs4 import BeautifulSoup
 from typing import List, Dict
 
 def fetch_wikipedia_article_of_day() -> List[Dict]:
-    """Fetch Wikipedia's Article of the Day (Featured Article)."""
+    """Fetch Wikipedia's Article of the Day (Featured Article) with full text and related articles."""
     articles = []
     try:
-        url = "https://en.wikipedia.org/api/rest_v1/feed/featured/2024/01/01"
-        # Get today's featured article
-        response = requests.get("https://en.wikipedia.org/w/api.php", params={
-            "action": "query",
-            "format": "json",
-            "prop": "extracts|pageimages",
-            "generator": "search",
-            "gsrsearch": "intitle:Main Page",
-            "exintro": True,
-            "explaintext": True,
-            "piprop": "thumbnail",
-            "pithumbsize": 400
-        }, timeout=10)
+        from datetime import datetime
         
-        # Alternative: Get today's featured article from the main page
-        main_page = requests.get("https://en.wikipedia.org/wiki/Main_Page", timeout=10)
-        soup = BeautifulSoup(main_page.content, 'html.parser')
+        # Use Wikipedia's REST API to get today's featured article
+        today = datetime.now()
+        year = today.year
+        month = str(today.month).zfill(2)
+        day = str(today.day).zfill(2)
         
-        # Find the featured article section
-        featured = soup.find('div', {'id': 'mp-tfa'})
-        if featured:
-            title_elem = featured.find('b')
-            title = title_elem.text if title_elem else "Featured Article"
+        # Try the REST API first
+        api_url = f"https://api.wikimedia.org/feed/v1/wikipedia/en/featured/{year}/{month}/{day}"
+        response = requests.get(api_url, timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            tfa = data.get('tfa', {})
             
-            # Get the article link
-            link_elem = featured.find('a', href=True)
-            article_link = f"https://en.wikipedia.org{link_elem['href']}" if link_elem else "https://en.wikipedia.org"
-            
-            # Get the content
-            paragraphs = featured.find_all('p')
-            content = ' '.join([p.get_text() for p in paragraphs])
-            
-            articles.append({
-                "title": f"Wikipedia Article of the Day: {title}",
-                "link": article_link,
-                "description": content[:500] + "..." if len(content) > 500 else content,
-                "content": content,
-                "pubDate": "",
-                "category": "Wikipedia"
-            })
+            if tfa:
+                title = tfa.get('displaytitle', tfa.get('title', 'Featured Article'))
+                # Remove HTML tags from title
+                from bs4 import BeautifulSoup as BS
+                title = BS(title, 'html.parser').get_text()
+                
+                article_url = tfa.get('content_urls', {}).get('desktop', {}).get('page', '')
+                extract = tfa.get('extract', '')
+                
+                # Fetch the full article text
+                if article_url:
+                    try:
+                        article_response = requests.get(article_url, timeout=10)
+                        article_soup = BeautifulSoup(article_response.content, 'html.parser')
+                        
+                        # Get the main content
+                        content_div = article_soup.find('div', {'id': 'mw-content-text'})
+                        if content_div:
+                            # Get all paragraphs
+                            paragraphs = content_div.find_all('p', recursive=False)
+                            full_text = '\n\n'.join([p.get_text().strip() for p in paragraphs if p.get_text().strip()])
+                            
+                            # Get related articles from "See also" section
+                            related = []
+                            see_also = article_soup.find('span', {'id': 'See_also'})
+                            if see_also:
+                                ul = see_also.find_next('ul')
+                                if ul:
+                                    links = ul.find_all('a', href=True)[:5]
+                                    related = [f"• {link.get_text()}" for link in links]
+                            
+                            related_text = '\n'.join(related) if related else ''
+                            
+                            articles.append({
+                                "title": f"Wikipedia Article of the Day: {title}",
+                                "link": article_url,
+                                "description": full_text[:1000] + "..." if len(full_text) > 1000 else full_text,
+                                "content": full_text,
+                                "related_articles": related_text,
+                                "pubDate": "",
+                                "category": "Wikipedia"
+                            })
+                        else:
+                            # Fallback to extract
+                            articles.append({
+                                "title": f"Wikipedia Article of the Day: {title}",
+                                "link": article_url,
+                                "description": extract,
+                                "content": extract,
+                                "pubDate": "",
+                                "category": "Wikipedia"
+                            })
+                    except Exception as e:
+                        print(f"Error fetching full article: {e}")
+                        # Fallback to extract
+                        articles.append({
+                            "title": f"Wikipedia Article of the Day: {title}",
+                            "link": article_url,
+                            "description": extract,
+                            "content": extract,
+                            "pubDate": "",
+                            "category": "Wikipedia"
+                        })
     except Exception as e:
         print(f"Error fetching Wikipedia Article of the Day: {e}")
     return articles
@@ -54,35 +93,42 @@ def fetch_wikipedia_image_of_day() -> List[Dict]:
     """Fetch Wikipedia's Picture of the Day."""
     articles = []
     try:
-        # Get Wikimedia Commons Picture of the Day
-        url = "https://commons.wikimedia.org/wiki/Template:Potd"
-        response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        from datetime import datetime
         
-        # Find the image
-        img_elem = soup.find('div', {'class': 'potd'})
-        if not img_elem:
-            img_elem = soup.find('img')
+        # Use Wikipedia's REST API to get today's picture
+        today = datetime.now()
+        year = today.year
+        month = str(today.month).zfill(2)
+        day = str(today.day).zfill(2)
         
-        if img_elem and img_elem.name == 'img':
-            img_url = img_elem.get('src', '')
-            if img_url.startswith('//'):
-                img_url = 'https:' + img_url
-        else:
-            img_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikipedia%27s_W.svg/200px-Wikipedia%27s_W.svg.png"
+        api_url = f"https://api.wikimedia.org/feed/v1/wikipedia/en/featured/{year}/{month}/{day}"
+        response = requests.get(api_url, timeout=10)
         
-        # Get description
-        desc_elem = soup.find('div', {'class': 'description'})
-        description = desc_elem.get_text().strip() if desc_elem else "Wikipedia Picture of the Day"
-        
-        articles.append({
-            "title": "Wikipedia Picture of the Day",
-            "link": url,
-            "description": description,
-            "image_url": img_url,
-            "pubDate": "",
-            "category": "Wikipedia"
-        })
+        if response.status_code == 200:
+            data = response.json()
+            image_data = data.get('image', {})
+            
+            if image_data:
+                title = image_data.get('title', 'Wikipedia Picture of the Day')
+                description = image_data.get('description', {}).get('text', 'Picture of the Day')
+                # Remove HTML tags
+                from bs4 import BeautifulSoup as BS
+                description = BS(description, 'html.parser').get_text()
+                
+                img_url = image_data.get('thumbnail', {}).get('source', '')
+                if not img_url:
+                    img_url = image_data.get('image', {}).get('source', '')
+                
+                page_url = image_data.get('file_page', 'https://commons.wikimedia.org')
+                
+                articles.append({
+                    "title": "Wikipedia Picture of the Day",
+                    "link": page_url,
+                    "description": description,
+                    "image_url": img_url,
+                    "pubDate": "",
+                    "category": "Wikipedia"
+                })
     except Exception as e:
         print(f"Error fetching Wikipedia Picture of the Day: {e}")
     return articles
@@ -106,65 +152,86 @@ def fetch_random_wikipedia_article() -> List[Dict]:
     return articles
 
 def fetch_wikipedia_quote_of_day() -> List[Dict]:
-    """Fetch quote of the day from Wikiquote."""
-    articles = []
-    try:
-        # Try to get quote from Wikiquote's main page
-        url = "https://en.wikiquote.org/wiki/Main_Page"
-        response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
-        
-        # Find the quote of the day
-        qotd = soup.find('div', {'id': 'mf-qotd'})
-        if not qotd:
-            qotd = soup.find('table', {'class': 'qotd'})
-        
-        if qotd:
-            quote_text = qotd.get_text().strip()
-            # Clean up the text
-            quote_text = ' '.join(quote_text.split())
-            
-            articles.append({
-                "title": "Wikiquote Quote of the Day",
-                "link": url,
-                "description": quote_text[:300] + "..." if len(quote_text) > 300 else quote_text,
-                "content": quote_text,
-                "pubDate": "",
-                "category": "Wikipedia"
-            })
-    except Exception as e:
-        print(f"Error fetching Wikiquote Quote of the Day: {e}")
-    return articles
-
-def fetch_on_this_day() -> List[Dict]:
-    """Fetch 'On This Day' events from Wikipedia."""
+    """Fetch quote of the day from Wikipedia's REST API."""
     articles = []
     try:
         from datetime import datetime
+        
+        # Use Wikipedia's REST API to get today's quote
         today = datetime.now()
-        month_name = today.strftime("%B")
-        day = today.day
+        year = today.year
+        month = str(today.month).zfill(2)
+        day = str(today.day).zfill(2)
         
-        url = f"https://en.wikipedia.org/wiki/{month_name}_{day}"
-        response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        api_url = f"https://api.wikimedia.org/feed/v1/wikipedia/en/featured/{year}/{month}/{day}"
+        response = requests.get(api_url, timeout=10)
         
-        # Find the events section
-        events_section = soup.find('span', {'id': 'Events'})
-        if events_section:
-            events_list = events_section.find_next('ul')
-            if events_list:
-                events = events_list.find_all('li')[:5]  # Get first 5 events
-                events_text = '\n'.join([f"• {event.get_text().strip()}" for event in events])
+        if response.status_code == 200:
+            data = response.json()
+            
+            # The API doesn't have a dedicated quote field, so we'll try the "onthisday" section
+            # as it contains interesting historical quotes and facts
+            onthisday = data.get('onthisday', [])
+            
+            if onthisday and len(onthisday) > 0:
+                # Get the first interesting event
+                event = onthisday[0]
+                text = event.get('text', '')
+                year_event = event.get('year', '')
+                
+                quote_text = f"{text} ({year_event})" if year_event else text
                 
                 articles.append({
-                    "title": f"On This Day in History ({month_name} {day})",
-                    "link": url,
-                    "description": events_text,
-                    "content": events_text,
+                    "title": "Wikipedia On This Day",
+                    "link": f"https://en.wikipedia.org/wiki/{today.strftime('%B_%d')}",
+                    "description": quote_text,
+                    "content": quote_text,
                     "pubDate": "",
                     "category": "Wikipedia"
                 })
+    except Exception as e:
+        print(f"Error fetching Wikipedia Quote/On This Day: {e}")
+    return articles
+
+def fetch_on_this_day() -> List[Dict]:
+    """Fetch 'On This Day' events from Wikipedia REST API."""
+    articles = []
+    try:
+        from datetime import datetime
+        
+        today = datetime.now()
+        year = today.year
+        month = str(today.month).zfill(2)
+        day = str(today.day).zfill(2)
+        month_name = today.strftime("%B")
+        
+        api_url = f"https://api.wikimedia.org/feed/v1/wikipedia/en/featured/{year}/{month}/{day}"
+        response = requests.get(api_url, timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            onthisday = data.get('onthisday', [])
+            
+            if onthisday:
+                # Get top 5 events
+                events = []
+                for event in onthisday[:5]:
+                    text = event.get('text', '')
+                    year_event = event.get('year', '')
+                    if text:
+                        events.append(f"• {year_event}: {text}" if year_event else f"• {text}")
+                
+                if events:
+                    events_text = '\n'.join(events)
+                    
+                    articles.append({
+                        "title": f"On This Day in History - {month_name} {today.day}",
+                        "link": f"https://en.wikipedia.org/wiki/{month_name}_{today.day}",
+                        "description": events_text,
+                        "content": events_text,
+                        "pubDate": "",
+                        "category": "Wikipedia"
+                    })
     except Exception as e:
         print(f"Error fetching On This Day: {e}")
     return articles

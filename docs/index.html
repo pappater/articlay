@@ -313,6 +313,53 @@
             renderArticles(dayData);
         }
         
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            
+            try {
+                const date = new Date(dateStr);
+                if (isNaN(date.getTime())) return dateStr;
+                
+                // Format to IST: "12 Oct 2025, 10:30 AM IST"
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                
+                // Convert to IST (UTC+5:30)
+                const istOffset = 5.5 * 60 * 60 * 1000;
+                const istDate = new Date(date.getTime() + istOffset);
+                
+                const day = istDate.getUTCDate();
+                const month = months[istDate.getUTCMonth()];
+                const year = istDate.getUTCFullYear();
+                
+                let hours = istDate.getUTCHours();
+                const minutes = istDate.getUTCMinutes().toString().padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12 || 12;
+                
+                return `${day} ${month} ${year}, ${hours}:${minutes} ${ampm} IST`;
+            } catch (e) {
+                return dateStr;
+            }
+        }
+        
+        function getCategoryOrder(category) {
+            const order = {
+                'India': 1,
+                'Tamil Nadu': 2,
+                'Code & Tech': 3,
+                'Literature': 4,
+                'Movie': 5,
+                'Writing': 6,
+                'Reddit': 7,
+                'Art & Photography': 8,
+                'Design Trends': 9,
+                'Minimalist Living': 10,
+                'Indie Web Projects': 11
+            };
+            return order[category] || 999;
+        }
+        
         function renderArticles(dayData) {
             const content = document.getElementById('content');
 
@@ -341,26 +388,41 @@
                 return;
             }
 
+            // Sort articles by category order
+            allArticles.sort((a, b) => {
+                const orderA = getCategoryOrder(a.category || 'Other');
+                const orderB = getCategoryOrder(b.category || 'Other');
+                return orderA - orderB;
+            });
+
             // Render articles as a flat list
             let html = '';
+            let lastCategory = '';
             
             allArticles.forEach(article => {
                 const description = article.description || '';
                 const category = article.category || 'Other';
                 const pubDate = article.pubDate || '';
-                const imageUrl = article.image_url || '';
+                
+                // Add category header if category changes
+                if (category !== lastCategory) {
+                    html += `
+                        <div style="margin: 40px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #000;">
+                            <h2 style="font-size: 1.5em; font-weight: 700; margin: 0;">${category}</h2>
+                        </div>
+                    `;
+                    lastCategory = category;
+                }
                 
                 html += `
                     <div class="article-item">
                         <a href="${article.link}" target="_blank" class="article-link">
                             <h2 class="article-title">${article.title}</h2>
                             ${description ? `<div class="article-description">${description}</div>` : ''}
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${article.title}" style="max-width: 100%; margin: 15px 0; display: block;">` : ''}
                         </a>
                         <div class="article-meta">
                             <span><span class="meta-label">Source:</span> ${article.source}</span>
-                            <span><span class="meta-label">Category:</span> ${category}</span>
-                            ${pubDate ? `<span><span class="meta-label">Published:</span> ${pubDate}</span>` : ''}
+                            ${pubDate ? `<span><span class="meta-label">Published:</span> ${formatDate(pubDate)}</span>` : ''}
                         </div>
                     </div>
                 `;

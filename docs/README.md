@@ -4,12 +4,12 @@ This is the GitHub Pages UI for Articlay. It displays daily news and articles in
 
 ## Features
 
-- **Day-wise Display**: Browse articles by date
-- **Today's Stories**: Highlights today's articles
+- **Today's Stories**: Displays today's latest articles
 - **Categorized View**: Articles organized by category (India, Tamil Nadu, World, Business, Technology, Science, Culture)
 - **Minimalistic Design**: Clean and easy-to-read interface
 - **One Article Per Source**: Displays one article from each news source per day
 - **Responsive**: Works on desktop, tablet, and mobile devices
+- **Optimized Performance**: Only stores current day's data for fast loading
 
 ## Configuration
 

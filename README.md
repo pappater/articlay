@@ -22,17 +22,17 @@ A comprehensive news aggregator that fetches articles from popular magazines and
 - 💡 **Daily Quotes**: Inspirational quotes from multiple sources
 
 ### User Interface
-- 🌐 **GitHub Pages UI**: Beautiful, minimalistic interface to browse articles day-wise
+- 🌐 **GitHub Pages UI**: Beautiful, minimalistic interface to browse today's articles
 - 🌓 **Dark Mode**: Toggle between light and dark themes with localStorage persistence
 - 🔍 **Search & Filter**: Real-time search across articles by title, source, or category
 - 📊 **Statistics Dashboard**: View article counts, sources, and categories at a glance
 - 🌤️ **Weather Widget**: Get weather updates for any city worldwide (using Open-Meteo API)
 - 📱 **Responsive Design**: Works perfectly on desktop, tablet, and mobile
-- 🕐 **IST Timezone**: Accurate "Today" marker using Indian Standard Time
+- 🕐 **IST Timezone**: All times and dates use Indian Standard Time
 
 ### Data Management
-- 💾 **Gist Storage**: Archives all article data (title, description, link, publish date, category) to GitHub Gist
-- 📅 **Historical Archive**: Browse articles from any previous date
+- 💾 **Gist Storage**: Stores current day's article data (title, description, link, publish date, category) to GitHub Gist
+- 🎯 **Current Day Focus**: Only keeps today's articles to maintain optimal performance and avoid large JSON files
 
 ## Installation
 

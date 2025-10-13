@@ -668,10 +668,26 @@
                 console.error('Error fetching from Gist:', error);
                 console.error('Gist ID:', GIST_ID);
                 console.error('Filename:', GIST_FILENAME);
+                console.error('Gist URL:', `https://gist.github.com/${GIST_ID}`);
                 
-                // Show error message to user
-                document.getElementById('tab-contents').innerHTML = 
-                    '<div class="loading">Failed to load articles from Gist. Error: ' + error.message + '</div>';
+                // Show detailed error message to user
+                const errorHtml = `
+                    <div class="loading">
+                        <h3>Failed to load articles from Gist</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Gist ID:</strong> ${GIST_ID}</p>
+                        <p><strong>File:</strong> ${GIST_FILENAME}</p>
+                        <p><a href="https://gist.github.com/${GIST_ID}" target="_blank">View Gist directly</a></p>
+                        <p style="margin-top: 20px;">Please check:</p>
+                        <ul style="text-align: left; display: inline-block;">
+                            <li>The Gist exists and is public</li>
+                            <li>The file "${GIST_FILENAME}" exists in the Gist</li>
+                            <li>Your browser is not blocking the request</li>
+                            <li>Check browser console for more details</li>
+                        </ul>
+                    </div>
+                `;
+                document.getElementById('tab-contents').innerHTML = errorHtml;
             }
         }
 

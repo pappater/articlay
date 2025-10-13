@@ -894,10 +894,25 @@
 
             const meta = document.createElement('div');
             meta.className = 'article-meta';
-            meta.innerHTML = `
-                <span><span class="meta-label">Source:</span> ${article.source}</span>
-                ${article.pubDate ? `<span><span class="meta-label">Published:</span> ${formatDate(article.pubDate)}</span>` : ''}
-            `;
+            
+            const sourceSpan = document.createElement('span');
+            const sourceLabel = document.createElement('span');
+            sourceLabel.className = 'meta-label';
+            sourceLabel.textContent = 'Source:';
+            sourceSpan.appendChild(sourceLabel);
+            sourceSpan.appendChild(document.createTextNode(' ' + article.source));
+            meta.appendChild(sourceSpan);
+            
+            if (article.pubDate) {
+                const pubSpan = document.createElement('span');
+                const pubLabel = document.createElement('span');
+                pubLabel.className = 'meta-label';
+                pubLabel.textContent = 'Published:';
+                pubSpan.appendChild(pubLabel);
+                pubSpan.appendChild(document.createTextNode(' ' + formatDate(article.pubDate)));
+                meta.appendChild(pubSpan);
+            }
+            
             card.appendChild(meta);
 
             return card;
@@ -946,10 +961,15 @@
             if (count >= 5 && count <= 50) {
                 defaultArticleCount = count;
                 saveSettings();
-                alert('Default article count saved!');
+                showNotification('Default article count saved!');
             } else {
-                alert('Please enter a value between 5 and 50.');
+                showNotification('Please enter a value between 5 and 50.');
             }
+        }
+        
+        function showNotification(message) {
+            // Simple notification - could be replaced with a more sophisticated toast system
+            alert(message);
         }
 
         function addNewSource() {
@@ -957,7 +977,7 @@
             const category = document.getElementById('source-category').value;
             
             if (!name) {
-                alert('Please enter a source name.');
+                showNotification('Please enter a source name.');
                 return;
             }
 
@@ -971,11 +991,17 @@
             saveSettings();
             
             document.getElementById('source-name').value = '';
-            alert(`Source "${name}" added successfully!`);
+            showNotification('Source "' + escapeHtml(name) + '" added successfully!');
             updateCustomSourcesList();
             
             // Reload articles to show new source
             loadArticles();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         function surpriseMe() {
@@ -997,14 +1023,19 @@
             document.getElementById('source-name').value = randomSource.name;
             document.getElementById('source-category').value = randomSource.category;
             
-            alert(`🎉 Surprise! How about "${randomSource.name}"?`);
+            showNotification('🎉 Surprise! How about "' + escapeHtml(randomSource.name) + '"?');
         }
 
         function updateCustomSourcesList() {
             const list = document.getElementById('custom-sources-list');
             
             if (customSources.length === 0) {
-                list.innerHTML = '<li style="padding: 10px; color: #666;">No custom sources added yet.</li>';
+                const li = document.createElement('li');
+                li.style.padding = '10px';
+                li.style.color = '#666';
+                li.textContent = 'No custom sources added yet.';
+                list.innerHTML = '';
+                list.appendChild(li);
                 return;
             }
 
@@ -1012,19 +1043,33 @@
             customSources.forEach((source, index) => {
                 const li = document.createElement('li');
                 li.className = 'source-item';
-                li.innerHTML = `
-                    <div>
-                        <span class="source-item-name">${source.name}</span>
-                        <span class="source-item-category">(${source.category})</span>
-                    </div>
-                    <button onclick="deleteSource(${index})">Delete</button>
-                `;
+                
+                const div = document.createElement('div');
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'source-item-name';
+                nameSpan.textContent = source.name;
+                div.appendChild(nameSpan);
+                
+                const categorySpan = document.createElement('span');
+                categorySpan.className = 'source-item-category';
+                categorySpan.textContent = '(' + source.category + ')';
+                div.appendChild(categorySpan);
+                
+                li.appendChild(div);
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = function() { deleteSource(index); };
+                li.appendChild(deleteBtn);
+                
                 list.appendChild(li);
             });
         }
 
         function deleteSource(index) {
-            if (confirm(`Are you sure you want to delete "${customSources[index].name}"?`)) {
+            const sourceName = customSources[index].name;
+            if (confirm('Are you sure you want to delete "' + escapeHtml(sourceName) + '"?')) {
                 customSources.splice(index, 1);
                 saveSettings();
                 updateCustomSourcesList();

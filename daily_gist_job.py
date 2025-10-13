@@ -302,13 +302,12 @@ def main():
         print("\nNo articles fetched. Exiting without updating Gist.")
         return
     
-    # Fetch existing data
-    print("\nFetching existing Gist data...")
-    existing = fetch_existing_gist(GIST_ID, GIST_FILENAME, github_token)
-    existing[date_str] = all_articles
+    # Only keep current date's articles (no archiving)
+    print("\nPreparing Gist data for current date only...")
+    current_data = {date_str: all_articles}
     
     print("\nUpdating Gist...")
-    update_gist(existing, github_token)
+    update_gist(current_data, github_token)
 
 if __name__ == "__main__":
     main()

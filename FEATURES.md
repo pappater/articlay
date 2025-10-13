@@ -94,10 +94,9 @@ Works perfectly on:
 - Mobile phones (< 768px)
 
 ### Date Selection
-- Dropdown to browse articles from any date
-- "Today" marker for current date (IST)
-- Sorted in reverse chronological order
-- Shows all available dates in the archive
+- Shows current date's articles
+- All times in Indian Standard Time (IST)
+- Optimized for current day's content
 
 ### Article Cards
 Each article card displays:
@@ -210,24 +209,21 @@ Displays at the top of articles showing:
 - Updates when search filters are applied
 - Always accurate and current
 
-## Data Storage & Archiving
+## Data Storage
 
 ### GitHub Gist Integration
-- All articles stored in a public Gist
+- Current date's articles stored in a public Gist
 - JSON format for easy access
 - Organized by date (YYYY-MM-DD)
 - Accessible via GitHub API
+- Optimized for performance with minimal data size (~386KB vs potential 11+MB accumulation)
 
 ### Daily Updates
 - Automated scraping at 6:00 AM IST
 - GitHub Actions workflow
 - Graceful handling of failed scrapers
 - Comprehensive logging
-
-### Historical Archive
-- Browse articles from any previous date
-- Data preserved indefinitely
-- No storage limits on content
+- Only current date's articles stored to prevent JSON bloat and maintain fast performance
 
 ## API & Integrations
 
@@ -238,9 +234,9 @@ Displays at the top of articles showing:
 - Reliable and fast
 
 ### GitHub Gist API
-- Store article data
-- Retrieve historical data
+- Store current date's article data
 - Public access for transparency
+- Optimized for fast loading
 
 ### RSS Feeds
 All news sources use RSS feeds for:

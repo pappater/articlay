@@ -8,10 +8,13 @@ A comprehensive news aggregator that fetches articles from popular magazines and
 - 🌍 **Global Coverage**: Fetches from 35+ news sources including Reuters, Forbes, The Economist, Wired, Nature, BBC, CNN, Al Jazeera, and more
 - 🇮🇳 **Indian News**: Includes The Hindu, Times of India, Indian Express, NDTV, Hindustan Times, Zee News, India Today, DD News
 - 🏛️ **Tamil Nadu News**: Features Dinamalar, Dinamani, Daily Thanthi
-- 📂 **Categorized Articles**: Organized by World, India, Tamil Nadu, Business, Technology, Science, Culture, Wikipedia, and Inspiration
-- 🕐 **Daily Automation**: Runs automatically every day at 6:00 AM IST
+- 🎬 **Movie & Film**: Mubi, Letterboxd, RogerEbert.com, IndieWire, Criterion Collection, Film Companion, Filmfare, Variety
+- 📚 **Literature**: Literary Hub, Project Gutenberg, The Paris Review, Granta, New Yorker Books, Hindu Literary Review
+- ✍️ **Writing**: Medium, Substack, Wattpad, Electric Literature, Poets.org, Reddit r/writing
+- 📂 **Categorized Articles**: Organized by World, India, Tamil Nadu, Movie, Literature, Writing, Reddit, Business, Technology, Science, Culture, and more
+- ⚡ **Frequent Updates**: Runs automatically every 15 minutes
 - 🔄 **Deduplication**: Intelligent article deduplication to prevent duplicates across sources
-- 🎯 **One Article Per Source**: Displays one unique article from each news source per day
+- 🎯 **One Article Per Source**: Displays one unique article from each news source per update
 
 ### Wikipedia & Special Content
 - 📚 **Wikipedia Article of the Day**: Featured article with full content
@@ -23,10 +26,13 @@ A comprehensive news aggregator that fetches articles from popular magazines and
 
 ### User Interface
 - 🌐 **GitHub Pages UI**: Beautiful, minimalistic interface to browse today's articles
+- 🎨 **1970s Retro Design**: Bold red Courier New header with vintage text shadow effects
+- 🌈 **Retro Article Highlights**: Colorful gradient left border appears on hover for a vintage magazine feel
+- 🎭 **Easter Egg**: Jean-Michel Basquiat-style art revealed when scrolling to bottom (footer fades away)
+- 👆 **Touch Gestures**: Swipe left/right to switch between tabs (no refresh), pull down to refresh
 - 🌓 **Dark Mode**: Toggle between light and dark themes with localStorage persistence
 - 🔍 **Search & Filter**: Real-time search across articles by title, source, or category
 - 📊 **Statistics Dashboard**: View article counts, sources, and categories at a glance
-- 🌤️ **Weather Widget**: Get weather updates for any city worldwide (using Open-Meteo API)
 - 📱 **Responsive Design**: Works perfectly on desktop, tablet, and mobile
 - 🕐 **IST Timezone**: All times and dates use Indian Standard Time
 
@@ -218,7 +224,17 @@ Browse daily articles in a clean, minimalistic interface organized by category.
 
 ## Automation
 
-Articles are automatically scraped and stored every day at **6:00 AM IST** via GitHub Actions. Non-working scrapers are gracefully skipped.
+Articles are automatically scraped and stored **every 15 minutes** via GitHub Actions. Non-working scrapers are gracefully skipped.
+
+**Note**: The 15-minute schedule is aggressive and may cause rate limiting with some sources. Monitor the GitHub Actions logs and adjust the schedule in `.github/workflows/daily-gist.yml` if needed (e.g., change to `0 */1 * * *` for hourly updates).
+
+## Scraper Status
+
+For tracking which scrapers are working and which need attention, see [SCRAPER_STATUS.md](SCRAPER_STATUS.md). This document helps identify:
+- Newly added scrapers pending production testing
+- Known issues with specific scrapers
+- Alternative sources when scrapers fail
+- Testing instructions for individual scrapers
 
 ## License
 

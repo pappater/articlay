@@ -62,6 +62,10 @@ def fetch_reddit_movies(limit: int = 5) -> List[Dict]:
     """Fetch top posts from r/movies."""
     return fetch_reddit_subreddit("movies", limit)
 
+def fetch_reddit_writing(limit: int = 5) -> List[Dict]:
+    """Fetch top posts from r/writing."""
+    return fetch_reddit_subreddit("writing", limit)
+
 if __name__ == "__main__":
     print("=== r/worldnews ===")
     for art in fetch_reddit_worldnews():

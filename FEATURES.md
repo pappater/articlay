@@ -212,18 +212,18 @@ Displays at the top of articles showing:
 ## Data Storage
 
 ### GitHub Gist Integration
-- Current day's articles stored in a public Gist
+- Current date's articles stored in a public Gist
 - JSON format for easy access
 - Organized by date (YYYY-MM-DD)
 - Accessible via GitHub API
-- Optimized for performance with minimal data size
+- Optimized for performance with minimal data size (~386KB vs potential 11+MB accumulation)
 
 ### Daily Updates
 - Automated scraping at 6:00 AM IST
 - GitHub Actions workflow
 - Graceful handling of failed scrapers
 - Comprehensive logging
-- Only current date stored to avoid large JSON files
+- Only current date's articles stored to prevent JSON bloat and maintain fast performance
 
 ## API & Integrations
 
@@ -234,7 +234,7 @@ Displays at the top of articles showing:
 - Reliable and fast
 
 ### GitHub Gist API
-- Store current day's article data
+- Store current date's article data
 - Public access for transparency
 - Optimized for fast loading
 

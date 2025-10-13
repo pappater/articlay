@@ -31,8 +31,8 @@ A comprehensive news aggregator that fetches articles from popular magazines and
 - 🕐 **IST Timezone**: All times and dates use Indian Standard Time
 
 ### Data Management
-- 💾 **Gist Storage**: Stores current day's article data (title, description, link, publish date, category) to GitHub Gist
-- 🎯 **Current Day Focus**: Only keeps today's articles to maintain optimal performance and avoid large JSON files
+- 💾 **Gist Storage**: Stores current date's article data (title, description, link, publish date, category) to GitHub Gist
+- 🎯 **Current Date Focus**: Only keeps today's articles to maintain optimal performance (keeps JSON ~386KB instead of accumulating to 11+MB over time)
 
 ## Installation
 

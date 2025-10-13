@@ -42,3 +42,5 @@ articlay-*.md
 
 # Environment variables
 .env
+docs/test.html
+docs/mock-data.json

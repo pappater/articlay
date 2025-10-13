@@ -96,7 +96,10 @@
             font-weight: 700;
             color: var(--text-primary);
             margin: 0;
-            letter-spacing: -0.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 2px 2px 0px var(--text-secondary);
         }
 
         .subtitle {
@@ -155,26 +158,12 @@
             overflow-y: hidden;
             white-space: nowrap;
             padding: 0 30px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--text-secondary) var(--border-color);
+            scrollbar-width: none; /* Firefox */
             touch-action: pan-x;
         }
 
         .tab-nav::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .tab-nav::-webkit-scrollbar-track {
-            background: var(--border-color);
-        }
-
-        .tab-nav::-webkit-scrollbar-thumb {
-            background: var(--text-secondary);
-            border-radius: 3px;
-        }
-
-        .tab-nav::-webkit-scrollbar-thumb:hover {
-            background: var(--text-tertiary);
+            display: none; /* Chrome, Safari, Edge */
         }
 
         .tab-btn {
@@ -604,13 +593,18 @@
             }
 
             .header-content {
-                flex-direction: column;
-                align-items: flex-start;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
                 gap: 15px;
             }
 
             h1 {
                 font-size: 1.6em;
+            }
+
+            .tab-container {
+                top: 0;
             }
 
             .tab-nav {
@@ -738,6 +732,7 @@
 
         // Category priority order - only these tabs will be shown, rest go to "Others"
         const CATEGORY_ORDER = {
+            'For You': 0,
             'India': 1,
             'Tamil Nadu': 2,
             'Movie': 3,
@@ -782,8 +777,18 @@
         }
 
         function loadTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
+            let theme = localStorage.getItem('theme');
+            
+            // If no saved theme, detect system preference
+            if (!theme) {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    theme = 'dark';
+                } else {
+                    theme = 'light';
+                }
+            }
+            
+            document.documentElement.setAttribute('data-theme', theme);
         }
 
         // Load settings from localStorage
@@ -932,34 +937,46 @@
 
         function organizeByCategory(dayData) {
             const categorized = {};
+            const allArticles = []; // Collect all articles for "For You" section
+            
+            // Helper function to normalize category names
+            function normalizeCategory(category) {
+                // "For You" is a special generated category, shouldn't exist in source data
+                if (category === 'For You') {
+                    return 'Others';
+                }
+                // Map categories - if not in CATEGORY_ORDER (except Others), put in Others
+                if (!CATEGORY_ORDER.hasOwnProperty(category) && category !== 'Other') {
+                    return 'Others';
+                }
+                return category;
+            }
             
             for (const [source, articles] of Object.entries(dayData)) {
                 if (articles && articles.length > 0) {
                     articles.forEach(article => {
-                        let category = article.category || 'Other';
+                        let category = normalizeCategory(article.category || 'Other');
                         
-                        // Map categories - if not in CATEGORY_ORDER (except Others), put in Others
-                        if (!CATEGORY_ORDER.hasOwnProperty(category) && category !== 'Other') {
-                            category = 'Others';
-                        }
+                        const articleWithSource = {
+                            source: source,
+                            ...article
+                        };
                         
                         if (!categorized[category]) {
                             categorized[category] = [];
                         }
-                        categorized[category].push({
-                            source: source,
-                            ...article
-                        });
+                        categorized[category].push(articleWithSource);
+                        
+                        // Add to allArticles for "For You" section
+                        allArticles.push(articleWithSource);
                     });
                 }
             }
 
             // Add custom sources to their categories
             customSources.forEach(source => {
-                let category = source.category || 'Other';
-                if (!CATEGORY_ORDER.hasOwnProperty(category) && category !== 'Other') {
-                    category = 'Others';
-                }
+                let category = normalizeCategory(source.category || 'Other');
+                
                 if (!categorized[category]) {
                     categorized[category] = [];
                 }
@@ -974,17 +991,25 @@
                 });
             });
 
+            // Create "For You" section with 5 random articles from all categories
+            if (allArticles.length > 0) {
+                const shuffledArticles = shuffleArray(allArticles);
+                categorized['For You'] = shuffledArticles.slice(0, Math.min(5, allArticles.length));
+            }
+
             // Shuffle articles within each category to mix sources
             Object.keys(categorized).forEach(category => {
-                categorized[category] = shuffleArray(categorized[category]);
+                if (category !== 'For You') { // Don't shuffle "For You" again, it's already random
+                    categorized[category] = shuffleArray(categorized[category]);
+                }
             });
 
             // Sort categories by priority
             const sortedCategories = {};
             Object.keys(categorized)
                 .sort((a, b) => {
-                    const orderA = CATEGORY_ORDER[a] || 999;
-                    const orderB = CATEGORY_ORDER[b] || 999;
+                    const orderA = CATEGORY_ORDER[a] ?? 999;
+                    const orderB = CATEGORY_ORDER[b] ?? 999;
                     if (orderA !== orderB) return orderA - orderB;
                     return a.localeCompare(b);
                 })
@@ -1472,6 +1497,32 @@
                 closeSettings();
             }
         }
+
+        // Handle scroll for sticky tabs behavior on mobile
+        function handleScroll() {
+            if (window.innerWidth <= 768) {
+                const header = document.querySelector('header');
+                const tabContainer = document.querySelector('.tab-container');
+                const headerHeight = header.offsetHeight;
+                
+                // On mobile, tabs stay at top of viewport when scrolling
+                // The CSS handles this with position: sticky and top: 0
+                if (window.scrollY > headerHeight) {
+                    // Header is scrolled out of view, tabs remain sticky
+                    tabContainer.style.top = '0';
+                } else {
+                    // Header is visible, tabs position normally
+                    tabContainer.style.top = '0';
+                }
+            } else {
+                // On desktop, reset to default behavior
+                const tabContainer = document.querySelector('.tab-container');
+                tabContainer.style.top = '81px'; // Default desktop position
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleScroll);
 
         // Initialize
         loadTheme();

@@ -661,7 +661,13 @@
                 const content = gist.files[GIST_FILENAME].content;
                 allData = JSON.parse(content);
                 
-                console.log('Successfully loaded data from Gist:', Object.keys(allData));
+                console.log('Successfully loaded data from Gist');
+                console.log('Available dates:', Object.keys(allData));
+                
+                if (Object.keys(allData).length === 0) {
+                    console.warn('Gist is empty - no articles found');
+                }
+                
                 populateDateSelector();
                 loadArticles();
             } catch (error) {

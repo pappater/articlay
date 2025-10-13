@@ -59,6 +59,9 @@ SCRAPERS = [
     ("reddit_scraper", "fetch_reddit_worldnews", 5),
     ("reddit_scraper", "fetch_reddit_india", 5),
     ("reddit_scraper", "fetch_reddit_chennai", 5),
+    ("reddit_scraper", "fetch_reddit_programming", 5),
+    ("reddit_scraper", "fetch_reddit_technology", 5),
+    ("reddit_scraper", "fetch_reddit_science", 5),
     
     # AI's Choice - Art & Photography
     ("colossal_scraper", "fetch_colossal_articles", 1),
@@ -211,6 +214,12 @@ def run_all_scrapers():
                             source_name = "Reddit India"
                         elif "chennai" in func:
                             source_name = "Reddit Chennai"
+                        elif "programming" in func:
+                            source_name = "Reddit Programming"
+                        elif "technology" in func:
+                            source_name = "Reddit Technology"
+                        elif "science" in func:
+                            source_name = "Reddit Science"
                         else:
                             source_name = func.replace('fetch_reddit_', 'Reddit ').title()
                     else:

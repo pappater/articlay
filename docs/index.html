@@ -11,29 +11,77 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #fff;
+            --bg-card: #fff;
+            --text-primary: #000;
+            --text-secondary: #666;
+            --text-tertiary: #555;
+            --border-color: #ddd;
+            --border-dark: #000;
+            --hover-bg: #f9f9f9;
+            --shadow-light: rgba(0,0,0,0.1);
+            --shadow-medium: rgba(0,0,0,0.3);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-card: #2a2a2a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #999;
+            --border-color: #444;
+            --border-dark: #666;
+            --hover-bg: #333;
+            --shadow-light: rgba(0,0,0,0.3);
+            --shadow-medium: rgba(0,0,0,0.5);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: #000;
-            background-color: #f5f5f5;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
             padding: 0;
             margin: 0;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background-color: #fff;
+            background-color: var(--bg-secondary);
             min-height: 100vh;
+            transition: background-color 0.3s;
         }
 
         header {
             padding: 20px 30px;
-            border-bottom: 2px solid #000;
-            background-color: #fff;
+            border-bottom: 2px solid var(--border-dark);
+            background-color: var(--bg-secondary);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .theme-toggle {
+            padding: 8px 16px;
+            font-size: 1.2em;
+            border: 1px solid var(--border-dark);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            margin-left: 10px;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--hover-bg);
         }
 
         .header-content {
@@ -46,13 +94,13 @@
         h1 {
             font-size: 2em;
             font-weight: 700;
-            color: #000;
+            color: var(--text-primary);
             margin: 0;
             letter-spacing: -0.5px;
         }
 
         .subtitle {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.95em;
             margin: 5px 0 0 0;
         }
@@ -66,8 +114,9 @@
         .settings-btn, .date-selector select {
             padding: 8px 16px;
             font-size: 0.9em;
-            border: 1px solid #000;
-            background-color: #fff;
+            border: 1px solid var(--border-dark);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
             cursor: pointer;
             font-family: inherit;
             border-radius: 4px;
@@ -75,11 +124,11 @@
         }
 
         .settings-btn:hover {
-            background-color: #f0f0f0;
+            background-color: var(--hover-bg);
         }
 
         .date-selector {
-            display: flex;
+            display: none; /* Hidden as per requirement 5 */
             align-items: center;
             gap: 10px;
         }
@@ -87,16 +136,17 @@
         .date-selector label {
             font-weight: 600;
             font-size: 0.9em;
-            color: #000;
+            color: var(--text-primary);
         }
 
         /* Tab Navigation */
         .tab-container {
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
-            top: 90px;
+            top: 81px;
             z-index: 99;
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         .tab-nav {
@@ -106,7 +156,8 @@
             white-space: nowrap;
             padding: 0 30px;
             scrollbar-width: thin;
-            scrollbar-color: #888 #f1f1f1;
+            scrollbar-color: var(--text-secondary) var(--border-color);
+            touch-action: pan-x;
         }
 
         .tab-nav::-webkit-scrollbar {
@@ -114,16 +165,16 @@
         }
 
         .tab-nav::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: var(--border-color);
         }
 
         .tab-nav::-webkit-scrollbar-thumb {
-            background: #888;
+            background: var(--text-secondary);
             border-radius: 3px;
         }
 
         .tab-nav::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: var(--text-tertiary);
         }
 
         .tab-btn {
@@ -133,21 +184,32 @@
             cursor: pointer;
             font-size: 0.95em;
             font-weight: 500;
-            color: #666;
+            color: var(--text-secondary);
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
             white-space: nowrap;
             font-family: inherit;
+            position: relative;
         }
 
         .tab-btn:hover {
-            color: #000;
-            background-color: #f9f9f9;
+            color: var(--text-primary);
+            background-color: var(--hover-bg);
         }
 
         .tab-btn.active {
-            color: #000;
-            border-bottom-color: #000;
+            color: var(--text-primary);
+            border-bottom-color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .tab-btn .badge {
+            background: var(--text-primary);
+            color: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.75em;
+            margin-left: 6px;
             font-weight: 600;
         }
 
@@ -155,14 +217,81 @@
         .content-area {
             padding: 30px;
             min-height: 500px;
+            position: relative;
+            touch-action: pan-y;
         }
 
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s;
         }
 
         .tab-content.active {
             display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Skeleton Loader */
+        .skeleton-loader {
+            padding: 50px 0;
+        }
+
+        .skeleton-card {
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .skeleton-title {
+            height: 24px;
+            background: linear-gradient(90deg, var(--border-color) 25%, var(--hover-bg) 50%, var(--border-color) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .skeleton-text {
+            height: 16px;
+            background: linear-gradient(90deg, var(--border-color) 25%, var(--hover-bg) 50%, var(--border-color) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-text:last-child {
+            width: 60%;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Pull to Refresh */
+        .pull-to-refresh {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: top 0.3s;
+            font-size: 0.9em;
+        }
+
+        .pull-to-refresh.visible {
+            top: 0;
         }
 
         .article-grid {
@@ -173,17 +302,17 @@
         }
 
         .article-card {
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--border-color);
             padding: 20px;
-            background-color: #fff;
+            background-color: var(--bg-card);
             border-radius: 8px;
-            transition: box-shadow 0.3s, transform 0.2s;
+            transition: box-shadow 0.3s, transform 0.2s, background-color 0.3s, border-color 0.3s;
             display: flex;
             flex-direction: column;
         }
 
         .article-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px var(--shadow-light);
             transform: translateY(-2px);
         }
 
@@ -198,9 +327,11 @@
         .article-title {
             font-size: 1.15em;
             font-weight: 600;
-            color: #000;
+            color: var(--text-primary);
             margin-bottom: 10px;
             line-height: 1.4;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .article-link:hover .article-title {
@@ -209,7 +340,7 @@
 
         .article-description {
             font-size: 0.9em;
-            color: #555;
+            color: var(--text-tertiary);
             line-height: 1.5;
             margin-bottom: 12px;
             display: -webkit-box;
@@ -218,24 +349,29 @@
             overflow: hidden;
             text-overflow: ellipsis;
             flex-grow: 1;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         .article-meta {
             font-size: 0.8em;
-            color: #888;
+            color: var(--text-secondary);
             margin-top: auto;
             padding-top: 10px;
-            border-top: 1px solid #f0f0f0;
+            border-top: 1px solid var(--border-color);
         }
 
         .article-meta span {
             display: inline-block;
             margin-right: 12px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .meta-label {
             font-weight: 600;
-            color: #555;
+            color: var(--text-tertiary);
         }
 
         .load-more-btn {
@@ -243,30 +379,31 @@
             margin: 20px auto;
             padding: 12px 30px;
             font-size: 0.95em;
-            border: 1px solid #000;
-            background-color: #fff;
+            border: 1px solid var(--border-dark);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
             cursor: pointer;
             font-family: inherit;
             border-radius: 4px;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, color 0.2s;
         }
 
         .load-more-btn:hover {
-            background-color: #000;
-            color: #fff;
+            background-color: var(--text-primary);
+            color: var(--bg-secondary);
         }
 
         .no-articles {
             padding: 50px 0;
             text-align: center;
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.95em;
         }
 
         .loading {
             padding: 50px 0;
             text-align: center;
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.95em;
         }
 
@@ -279,13 +416,8 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: var(--shadow-medium);
             animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .modal.active {
@@ -295,14 +427,14 @@
         }
 
         .modal-content {
-            background-color: #fff;
+            background-color: var(--bg-secondary);
             padding: 30px;
             border-radius: 8px;
             max-width: 600px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 20px var(--shadow-medium);
             animation: slideUp 0.3s;
         }
 
@@ -317,12 +449,13 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #000;
+            border-bottom: 2px solid var(--border-dark);
         }
 
         .modal-header h2 {
             font-size: 1.5em;
             font-weight: 700;
+            color: var(--text-primary);
         }
 
         .close-btn {
@@ -336,10 +469,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-primary);
         }
 
         .close-btn:hover {
-            color: #666;
+            color: var(--text-secondary);
         }
 
         .settings-section {
@@ -350,6 +484,7 @@
             font-size: 1.1em;
             margin-bottom: 10px;
             font-weight: 600;
+            color: var(--text-primary);
         }
 
         .settings-section label {
@@ -357,6 +492,7 @@
             margin-bottom: 5px;
             font-size: 0.9em;
             font-weight: 500;
+            color: var(--text-primary);
         }
 
         .settings-section input,
@@ -364,9 +500,11 @@
             width: 100%;
             padding: 10px;
             font-size: 0.9em;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             font-family: inherit;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
         }
 
         .settings-section button {
@@ -374,9 +512,9 @@
             margin-top: 10px;
             margin-right: 10px;
             font-size: 0.9em;
-            border: 1px solid #000;
-            background-color: #000;
-            color: #fff;
+            border: 1px solid var(--text-primary);
+            background-color: var(--text-primary);
+            color: var(--bg-secondary);
             cursor: pointer;
             font-family: inherit;
             border-radius: 4px;
@@ -384,16 +522,16 @@
         }
 
         .settings-section button:hover {
-            background-color: #333;
+            opacity: 0.8;
         }
 
         .settings-section button.secondary {
-            background-color: #fff;
-            color: #000;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
         }
 
         .settings-section button.secondary:hover {
-            background-color: #f0f0f0;
+            background-color: var(--hover-bg);
         }
 
         .source-list {
@@ -403,22 +541,23 @@
 
         .source-item {
             padding: 10px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--border-color);
             margin-bottom: 8px;
             border-radius: 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #f9f9f9;
+            background-color: var(--hover-bg);
         }
 
         .source-item-name {
             font-weight: 500;
+            color: var(--text-primary);
         }
 
         .source-item-category {
             font-size: 0.85em;
-            color: #666;
+            color: var(--text-secondary);
             margin-left: 10px;
         }
 
@@ -440,14 +579,14 @@
         footer {
             margin-top: 60px;
             padding: 20px 30px;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid var(--border-color);
             font-size: 0.85em;
-            color: #666;
-            background-color: #f9f9f9;
+            color: var(--text-secondary);
+            background-color: var(--hover-bg);
         }
 
         footer a {
-            color: #000;
+            color: var(--text-primary);
             text-decoration: underline;
         }
 
@@ -517,7 +656,7 @@
                             <option value="">Loading...</option>
                         </select>
                     </div>
-                    <button class="settings-btn" onclick="openSettings()">⚙️ Settings</button>
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌓</button>
                 </div>
             </div>
         </header>
@@ -560,15 +699,15 @@
                 <input type="text" id="source-name" placeholder="e.g., My News Source">
                 <label for="source-category">Category:</label>
                 <select id="source-category">
-                    <option value="India">India News</option>
-                    <option value="Tamil Nadu">Tamil Nadu News</option>
-                    <option value="Code & Tech">Code & Tech</option>
-                    <option value="Literature">Literature</option>
+                    <option value="India">India</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
                     <option value="Movie">Movie</option>
+                    <option value="Literature">Literature</option>
                     <option value="Writing">Writing</option>
                     <option value="Reddit">Reddit</option>
-                    <option value="AI's Choice">AI's Choice</option>
-                    <option value="Other">Other</option>
+                    <option value="Code & Tech">Code & Tech</option>
+                    <option value="Art & Culture">Art & Culture</option>
+                    <option value="Others">Others</option>
                 </select>
                 <button onclick="addNewSource()">Add Source</button>
                 <button class="secondary" onclick="surpriseMe()">🎲 Surprise Me</button>
@@ -597,17 +736,31 @@
         let customSources = [];
         let currentActiveTab = '';
 
-        // Category priority order
+        // Category priority order - only these tabs will be shown, rest go to "Others"
         const CATEGORY_ORDER = {
             'India': 1,
             'Tamil Nadu': 2,
-            'Code & Tech': 3,
+            'Movie': 3,
             'Literature': 4,
-            'Movie': 5,
-            'Writing': 6,
-            'Reddit': 7,
-            "AI's Choice": 8
+            'Writing': 5,
+            'Reddit': 6,
+            'Code & Tech': 7,
+            'Art & Culture': 8,
+            'Others': 999
         };
+
+        // Tab scroll positions
+        let tabScrollPositions = {};
+
+        // Swipe handling
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        // Pull to refresh
+        let pullStartY = 0;
+        let isPulling = false;
 
         // Fisher-Yates shuffle algorithm to randomize array
         function shuffleArray(array) {
@@ -619,12 +772,27 @@
             return shuffled;
         }
 
+        // Theme functions
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
         // Load settings from localStorage
         function loadSettings() {
             const savedCount = localStorage.getItem('defaultArticleCount');
             if (savedCount) {
                 defaultArticleCount = parseInt(savedCount);
-                document.getElementById('default-count').value = defaultArticleCount;
+                const countInput = document.getElementById('default-count');
+                if (countInput) countInput.value = defaultArticleCount;
             }
 
             const savedSources = localStorage.getItem('customSources');
@@ -768,7 +936,13 @@
             for (const [source, articles] of Object.entries(dayData)) {
                 if (articles && articles.length > 0) {
                     articles.forEach(article => {
-                        const category = article.category || 'Other';
+                        let category = article.category || 'Other';
+                        
+                        // Map categories - if not in CATEGORY_ORDER (except Others), put in Others
+                        if (!CATEGORY_ORDER.hasOwnProperty(category) && category !== 'Other') {
+                            category = 'Others';
+                        }
+                        
                         if (!categorized[category]) {
                             categorized[category] = [];
                         }
@@ -782,7 +956,10 @@
 
             // Add custom sources to their categories
             customSources.forEach(source => {
-                const category = source.category || 'Other';
+                let category = source.category || 'Other';
+                if (!CATEGORY_ORDER.hasOwnProperty(category) && category !== 'Other') {
+                    category = 'Others';
+                }
                 if (!categorized[category]) {
                     categorized[category] = [];
                 }
@@ -827,10 +1004,12 @@
             loadedArticlesCount = {};
 
             Object.keys(categorizedArticles).forEach(category => {
+                const articleCount = categorizedArticles[category].length;
+                
                 // Create tab button
                 const tabBtn = document.createElement('button');
                 tabBtn.className = 'tab-btn';
-                tabBtn.textContent = category;
+                tabBtn.innerHTML = category + `<span class="badge">${articleCount}</span>`;
                 tabBtn.onclick = () => activateTab(category);
                 tabNav.appendChild(tabBtn);
 
@@ -843,15 +1022,24 @@
                 // Initialize loaded count
                 loadedArticlesCount[category] = 0;
             });
+            
+            // Initialize swipe gestures
+            initSwipeGestures();
         }
 
         function activateTab(category) {
+            // Save scroll position of current tab
+            if (currentActiveTab) {
+                tabScrollPositions[currentActiveTab] = window.pageYOffset || document.documentElement.scrollTop;
+            }
+            
             currentActiveTab = category;
             
             // Update tab buttons
             const tabButtons = document.querySelectorAll('.tab-btn');
             tabButtons.forEach(btn => {
-                if (btn.textContent === category) {
+                const btnText = btn.textContent.replace(/\d+$/, '').trim(); // Remove badge number
+                if (btnText === category) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
@@ -870,9 +1058,36 @@
                 
                 // Load initial articles if not loaded yet
                 if (loadedArticlesCount[category] === 0) {
-                    loadMoreArticles(category);
+                    showSkeletonLoader(category);
+                    setTimeout(() => {
+                        loadMoreArticles(category);
+                    }, 300);
+                } else {
+                    // Restore scroll position for this tab
+                    setTimeout(() => {
+                        const scrollPos = tabScrollPositions[category] || 0;
+                        window.scrollTo(0, scrollPos);
+                    }, 50);
                 }
             }
+        }
+
+        function showSkeletonLoader(category) {
+            const tabContent = document.getElementById(`tab-${category.replace(/[^a-zA-Z0-9]/g, '-')}`);
+            if (!tabContent) return;
+            
+            tabContent.innerHTML = `
+                <div class="skeleton-loader">
+                    ${Array(3).fill(0).map(() => `
+                        <div class="skeleton-card">
+                            <div class="skeleton-title"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         function loadMoreArticles(category) {
@@ -890,6 +1105,12 @@
             }
 
             const tabContent = document.getElementById(`tab-${category.replace(/[^a-zA-Z0-9]/g, '-')}`);
+            
+            // Remove skeleton loader if present
+            const skeleton = tabContent.querySelector('.skeleton-loader');
+            if (skeleton) {
+                skeleton.remove();
+            }
             
             // Create or get article grid
             let articleGrid = tabContent.querySelector('.article-grid');
@@ -1138,6 +1359,112 @@
             }
         }
 
+        // Swipe gesture functions
+        function initSwipeGestures() {
+            const contentArea = document.querySelector('.content-area');
+            if (!contentArea) return;
+
+            contentArea.addEventListener('touchstart', handleTouchStart, { passive: true });
+            contentArea.addEventListener('touchmove', handleTouchMove, { passive: false });
+            contentArea.addEventListener('touchend', handleTouchEnd, { passive: true });
+        }
+
+        function handleTouchStart(event) {
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+            
+            // Pull to refresh start
+            if (window.pageYOffset === 0) {
+                pullStartY = event.touches[0].clientY;
+                isPulling = true;
+            }
+        }
+
+        function handleTouchMove(event) {
+            touchEndX = event.touches[0].clientX;
+            touchEndY = event.touches[0].clientY;
+            
+            // Pull to refresh
+            if (isPulling && window.pageYOffset === 0) {
+                const pullDistance = event.touches[0].clientY - pullStartY;
+                if (pullDistance > 0 && pullDistance < 100) {
+                    event.preventDefault();
+                }
+            }
+        }
+
+        function handleTouchEnd(event) {
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+            const absDiffX = Math.abs(diffX);
+            const absDiffY = Math.abs(diffY);
+            
+            // Pull to refresh
+            if (isPulling) {
+                const pullDistance = touchEndY - pullStartY;
+                if (pullDistance > 80) {
+                    refreshCurrentTab();
+                }
+                isPulling = false;
+            }
+            
+            // Only handle horizontal swipes (when horizontal movement is greater than vertical)
+            if (absDiffX > absDiffY && absDiffX > 50) {
+                if (diffX > 0) {
+                    // Swiped left - next tab
+                    switchToNextTab();
+                } else {
+                    // Swiped right - previous tab
+                    switchToPreviousTab();
+                }
+            }
+        }
+
+        function switchToNextTab() {
+            const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+            const currentIndex = tabButtons.findIndex(btn => btn.classList.contains('active'));
+            if (currentIndex < tabButtons.length - 1) {
+                const nextBtn = tabButtons[currentIndex + 1];
+                const nextCategory = nextBtn.textContent.replace(/\d+$/, '').trim();
+                activateTab(nextCategory);
+                
+                // Scroll tab into view
+                nextBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+        }
+
+        function switchToPreviousTab() {
+            const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+            const currentIndex = tabButtons.findIndex(btn => btn.classList.contains('active'));
+            if (currentIndex > 0) {
+                const prevBtn = tabButtons[currentIndex - 1];
+                const prevCategory = prevBtn.textContent.replace(/\d+$/, '').trim();
+                activateTab(prevCategory);
+                
+                // Scroll tab into view
+                prevBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+        }
+
+        function refreshCurrentTab() {
+            if (!currentActiveTab) return;
+            
+            // Reset loaded count for current tab
+            loadedArticlesCount[currentActiveTab] = 0;
+            
+            // Clear the tab content
+            const tabContent = document.getElementById(`tab-${currentActiveTab.replace(/[^a-zA-Z0-9]/g, '-')}`);
+            if (tabContent) {
+                tabContent.innerHTML = '';
+                showSkeletonLoader(currentActiveTab);
+                
+                // Reload articles
+                setTimeout(() => {
+                    loadMoreArticles(currentActiveTab);
+                }, 500);
+            }
+        }
+
         // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('settings-modal');
@@ -1147,6 +1474,7 @@
         }
 
         // Initialize
+        loadTheme();
         loadSettings();
         fetchGistData();
     </script>

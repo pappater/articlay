@@ -51,10 +51,13 @@ SCRAPERS = [
     ("mubi_scraper", "fetch_mubi_articles", 10),
     ("filmcomment_scraper", "fetch_filmcomment_articles", 10),
     ("criterion_scraper", "fetch_criterion_articles", 10),
+    ("variety_scraper", "fetch_variety_articles", 10),
+    ("rollingstone_scraper", "fetch_rollingstone_articles", 10),
     
     # Writing (10 articles each)
     ("writersdigest_scraper", "fetch_writersdigest_articles", 10),
     ("thewritelife_scraper", "fetch_thewritelife_articles", 10),
+    ("medium_scraper", "fetch_medium_articles", 10),
     
     # Reddit (10 posts each)
     ("reddit_scraper", "fetch_reddit_worldnews", 10),
@@ -63,9 +66,16 @@ SCRAPERS = [
     ("reddit_scraper", "fetch_reddit_programming", 10),
     ("reddit_scraper", "fetch_reddit_technology", 10),
     ("reddit_scraper", "fetch_reddit_science", 10),
+    ("reddit_scraper", "fetch_reddit_books", 10),
+    ("reddit_scraper", "fetch_reddit_movies", 10),
     
-    # AI's Choice - Art & Photography (10 articles each)
+    # Art & Culture (10 articles each)
     ("colossal_scraper", "fetch_colossal_articles", 10),
+    ("artnet_scraper", "fetch_artnet_articles", 10),
+    ("smithsonian_scraper", "fetch_smithsonian_articles", 10),
+    ("newyorker_scraper", "fetch_newyorker_articles", 10),
+    ("slate_scraper", "fetch_slate_articles", 10),
+    ("theatlantic_scraper", "fetch_theatlantic_articles", 10),
     
     # AI's Choice - Design Trends (10 articles each)
     ("smashingmagazine_scraper", "fetch_smashingmagazine_articles", 10),

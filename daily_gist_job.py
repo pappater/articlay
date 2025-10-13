@@ -47,23 +47,36 @@ SCRAPERS = [
     ("hackernews_scraper", "fetch_hackernews_articles", 10),
     ("css_tricks_scraper", "fetch_css_tricks_articles", 10),
     
-    # Literature (10 articles each)
-    ("lithub_scraper", "fetch_lithub_articles", 10),
-    ("bookpage_scraper", "fetch_bookpage_articles", 10),
-    ("litreactor_scraper", "fetch_litreactor_articles", 10),
-    
     # Movie (10 articles each)
     ("mubi_scraper", "fetch_mubi_articles", 10),
+    ("letterboxd_scraper", "fetch_letterboxd_articles", 10),
+    ("rogerebert_scraper", "fetch_rogerebert_articles", 10),
+    ("indiewire_scraper", "fetch_indiewire_articles", 10),
     ("filmcomment_scraper", "fetch_filmcomment_articles", 10),
     ("criterion_scraper", "fetch_criterion_articles", 10),
+    ("filmcompanion_scraper", "fetch_filmcompanion_articles", 10),
     ("variety_scraper", "fetch_variety_articles", 10),
     ("rollingstone_scraper", "fetch_rollingstone_articles", 10),
     ("filmfare_scraper", "fetch_filmfare_articles", 10),
+    
+    # Literature (10 articles each)
+    ("lithub_scraper", "fetch_lithub_articles", 10),
+    ("gutenberg_scraper", "fetch_gutenberg_articles", 10),
+    ("parisreview_scraper", "fetch_parisreview_articles", 10),
+    ("granta_scraper", "fetch_granta_articles", 10),
+    ("newyorkerbooks_scraper", "fetch_newyorkerbooks_articles", 10),
+    ("bookpage_scraper", "fetch_bookpage_articles", 10),
+    ("litreactor_scraper", "fetch_litreactor_articles", 10),
+    ("hinduliteraryreview_scraper", "fetch_hinduliteraryreview_articles", 10),
     
     # Writing (10 articles each)
     ("writersdigest_scraper", "fetch_writersdigest_articles", 10),
     ("thewritelife_scraper", "fetch_thewritelife_articles", 10),
     ("medium_scraper", "fetch_medium_articles", 10),
+    ("substack_scraper", "fetch_substack_articles", 10),
+    ("wattpad_scraper", "fetch_wattpad_articles", 10),
+    ("electricliterature_scraper", "fetch_electricliterature_articles", 10),
+    ("poets_scraper", "fetch_poets_articles", 10),
     
     # Reddit (10 posts each)
     ("reddit_scraper", "fetch_reddit_worldnews", 10),
@@ -74,6 +87,7 @@ SCRAPERS = [
     ("reddit_scraper", "fetch_reddit_science", 10),
     ("reddit_scraper", "fetch_reddit_books", 10),
     ("reddit_scraper", "fetch_reddit_movies", 10),
+    ("reddit_scraper", "fetch_reddit_writing", 10),
     
     # Art & Culture (10 articles each)
     ("colossal_scraper", "fetch_colossal_articles", 10),

@@ -971,6 +971,19 @@
             alert(message);
         }
 
+        // HTML entity escaping map
+        const HTML_ESCAPE_MAP = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        
+        function escapeHtml(text) {
+            return text.replace(/[&<>"']/g, function(m) { return HTML_ESCAPE_MAP[m]; });
+        }
+        
         function addNewSource() {
             const name = document.getElementById('source-name').value.trim();
             const category = document.getElementById('source-category').value;
@@ -995,17 +1008,6 @@
             
             // Reload articles to show new source
             loadArticles();
-        }
-        
-        function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
 
         function surpriseMe() {

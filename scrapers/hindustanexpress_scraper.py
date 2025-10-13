@@ -2,13 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
-HINDUSTANEXPRESS_RSS = "https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml"
+HINDUSTANTIMES_ALT_RSS = "https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml"
 
 def fetch_hindustanexpress_articles(limit: int = 30) -> List[Dict]:
-    """Fetch latest articles from Hindustan Express RSS feed."""
+    """Fetch latest articles from Hindustan Times (India News section) RSS feed."""
     articles = []
     try:
-        resp = requests.get(HINDUSTANEXPRESS_RSS, timeout=10)
+        resp = requests.get(HINDUSTANTIMES_ALT_RSS, timeout=10)
         resp.raise_for_status()
         soup = BeautifulSoup(resp.content, features="xml")
         items = soup.find_all('item')[:limit]
@@ -25,7 +25,7 @@ def fetch_hindustanexpress_articles(limit: int = 30) -> List[Dict]:
                 "category": "India"
             })
     except Exception as e:
-        print(f"Error fetching Hindustan Express articles: {e}")
+        print(f"Error fetching Hindustan Times (India News) articles: {e}")
     return articles
 
 if __name__ == "__main__":

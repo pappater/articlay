@@ -968,7 +968,6 @@
         }
         
         function showNotification(message) {
-            // Simple notification - could be replaced with a more sophisticated toast system
             alert(message);
         }
 
@@ -999,9 +998,14 @@
         }
         
         function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
 
         function surpriseMe() {
@@ -1060,7 +1064,9 @@
                 
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Delete';
-                deleteBtn.onclick = function() { deleteSource(index); };
+                deleteBtn.onclick = (function(idx) { 
+                    return function() { deleteSource(idx); };
+                })(index);
                 li.appendChild(deleteBtn);
                 
                 list.appendChild(li);

@@ -661,10 +661,10 @@
                 const content = gist.files[GIST_FILENAME].content;
                 allData = JSON.parse(content);
                 
-                console.log('Successfully loaded data from Gist');
-                console.log('Available dates:', Object.keys(allData));
+                const dates = Object.keys(allData);
+                console.log(`Successfully loaded data from Gist. Available dates: ${dates.length > 0 ? dates.join(', ') : '(none)'}`);
                 
-                if (Object.keys(allData).length === 0) {
+                if (dates.length === 0) {
                     console.warn('Gist is empty - no articles found');
                 }
                 

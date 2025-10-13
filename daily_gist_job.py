@@ -31,6 +31,11 @@ SCRAPERS = [
     ("scroll_scraper", "fetch_scroll_articles", 10),
     ("newindianexpress_scraper", "fetch_newindianexpress_articles", 10),
     ("deccanherald_scraper", "fetch_deccanherald_articles", 10),
+    ("outlookindia_scraper", "fetch_outlookindia_articles", 10),
+    ("theweek_scraper", "fetch_theweek_articles", 10),
+    ("openthemagazine_scraper", "fetch_openthemagazine_articles", 10),
+    ("readersdigestindia_scraper", "fetch_readersdigestindia_articles", 10),
+    ("caravan_scraper", "fetch_caravan_articles", 10),
     
     # Tamil Nadu News (10 articles each)
     ("dinamalar_scraper", "fetch_dinamalar_articles", 10),
@@ -53,6 +58,7 @@ SCRAPERS = [
     ("criterion_scraper", "fetch_criterion_articles", 10),
     ("variety_scraper", "fetch_variety_articles", 10),
     ("rollingstone_scraper", "fetch_rollingstone_articles", 10),
+    ("filmfare_scraper", "fetch_filmfare_articles", 10),
     
     # Writing (10 articles each)
     ("writersdigest_scraper", "fetch_writersdigest_articles", 10),
@@ -76,6 +82,7 @@ SCRAPERS = [
     ("newyorker_scraper", "fetch_newyorker_articles", 10),
     ("slate_scraper", "fetch_slate_articles", 10),
     ("theatlantic_scraper", "fetch_theatlantic_articles", 10),
+    ("exhibit_scraper", "fetch_exhibit_articles", 10),
     
     # AI's Choice - Design Trends (10 articles each)
     ("smashingmagazine_scraper", "fetch_smashingmagazine_articles", 10),
@@ -101,6 +108,7 @@ SCRAPERS = [
     ("newsweek_scraper", "fetch_newsweek_articles", 10),
     ("telegraph_scraper", "fetch_telegraph_articles", 10),
     ("independent_scraper", "fetch_independent_articles", 10),
+    ("washingtonpost_scraper", "fetch_washingtonpost_articles", 10),
     
     # Business & Economics (10 articles each)
     ("forbes_scraper", "fetch_forbes_articles", 10),
@@ -109,6 +117,10 @@ SCRAPERS = [
     ("wsj_scraper", "fetch_wsj_articles", 10),
     ("businessinsider_scraper", "fetch_businessinsider_articles", 10),
     ("fastcompany_scraper", "fetch_fastcompany_articles", 10),
+    ("businessstandard_scraper", "fetch_businessstandard_articles", 10),
+    ("businesstoday_scraper", "fetch_businesstoday_articles", 10),
+    ("fortuneindia_scraper", "fetch_fortuneindia_articles", 10),
+    ("forbesindia_scraper", "fetch_forbesindia_articles", 10),
     
     # Technology (10 articles each)
     ("wired_scraper", "fetch_wired_articles", 10),
@@ -118,6 +130,10 @@ SCRAPERS = [
     ("mashable_scraper", "fetch_mashable_articles", 10),
     ("techcrunch_scraper", "fetch_techcrunch_articles", 10),
     ("medium_scraper", "fetch_medium_articles", 10),
+    ("t3india_scraper", "fetch_t3india_articles", 10),
+    ("pcquest_scraper", "fetch_pcquest_articles", 10),
+    ("electronicsforyou_scraper", "fetch_electronicsforyou_articles", 10),
+    ("opensourceforyou_scraper", "fetch_opensourceforyou_articles", 10),
     
     # Science & Nature (10 articles each)
     ("natgeo_scraper", "fetch_natgeo_articles", 10),
@@ -156,12 +172,48 @@ SCRAPERS = [
     # Fashion & Lifestyle (10 articles each)
     ("vogue_scraper", "fetch_vogue_articles", 10),
     ("gq_scraper", "fetch_gq_articles", 10),
+    ("vogueindia_scraper", "fetch_vogueindia_articles", 10),
+    ("feminaindia_scraper", "fetch_feminaindia_articles", 10),
+    ("cosmopolitanindia_scraper", "fetch_cosmopolitanindia_articles", 10),
+    ("gqindia_scraper", "fetch_gqindia_articles", 10),
+    ("graziaindia_scraper", "fetch_graziaindia_articles", 10),
+    ("harpersbazaar_scraper", "fetch_harpersbazaar_articles", 10),
+    ("elle_scraper", "fetch_elle_articles", 10),
     
     # Food (10 articles each)
     ("bonappetit_scraper", "fetch_bonappetit_articles", 10),
+    ("bakeryreview_scraper", "fetch_bakeryreview_articles", 10),
     
     # Education (10 articles each)
     ("edweek_scraper", "fetch_edweek_articles", 10),
+    ("mathematicstoday_scraper", "fetch_mathematicstoday_articles", 10),
+    
+    # Travel (10 articles each)
+    ("outlooktraveller_scraper", "fetch_outlooktraveller_articles", 10),
+    ("businesstravellerindia_scraper", "fetch_businesstravellerindia_articles", 10),
+    
+    # Home & Design (10 articles each)
+    ("goodhomesindia_scraper", "fetch_goodhomesindia_articles", 10),
+    ("elledecor_scraper", "fetch_elledecor_articles", 10),
+    
+    # Architecture (10 articles each)
+    ("architectandinteriors_scraper", "fetch_architectandinteriors_articles", 10),
+    ("admagazine_scraper", "fetch_admagazine_articles", 10),
+    
+    # Auto (10 articles each)
+    ("topgearindia_scraper", "fetch_topgearindia_articles", 10),
+    ("autocar_scraper", "fetch_autocar_articles", 10),
+    ("bikeindia_scraper", "fetch_bikeindia_articles", 10),
+    ("carindia_scraper", "fetch_carindia_articles", 10),
+    
+    # Health & Fitness (10 articles each)
+    ("womensfitnessindia_scraper", "fetch_womensfitnessindia_articles", 10),
+    
+    # Photography (10 articles each)
+    ("smartphotography_scraper", "fetch_smartphotography_articles", 10),
+    
+    # Men's Lifestyle (10 articles each)
+    ("mansworld_scraper", "fetch_mansworld_articles", 10),
     
     # Wikipedia & Special Content (1 article each - special content)
     ("wikipedia_scraper", "fetch_wikipedia_article_of_day", 1),

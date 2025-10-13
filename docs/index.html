@@ -61,8 +61,7 @@
             padding: 20px 30px;
             border-bottom: 2px solid var(--border-dark);
             background-color: var(--bg-secondary);
-            position: sticky;
-            top: 0;
+            position: relative;
             z-index: 100;
             transition: background-color 0.3s, border-color 0.3s;
         }
@@ -92,14 +91,26 @@
         }
 
         h1 {
-            font-size: 2em;
-            font-weight: 700;
+            font-size: 2.5em;
+            font-weight: 900;
             color: var(--text-primary);
             margin: 0;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            font-family: 'Courier New', Courier, monospace;
-            text-shadow: 2px 2px 0px var(--text-secondary);
+            letter-spacing: -0.02em;
+            text-transform: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        [data-theme="dark"] h1 {
+            background: linear-gradient(135deg, #fff 0%, #888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .subtitle {
@@ -147,7 +158,7 @@
             background-color: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
-            top: 81px;
+            top: 0;
             z-index: 99;
             transition: background-color 0.3s, border-color 0.3s;
         }
@@ -590,6 +601,7 @@
 
             header {
                 padding: 15px 20px;
+                position: relative;
             }
 
             .header-content {
@@ -605,6 +617,7 @@
 
             .tab-container {
                 top: 0;
+                position: sticky;
             }
 
             .tab-nav {
@@ -1433,16 +1446,8 @@
                 isPulling = false;
             }
             
-            // Only handle horizontal swipes (when horizontal movement is greater than vertical)
-            if (absDiffX > absDiffY && absDiffX > 50) {
-                if (diffX > 0) {
-                    // Swiped left - next tab
-                    switchToNextTab();
-                } else {
-                    // Swiped right - previous tab
-                    switchToPreviousTab();
-                }
-            }
+            // Don't handle horizontal swipes - removed to prevent accidental refreshes
+            // Users can use the tabs to switch between sections
         }
 
         function switchToNextTab() {
@@ -1498,31 +1503,8 @@
             }
         }
 
-        // Handle scroll for sticky tabs behavior on mobile
-        function handleScroll() {
-            if (window.innerWidth <= 768) {
-                const header = document.querySelector('header');
-                const tabContainer = document.querySelector('.tab-container');
-                const headerHeight = header.offsetHeight;
-                
-                // On mobile, tabs stay at top of viewport when scrolling
-                // The CSS handles this with position: sticky and top: 0
-                if (window.scrollY > headerHeight) {
-                    // Header is scrolled out of view, tabs remain sticky
-                    tabContainer.style.top = '0';
-                } else {
-                    // Header is visible, tabs position normally
-                    tabContainer.style.top = '0';
-                }
-            } else {
-                // On desktop, reset to default behavior
-                const tabContainer = document.querySelector('.tab-container');
-                tabContainer.style.top = '81px'; // Default desktop position
-            }
-        }
-
-        window.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleScroll);
+        // No longer need scroll handler - tabs are always sticky at top
+        // Header is no longer sticky, only tabs are sticky
 
         // Initialize
         loadTheme();

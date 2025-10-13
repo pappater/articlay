@@ -1,0 +1,205 @@
+{
+  "2025-10-13": {
+    "Thehindu": [
+      {
+        "title": "Breaking: Major Economic Reforms Announced",
+        "link": "https://www.thehindu.com/news/national/economic-reforms/article1.ece",
+        "description": "The government has announced a series of economic reforms aimed at boosting growth and investment in key sectors.",
+        "pubDate": "Sun, 13 Oct 2025 08:00:00 +0530",
+        "category": "India"
+      },
+      {
+        "title": "Tech Summit 2025 to Focus on AI Innovation",
+        "link": "https://www.thehindu.com/sci-tech/technology/ai-summit/article2.ece",
+        "description": "Industry leaders gather to discuss the future of artificial intelligence and its impact on various sectors.",
+        "pubDate": "Sun, 13 Oct 2025 07:30:00 +0530",
+        "category": "India"
+      },
+      {
+        "title": "Climate Action: New Policies Unveiled",
+        "link": "https://www.thehindu.com/news/national/climate-policies/article3.ece",
+        "description": "Government introduces comprehensive climate action plan with ambitious targets for renewable energy.",
+        "pubDate": "Sun, 13 Oct 2025 07:00:00 +0530",
+        "category": "India"
+      }
+    ],
+    "Timesofindia": [
+      {
+        "title": "India's Space Program Reaches New Milestone",
+        "link": "https://timesofindia.indiatimes.com/india/space-milestone/article1.cms",
+        "description": "ISRO successfully launches advanced satellite for communication and earth observation purposes.",
+        "pubDate": "Sun, 13 Oct 2025 09:00:00 +0530",
+        "category": "India"
+      },
+      {
+        "title": "Education Sector Sees Digital Transformation",
+        "link": "https://timesofindia.indiatimes.com/india/education-digital/article2.cms",
+        "description": "Schools and universities adopt new technologies to enhance learning experiences.",
+        "pubDate": "Sun, 13 Oct 2025 08:30:00 +0530",
+        "category": "India"
+      }
+    ],
+    "Hackernews": [
+      {
+        "title": "New JavaScript Framework Promises Better Performance",
+        "link": "https://news.ycombinator.com/item?id=12345",
+        "description": "Developers introduce lightweight framework with focus on speed and minimal overhead.",
+        "pubDate": "Sun, 13 Oct 2025 06:00:00 +0530",
+        "category": "Code & Tech"
+      },
+      {
+        "title": "Open Source Project Reaches 100K Stars on GitHub",
+        "link": "https://news.ycombinator.com/item?id=12346",
+        "description": "Popular development tool celebrates major milestone with community support.",
+        "pubDate": "Sun, 13 Oct 2025 05:30:00 +0530",
+        "category": "Code & Tech"
+      },
+      {
+        "title": "Web Performance Optimization: Best Practices 2025",
+        "link": "https://news.ycombinator.com/item?id=12347",
+        "description": "Comprehensive guide to improving website speed and user experience.",
+        "pubDate": "Sun, 13 Oct 2025 05:00:00 +0530",
+        "category": "Code & Tech"
+      }
+    ],
+    "Mubi": [
+      {
+        "title": "Cannes Film Festival Winners Announced",
+        "link": "https://mubi.com/notebook/posts/cannes-winners",
+        "description": "This year's Cannes Film Festival celebrates exceptional cinema from around the world.",
+        "pubDate": "Sun, 13 Oct 2025 10:00:00 +0530",
+        "category": "Movie"
+      },
+      {
+        "title": "Documentary Spotlight: Climate Crisis Stories",
+        "link": "https://mubi.com/notebook/posts/documentary-climate",
+        "description": "Powerful documentaries shed light on environmental challenges and solutions.",
+        "pubDate": "Sun, 13 Oct 2025 09:30:00 +0530",
+        "category": "Movie"
+      }
+    ],
+    "Lithub": [
+      {
+        "title": "Booker Prize Shortlist Revealed",
+        "link": "https://lithub.com/booker-prize-shortlist-2025",
+        "description": "Six exceptional novels compete for the prestigious literary award.",
+        "pubDate": "Sun, 13 Oct 2025 08:00:00 +0530",
+        "category": "Literature"
+      },
+      {
+        "title": "The Art of Storytelling in the Digital Age",
+        "link": "https://lithub.com/storytelling-digital-age",
+        "description": "How modern writers are adapting classic techniques for contemporary audiences.",
+        "pubDate": "Sun, 13 Oct 2025 07:30:00 +0530",
+        "category": "Literature"
+      }
+    ],
+    "Reddit Worldnews": [
+      {
+        "title": "Global Leaders Meet for Climate Summit",
+        "link": "https://reddit.com/r/worldnews/comments/abc123",
+        "description": "World leaders gather to discuss coordinated action on climate change.",
+        "pubDate": "Sun, 13 Oct 2025 11:00:00 +0530",
+        "category": "Reddit"
+      },
+      {
+        "title": "Breakthrough in Renewable Energy Technology",
+        "link": "https://reddit.com/r/worldnews/comments/abc124",
+        "description": "Scientists announce major advancement in solar panel efficiency.",
+        "pubDate": "Sun, 13 Oct 2025 10:30:00 +0530",
+        "category": "Reddit"
+      }
+    ],
+    "Colossal": [
+      {
+        "title": "Contemporary Art Exhibition Opens in Paris",
+        "link": "https://thisiscolossal.com/2025/10/paris-exhibition",
+        "description": "New exhibition showcases innovative works from emerging artists.",
+        "pubDate": "Sun, 13 Oct 2025 09:00:00 +0530",
+        "category": "AI's Choice"
+      },
+      {
+        "title": "The Revival of Traditional Crafts",
+        "link": "https://thisiscolossal.com/2025/10/traditional-crafts",
+        "description": "Modern artists breathe new life into ancient artistic techniques.",
+        "pubDate": "Sun, 13 Oct 2025 08:30:00 +0530",
+        "category": "AI's Choice"
+      }
+    ],
+    "Dinamalar": [
+      {
+        "title": "தமிழ்நாட்டில் புதிய வளர்ச்சி திட்டங்கள்",
+        "link": "https://www.dinamalar.com/news/article1",
+        "description": "மாநில அரசு புதிய உள்கட்டமைப்பு திட்டங்களை அறிவித்துள்ளது.",
+        "pubDate": "Sun, 13 Oct 2025 07:00:00 +0530",
+        "category": "Tamil Nadu"
+      },
+      {
+        "title": "சென்னையில் புதிய தொழில்நுட்ப பூங்கா",
+        "link": "https://www.dinamalar.com/news/article2",
+        "description": "சென்னையில் புதிய தொழில்நுட்ப பூங்கா திறக்கப்பட உள்ளது.",
+        "pubDate": "Sun, 13 Oct 2025 06:30:00 +0530",
+        "category": "Tamil Nadu"
+      }
+    ],
+    "Writersdigest": [
+      {
+        "title": "10 Tips for Writing Compelling Characters",
+        "link": "https://writersdigest.com/character-writing-tips",
+        "description": "Learn how to create memorable characters that resonate with readers.",
+        "pubDate": "Sun, 13 Oct 2025 08:00:00 +0530",
+        "category": "Writing"
+      },
+      {
+        "title": "The Publishing Industry in 2025: What's Changed",
+        "link": "https://writersdigest.com/publishing-industry-2025",
+        "description": "Insights into the evolving landscape of book publishing and distribution.",
+        "pubDate": "Sun, 13 Oct 2025 07:30:00 +0530",
+        "category": "Writing"
+      }
+    ]
+  },
+  "2025-10-12": {
+    "Thehindu": [
+      {
+        "title": "Healthcare Reforms: Universal Coverage Expanded",
+        "link": "https://www.thehindu.com/news/national/healthcare-reforms/article4.ece",
+        "description": "New healthcare policies aim to provide coverage to millions more citizens.",
+        "pubDate": "Sat, 12 Oct 2025 08:00:00 +0530",
+        "category": "India"
+      },
+      {
+        "title": "Sports: India Wins International Championship",
+        "link": "https://www.thehindu.com/sport/cricket/championship-win/article5.ece",
+        "description": "National team celebrates historic victory in international competition.",
+        "pubDate": "Sat, 12 Oct 2025 07:30:00 +0530",
+        "category": "India"
+      }
+    ],
+    "Hackernews": [
+      {
+        "title": "Machine Learning Model Achieves Breakthrough Accuracy",
+        "link": "https://news.ycombinator.com/item?id=12348",
+        "description": "Researchers develop AI model with unprecedented performance on complex tasks.",
+        "pubDate": "Sat, 12 Oct 2025 06:00:00 +0530",
+        "category": "Code & Tech"
+      },
+      {
+        "title": "Security Vulnerability Discovered in Popular Library",
+        "link": "https://news.ycombinator.com/item?id=12349",
+        "description": "Critical security flaw patched in widely-used development library.",
+        "pubDate": "Sat, 12 Oct 2025 05:30:00 +0530",
+        "category": "Code & Tech"
+      }
+    ],
+    "Reddit Worldnews": [
+      {
+        "title": "Historic Peace Agreement Signed",
+        "link": "https://reddit.com/r/worldnews/comments/abc125",
+        "description": "Nations reach historic agreement ending decades-long conflict.",
+        "pubDate": "Sat, 12 Oct 2025 11:00:00 +0530",
+        "category": "Reddit"
+      }
+    ]
+  }
+}

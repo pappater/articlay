@@ -226,6 +226,8 @@ Browse daily articles in a clean, minimalistic interface organized by category.
 
 Articles are automatically scraped and stored **every 15 minutes** via GitHub Actions. Non-working scrapers are gracefully skipped.
 
+**Note**: The 15-minute schedule is aggressive and may cause rate limiting with some sources. Monitor the GitHub Actions logs and adjust the schedule in `.github/workflows/daily-gist.yml` if needed (e.g., change to `0 */1 * * *` for hourly updates).
+
 ## Scraper Status
 
 For tracking which scrapers are working and which need attention, see [SCRAPER_STATUS.md](SCRAPER_STATUS.md). This document helps identify:

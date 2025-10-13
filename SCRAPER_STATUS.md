@@ -49,11 +49,19 @@ Run the daily job and check logs to identify which scrapers consistently fail. U
 3. **Potential Fix**: Ideas for resolution
 4. **Status**: Working / Intermittent / Broken / Deprecated
 
+## Known Potential Issues
+
+### Requires Authentication (May Not Work)
+- **substack_scraper**: Substack Reader feed likely requires authentication
+- **wattpad_scraper**: Wattpad home feed is user-specific and may require login
+
+These scrapers may need alternative RSS feeds or different approaches.
+
 ## How to Update This Document
 
-After each daily run:
+After each run:
 1. Check the GitHub Actions logs for failed scrapers
-2. Note any scrapers that consistently fail (3+ consecutive failures)
+2. Note any scrapers that consistently fail (3+ consecutive runs)
 3. Add them to the "Known Issues" section
 4. Research potential fixes or alternatives
 
@@ -62,7 +70,7 @@ After each daily run:
 To test a specific scraper:
 
 ```bash
-cd /home/runner/work/articlay/articlay
+cd articlay
 python -c "
 from scrapers.SCRAPER_NAME import fetch_FUNCTION_NAME
 articles = fetch_FUNCTION_NAME(limit=5)

@@ -609,6 +609,16 @@
             "AI's Choice": 8
         };
 
+        // Fisher-Yates shuffle algorithm to randomize array
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
         // Load settings from localStorage
         function loadSettings() {
             const savedCount = localStorage.getItem('defaultArticleCount');
@@ -747,6 +757,11 @@
                     category: category,
                     pubDate: new Date().toISOString()
                 });
+            });
+
+            // Shuffle articles within each category to mix sources
+            Object.keys(categorized).forEach(category => {
+                categorized[category] = shuffleArray(categorized[category]);
             });
 
             // Sort categories by priority

@@ -981,7 +981,7 @@
         };
         
         function escapeHtml(text) {
-            return text.replace(/[&<>"']/g, function(m) { return HTML_ESCAPE_MAP[m]; });
+            return text.replace(/[&<>"']/g, m => HTML_ESCAPE_MAP[m]);
         }
         
         function addNewSource() {

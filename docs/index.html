@@ -682,7 +682,7 @@
                 
                 // Determine if it's a network/CORS issue
                 let errorDetails = error.message;
-                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                if (error.name === 'TypeError' && error.message.toLowerCase().includes('failed to fetch')) {
                     errorDetails += ' (This is likely due to browser blocking the request - possibly an ad-blocker or privacy extension)';
                 }
                 

@@ -42,6 +42,18 @@ def fetch_reddit_chennai(limit: int = 5) -> List[Dict]:
     """Fetch top posts from r/chennai."""
     return fetch_reddit_subreddit("chennai", limit)
 
+def fetch_reddit_programming(limit: int = 5) -> List[Dict]:
+    """Fetch top posts from r/programming."""
+    return fetch_reddit_subreddit("programming", limit)
+
+def fetch_reddit_technology(limit: int = 5) -> List[Dict]:
+    """Fetch top posts from r/technology."""
+    return fetch_reddit_subreddit("technology", limit)
+
+def fetch_reddit_science(limit: int = 5) -> List[Dict]:
+    """Fetch top posts from r/science."""
+    return fetch_reddit_subreddit("science", limit)
+
 if __name__ == "__main__":
     print("=== r/worldnews ===")
     for art in fetch_reddit_worldnews():

@@ -15,155 +15,435 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: #000;
-            background-color: #fff;
+            background-color: #f5f5f5;
             padding: 0;
             margin: 0;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background-color: #fff;
-            padding: 40px 20px;
+            min-height: 100vh;
         }
 
         header {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #000;
+            padding: 20px 30px;
+            border-bottom: 2px solid #000;
+            background-color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
         h1 {
             font-size: 2em;
             font-weight: 700;
             color: #000;
-            margin: 0 0 5px 0;
+            margin: 0;
             letter-spacing: -0.5px;
         }
 
         .subtitle {
             color: #666;
             font-size: 0.95em;
-            margin: 0;
+            margin: 5px 0 0 0;
         }
 
-        .date-selector {
-            margin: 30px 0;
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
-        .date-selector label {
-            font-weight: 600;
-            margin-right: 10px;
-            font-size: 0.9em;
-            color: #000;
-        }
-
-        .date-selector select {
-            padding: 8px 12px;
+        .settings-btn, .date-selector select {
+            padding: 8px 16px;
             font-size: 0.9em;
             border: 1px solid #000;
             background-color: #fff;
             cursor: pointer;
             font-family: inherit;
+            border-radius: 4px;
+            transition: background-color 0.2s;
         }
 
-        .date-selector select:focus {
-            outline: none;
+        .settings-btn:hover {
+            background-color: #f0f0f0;
         }
 
-        .search-filter {
-            margin: 20px 0 40px 0;
+        .date-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .search-filter input {
-            padding: 8px 12px;
+        .date-selector label {
+            font-weight: 600;
             font-size: 0.9em;
-            border: 1px solid #ccc;
-            width: 100%;
+            color: #000;
+        }
+
+        /* Tab Navigation */
+        .tab-container {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 90px;
+            z-index: 99;
+        }
+
+        .tab-nav {
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            padding: 0 30px;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #f1f1f1;
+        }
+
+        .tab-nav::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .tab-nav::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .tab-nav::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .tab-nav::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
             font-family: inherit;
         }
 
-        .search-filter input:focus {
-            outline: none;
-            border-color: #000;
-        }
-
-
-
-        .loading {
-            padding: 50px 0;
-            color: #666;
-            font-size: 0.95em;
-        }
-
-        .error {
-            padding: 50px 0;
+        .tab-btn:hover {
             color: #000;
-            font-size: 0.95em;
+            background-color: #f9f9f9;
         }
 
-        .article-item {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #e0e0e0;
+        .tab-btn.active {
+            color: #000;
+            border-bottom-color: #000;
+            font-weight: 600;
         }
 
-        .article-item:last-child {
-            border-bottom: none;
+        /* Content Area */
+        .content-area {
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .article-card {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            transition: box-shadow 0.3s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
 
         .article-link {
             text-decoration: none;
-            color: #000;
-            display: block;
-        }
-
-        .article-link:hover .article-title {
-            text-decoration: underline;
+            color: inherit;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .article-title {
-            font-size: 1.3em;
+            font-size: 1.15em;
             font-weight: 600;
             color: #000;
-            margin-bottom: 8px;
-            line-height: 1.3;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .article-link:hover .article-title {
+            color: #0066cc;
         }
 
         .article-description {
-            font-size: 0.95em;
-            color: #333;
-            line-height: 1.6;
-            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1;
         }
 
         .article-meta {
-            font-size: 0.85em;
-            color: #666;
-            margin-top: 8px;
+            font-size: 0.8em;
+            color: #888;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
         }
 
         .article-meta span {
-            margin-right: 15px;
+            display: inline-block;
+            margin-right: 12px;
         }
 
         .meta-label {
             font-weight: 600;
-            color: #000;
+            color: #555;
+        }
+
+        .load-more-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            font-size: 0.95em;
+            border: 1px solid #000;
+            background-color: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .load-more-btn:hover {
+            background-color: #000;
+            color: #fff;
         }
 
         .no-articles {
             padding: 50px 0;
+            text-align: center;
             color: #666;
             font-size: 0.95em;
         }
 
-        footer {
-            margin-top: 60px;
-            padding-top: 20px;
-            border-top: 1px solid #000;
+        .loading {
+            padding: 50px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #000;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            font-size: 1.5em;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: #666;
+        }
+
+        .settings-section {
+            margin-bottom: 25px;
+        }
+
+        .settings-section h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .settings-section label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .settings-section input,
+        .settings-section select {
+            width: 100%;
+            padding: 10px;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .settings-section button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            margin-right: 10px;
+            font-size: 0.9em;
+            border: 1px solid #000;
+            background-color: #000;
+            color: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .settings-section button:hover {
+            background-color: #333;
+        }
+
+        .settings-section button.secondary {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .settings-section button.secondary:hover {
+            background-color: #f0f0f0;
+        }
+
+        .source-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .source-item {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .source-item-name {
+            font-weight: 500;
+        }
+
+        .source-item-category {
             font-size: 0.85em;
             color: #666;
+            margin-left: 10px;
+        }
+
+        .source-item button {
+            padding: 5px 12px;
+            font-size: 0.85em;
+            border: 1px solid #dc3545;
+            background-color: #dc3545;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .source-item button:hover {
+            background-color: #c82333;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 20px 30px;
+            border-top: 1px solid #ddd;
+            font-size: 0.85em;
+            color: #666;
+            background-color: #f9f9f9;
         }
 
         footer a {
@@ -177,15 +457,47 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 30px 15px;
+                padding: 0;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
             }
 
             h1 {
                 font-size: 1.6em;
             }
 
+            .tab-nav {
+                padding: 0 20px;
+            }
+
+            .tab-btn {
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .article-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
             .article-title {
-                font-size: 1.15em;
+                font-size: 1.05em;
+            }
+
+            footer {
+                padding: 20px;
             }
         }
     </style>
@@ -193,23 +505,33 @@
 <body>
     <div class="container">
         <header>
-            <h1>Articlay</h1>
-            <p class="subtitle">Your Daily Curated News & Articles</p>
+            <div class="header-content">
+                <div>
+                    <h1>Articlay</h1>
+                    <p class="subtitle">Your Daily Curated News & Articles</p>
+                </div>
+                <div class="header-controls">
+                    <div class="date-selector">
+                        <label for="date-select">Date:</label>
+                        <select id="date-select" onchange="loadArticles()">
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+                    <button class="settings-btn" onclick="openSettings()">⚙️ Settings</button>
+                </div>
+            </div>
         </header>
 
-        <div class="date-selector">
-            <label for="date-select">Date:</label>
-            <select id="date-select" onchange="loadArticles()">
-                <option value="">Loading...</option>
-            </select>
+        <div class="tab-container">
+            <div class="tab-nav" id="tab-nav">
+                <!-- Tabs will be dynamically generated -->
+            </div>
         </div>
 
-        <div class="search-filter">
-            <input type="text" id="search-input" placeholder="Search articles..." oninput="filterArticles()">
-        </div>
-
-        <div id="content">
-            <div class="loading">Loading articles...</div>
+        <div class="content-area">
+            <div id="tab-contents">
+                <!-- Tab contents will be dynamically generated -->
+            </div>
         </div>
 
         <footer>
@@ -217,13 +539,102 @@
         </footer>
     </div>
 
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="close-btn" onclick="closeSettings()">&times;</button>
+            </div>
+
+            <div class="settings-section">
+                <h3>Default Article Count</h3>
+                <label for="default-count">Number of articles to load initially per tab:</label>
+                <input type="number" id="default-count" min="5" max="50" value="10">
+                <button onclick="saveDefaultCount()">Save</button>
+            </div>
+
+            <div class="settings-section">
+                <h3>Add New Source</h3>
+                <label for="source-name">Source Name:</label>
+                <input type="text" id="source-name" placeholder="e.g., My News Source">
+                <label for="source-category">Category:</label>
+                <select id="source-category">
+                    <option value="India">India News</option>
+                    <option value="Tamil Nadu">Tamil Nadu News</option>
+                    <option value="Code & Tech">Code & Tech</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Movie">Movie</option>
+                    <option value="Writing">Writing</option>
+                    <option value="Reddit">Reddit</option>
+                    <option value="AI's Choice">AI's Choice</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button onclick="addNewSource()">Add Source</button>
+                <button class="secondary" onclick="surpriseMe()">🎲 Surprise Me</button>
+            </div>
+
+            <div class="settings-section">
+                <h3>Manage Sources</h3>
+                <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">
+                    Custom sources added manually:
+                </p>
+                <ul class="source-list" id="custom-sources-list">
+                    <!-- Custom sources will be listed here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script>
         const GIST_ID = '17c58ca69bfa6f204a353a76f21b7774';
         const GIST_FILENAME = 'magazine-articles.json';
+        
         let allData = {};
+        let currentDate = '';
+        let defaultArticleCount = 10;
+        let loadedArticlesCount = {};
+        let customSources = [];
+        let currentActiveTab = '';
+
+        // Category priority order
+        const CATEGORY_ORDER = {
+            'India': 1,
+            'Tamil Nadu': 2,
+            'Code & Tech': 3,
+            'Literature': 4,
+            'Movie': 5,
+            'Writing': 6,
+            'Reddit': 7,
+            "AI's Choice": 8
+        };
+
+        // Load settings from localStorage
+        function loadSettings() {
+            const savedCount = localStorage.getItem('defaultArticleCount');
+            if (savedCount) {
+                defaultArticleCount = parseInt(savedCount);
+                document.getElementById('default-count').value = defaultArticleCount;
+            }
+
+            const savedSources = localStorage.getItem('customSources');
+            if (savedSources) {
+                try {
+                    customSources = JSON.parse(savedSources);
+                } catch (e) {
+                    customSources = [];
+                }
+            }
+        }
+
+        function saveSettings() {
+            localStorage.setItem('defaultArticleCount', defaultArticleCount);
+            localStorage.setItem('customSources', JSON.stringify(customSources));
+        }
 
         async function fetchGistData() {
             try {
+                // Try to fetch from Gist first
                 const response = await fetch(`https://api.github.com/gists/${GIST_ID}`);
                 const gist = await response.json();
                 const content = gist.files[GIST_FILENAME].content;
@@ -231,9 +642,22 @@
                 populateDateSelector();
                 loadArticles();
             } catch (error) {
-                console.error('Error fetching data:', error);
-                document.getElementById('content').innerHTML = 
-                    '<div class="error">Failed to load articles. Please try again later.</div>';
+                console.error('Error fetching from Gist:', error);
+                // Fallback to sample data for local testing
+                try {
+                    const sampleResponse = await fetch('sample-data.json');
+                    if (sampleResponse.ok) {
+                        allData = await sampleResponse.json();
+                        populateDateSelector();
+                        loadArticles();
+                    } else {
+                        throw new Error('Sample data not available');
+                    }
+                } catch (sampleError) {
+                    console.error('Error fetching sample data:', sampleError);
+                    document.getElementById('tab-contents').innerHTML = 
+                        '<div class="loading">Failed to load articles. Please try again later.</div>';
+                }
             }
         }
 
@@ -247,9 +671,8 @@
             }
 
             select.innerHTML = '';
-            // Use IST timezone (UTC+5:30) for today's date
             const now = new Date();
-            const istOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+            const istOffset = 5.5 * 60 * 60 * 1000;
             const istDate = new Date(now.getTime() + istOffset);
             const today = istDate.toISOString().split('T')[0];
             
@@ -265,54 +688,221 @@
             });
         }
 
-        let currentArticles = {}; // Store current articles for filtering
-        
-        function filterArticles() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            
-            if (!searchTerm) {
-                // If search is empty, reload all articles
-                loadArticles();
-                return;
-            }
-            
-            // Filter articles based on search term
-            const filteredData = {};
-            
-            for (const [source, articles] of Object.entries(currentArticles)) {
-                const filteredArticles = articles.filter(article => {
-                    const title = (article.title || '').toLowerCase();
-                    const description = (article.description || '').toLowerCase();
-                    const category = (article.category || '').toLowerCase();
-                    const sourceName = source.toLowerCase();
-                    
-                    return title.includes(searchTerm) || 
-                           description.includes(searchTerm) || 
-                           category.includes(searchTerm) || 
-                           sourceName.includes(searchTerm);
-                });
-                
-                if (filteredArticles.length > 0) {
-                    filteredData[source] = filteredArticles;
-                }
-            }
-            
-            renderArticles(filteredData);
-        }
-        
         function loadArticles() {
             const selectedDate = document.getElementById('date-select').value;
             if (!selectedDate) return;
 
+            currentDate = selectedDate;
             const dayData = allData[selectedDate];
-            currentArticles = dayData || {}; // Store for filtering
             
-            // Clear search input when changing dates
-            document.getElementById('search-input').value = '';
+            if (!dayData || Object.keys(dayData).length === 0) {
+                document.getElementById('tab-contents').innerHTML = 
+                    '<div class="no-articles">No articles available for this date.</div>';
+                return;
+            }
+
+            // Organize articles by category
+            const categorizedArticles = organizeByCategory(dayData);
             
-            renderArticles(dayData);
+            // Create tabs and content
+            createTabs(categorizedArticles);
+            
+            // Activate first tab
+            const firstCategory = Object.keys(categorizedArticles)[0];
+            if (firstCategory) {
+                activateTab(firstCategory);
+            }
         }
-        
+
+        function organizeByCategory(dayData) {
+            const categorized = {};
+            
+            for (const [source, articles] of Object.entries(dayData)) {
+                if (articles && articles.length > 0) {
+                    articles.forEach(article => {
+                        const category = article.category || 'Other';
+                        if (!categorized[category]) {
+                            categorized[category] = [];
+                        }
+                        categorized[category].push({
+                            source: source,
+                            ...article
+                        });
+                    });
+                }
+            }
+
+            // Add custom sources to their categories
+            customSources.forEach(source => {
+                const category = source.category || 'Other';
+                if (!categorized[category]) {
+                    categorized[category] = [];
+                }
+                // Add a placeholder article for custom source
+                categorized[category].push({
+                    source: source.name,
+                    title: `${source.name} - Custom Source`,
+                    description: 'This is a custom source added manually. Fetch status: Not implemented yet.',
+                    link: '#',
+                    category: category,
+                    pubDate: new Date().toISOString()
+                });
+            });
+
+            // Sort categories by priority
+            const sortedCategories = {};
+            Object.keys(categorized)
+                .sort((a, b) => {
+                    const orderA = CATEGORY_ORDER[a] || 999;
+                    const orderB = CATEGORY_ORDER[b] || 999;
+                    if (orderA !== orderB) return orderA - orderB;
+                    return a.localeCompare(b);
+                })
+                .forEach(category => {
+                    sortedCategories[category] = categorized[category];
+                });
+
+            return sortedCategories;
+        }
+
+        function createTabs(categorizedArticles) {
+            const tabNav = document.getElementById('tab-nav');
+            const tabContents = document.getElementById('tab-contents');
+            
+            tabNav.innerHTML = '';
+            tabContents.innerHTML = '';
+            loadedArticlesCount = {};
+
+            Object.keys(categorizedArticles).forEach(category => {
+                // Create tab button
+                const tabBtn = document.createElement('button');
+                tabBtn.className = 'tab-btn';
+                tabBtn.textContent = category;
+                tabBtn.onclick = () => activateTab(category);
+                tabNav.appendChild(tabBtn);
+
+                // Create tab content
+                const tabContent = document.createElement('div');
+                tabContent.className = 'tab-content';
+                tabContent.id = `tab-${category.replace(/[^a-zA-Z0-9]/g, '-')}`;
+                tabContents.appendChild(tabContent);
+
+                // Initialize loaded count
+                loadedArticlesCount[category] = 0;
+            });
+        }
+
+        function activateTab(category) {
+            currentActiveTab = category;
+            
+            // Update tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                if (btn.textContent === category) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const activeContent = document.getElementById(`tab-${category.replace(/[^a-zA-Z0-9]/g, '-')}`);
+            if (activeContent) {
+                activeContent.classList.add('active');
+                
+                // Load initial articles if not loaded yet
+                if (loadedArticlesCount[category] === 0) {
+                    loadMoreArticles(category);
+                }
+            }
+        }
+
+        function loadMoreArticles(category) {
+            const dayData = allData[currentDate];
+            if (!dayData) return;
+
+            const categorizedArticles = organizeByCategory(dayData);
+            const articles = categorizedArticles[category] || [];
+            
+            const currentCount = loadedArticlesCount[category];
+            const articlesToLoad = articles.slice(currentCount, currentCount + defaultArticleCount);
+            
+            if (articlesToLoad.length === 0) {
+                return;
+            }
+
+            const tabContent = document.getElementById(`tab-${category.replace(/[^a-zA-Z0-9]/g, '-')}`);
+            
+            // Create or get article grid
+            let articleGrid = tabContent.querySelector('.article-grid');
+            if (!articleGrid) {
+                articleGrid = document.createElement('div');
+                articleGrid.className = 'article-grid';
+                tabContent.appendChild(articleGrid);
+            }
+
+            // Add articles
+            articlesToLoad.forEach(article => {
+                const card = createArticleCard(article);
+                articleGrid.appendChild(card);
+            });
+
+            loadedArticlesCount[category] += articlesToLoad.length;
+
+            // Update or create load more button
+            let loadMoreBtn = tabContent.querySelector('.load-more-btn');
+            if (loadedArticlesCount[category] < articles.length) {
+                if (!loadMoreBtn) {
+                    loadMoreBtn = document.createElement('button');
+                    loadMoreBtn.className = 'load-more-btn';
+                    loadMoreBtn.textContent = 'Load More Articles';
+                    loadMoreBtn.onclick = () => loadMoreArticles(category);
+                    tabContent.appendChild(loadMoreBtn);
+                }
+            } else if (loadMoreBtn) {
+                loadMoreBtn.remove();
+            }
+        }
+
+        function createArticleCard(article) {
+            const card = document.createElement('div');
+            card.className = 'article-card';
+
+            const link = document.createElement('a');
+            link.className = 'article-link';
+            link.href = article.link;
+            link.target = '_blank';
+
+            const title = document.createElement('h3');
+            title.className = 'article-title';
+            title.textContent = article.title;
+            link.appendChild(title);
+
+            if (article.description) {
+                const description = document.createElement('div');
+                description.className = 'article-description';
+                description.textContent = article.description;
+                link.appendChild(description);
+            }
+
+            card.appendChild(link);
+
+            const meta = document.createElement('div');
+            meta.className = 'article-meta';
+            meta.innerHTML = `
+                <span><span class="meta-label">Source:</span> ${article.source}</span>
+                ${article.pubDate ? `<span><span class="meta-label">Published:</span> ${formatDate(article.pubDate)}</span>` : ''}
+            `;
+            card.appendChild(meta);
+
+            return card;
+        }
+
         function formatDate(dateStr) {
             if (!dateStr) return '';
             
@@ -320,11 +910,9 @@
                 const date = new Date(dateStr);
                 if (isNaN(date.getTime())) return dateStr;
                 
-                // Format to IST: "12 Oct 2025, 10:30 AM IST"
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 
-                // Convert to IST (UTC+5:30)
                 const istOffset = 5.5 * 60 * 60 * 1000;
                 const istDate = new Date(date.getTime() + istOffset);
                 
@@ -342,96 +930,118 @@
                 return dateStr;
             }
         }
-        
-        function getCategoryOrder(category) {
-            const order = {
-                'India': 1,
-                'Tamil Nadu': 2,
-                'Code & Tech': 3,
-                'Literature': 4,
-                'Movie': 5,
-                'Writing': 6,
-                'Reddit': 7,
-                'Art & Photography': 8,
-                'Design Trends': 9,
-                'Minimalist Living': 10,
-                'Indie Web Projects': 11
-            };
-            return order[category] || 999;
+
+        // Settings functions
+        function openSettings() {
+            document.getElementById('settings-modal').classList.add('active');
+            updateCustomSourcesList();
         }
-        
-        function renderArticles(dayData) {
-            const content = document.getElementById('content');
 
-            if (!dayData || Object.keys(dayData).length === 0) {
-                content.innerHTML = '<div class="no-articles">No articles available for this date.</div>';
+        function closeSettings() {
+            document.getElementById('settings-modal').classList.remove('active');
+        }
+
+        function saveDefaultCount() {
+            const count = parseInt(document.getElementById('default-count').value);
+            if (count >= 5 && count <= 50) {
+                defaultArticleCount = count;
+                saveSettings();
+                alert('Default article count saved!');
+            } else {
+                alert('Please enter a value between 5 and 50.');
+            }
+        }
+
+        function addNewSource() {
+            const name = document.getElementById('source-name').value.trim();
+            const category = document.getElementById('source-category').value;
+            
+            if (!name) {
+                alert('Please enter a source name.');
                 return;
             }
 
-            // Flatten all articles into a single list
-            const allArticles = [];
-            
-            for (const [source, articles] of Object.entries(dayData)) {
-                if (articles && articles.length > 0) {
-                    // Take all articles from each source
-                    articles.forEach(article => {
-                        allArticles.push({
-                            source: source,
-                            ...article
-                        });
-                    });
-                }
-            }
+            const newSource = {
+                name: name,
+                category: category,
+                added: new Date().toISOString()
+            };
 
-            if (allArticles.length === 0) {
-                content.innerHTML = '<div class="no-articles">No articles available for this date.</div>';
+            customSources.push(newSource);
+            saveSettings();
+            
+            document.getElementById('source-name').value = '';
+            alert(`Source "${name}" added successfully!`);
+            updateCustomSourcesList();
+            
+            // Reload articles to show new source
+            loadArticles();
+        }
+
+        function surpriseMe() {
+            const surpriseSources = [
+                { name: 'Hacker News', category: 'Code & Tech' },
+                { name: 'Product Hunt', category: 'Code & Tech' },
+                { name: 'TechCrunch', category: 'Code & Tech' },
+                { name: 'Medium', category: 'Writing' },
+                { name: 'Substack', category: 'Writing' },
+                { name: 'Goodreads', category: 'Literature' },
+                { name: 'BookRiot', category: 'Literature' },
+                { name: 'IndieWire', category: 'Movie' },
+                { name: 'The Ringer', category: 'Other' },
+                { name: 'Longreads', category: 'Writing' }
+            ];
+
+            const randomSource = surpriseSources[Math.floor(Math.random() * surpriseSources.length)];
+            
+            document.getElementById('source-name').value = randomSource.name;
+            document.getElementById('source-category').value = randomSource.category;
+            
+            alert(`🎉 Surprise! How about "${randomSource.name}"?`);
+        }
+
+        function updateCustomSourcesList() {
+            const list = document.getElementById('custom-sources-list');
+            
+            if (customSources.length === 0) {
+                list.innerHTML = '<li style="padding: 10px; color: #666;">No custom sources added yet.</li>';
                 return;
             }
 
-            // Sort articles by category order
-            allArticles.sort((a, b) => {
-                const orderA = getCategoryOrder(a.category || 'Other');
-                const orderB = getCategoryOrder(b.category || 'Other');
-                return orderA - orderB;
-            });
-
-            // Render articles as a flat list
-            let html = '';
-            let lastCategory = '';
-            
-            allArticles.forEach(article => {
-                const description = article.description || '';
-                const category = article.category || 'Other';
-                const pubDate = article.pubDate || '';
-                
-                // Add category header if category changes
-                if (category !== lastCategory) {
-                    html += `
-                        <div style="margin: 40px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #000;">
-                            <h2 style="font-size: 1.5em; font-weight: 700; margin: 0;">${category}</h2>
-                        </div>
-                    `;
-                    lastCategory = category;
-                }
-                
-                html += `
-                    <div class="article-item">
-                        <a href="${article.link}" target="_blank" class="article-link">
-                            <h2 class="article-title">${article.title}</h2>
-                            ${description ? `<div class="article-description">${description}</div>` : ''}
-                        </a>
-                        <div class="article-meta">
-                            <span><span class="meta-label">Source:</span> ${article.source}</span>
-                            ${pubDate ? `<span><span class="meta-label">Published:</span> ${formatDate(pubDate)}</span>` : ''}
-                        </div>
+            list.innerHTML = '';
+            customSources.forEach((source, index) => {
+                const li = document.createElement('li');
+                li.className = 'source-item';
+                li.innerHTML = `
+                    <div>
+                        <span class="source-item-name">${source.name}</span>
+                        <span class="source-item-category">(${source.category})</span>
                     </div>
+                    <button onclick="deleteSource(${index})">Delete</button>
                 `;
+                list.appendChild(li);
             });
+        }
 
-            content.innerHTML = html;
+        function deleteSource(index) {
+            if (confirm(`Are you sure you want to delete "${customSources[index].name}"?`)) {
+                customSources.splice(index, 1);
+                saveSettings();
+                updateCustomSourcesList();
+                loadArticles();
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('settings-modal');
+            if (event.target === modal) {
+                closeSettings();
+            }
         }
 
         // Initialize
+        loadSettings();
         fetchGistData();
     </script>
 </body>

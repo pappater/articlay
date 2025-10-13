@@ -646,6 +646,7 @@
             try {
                 // Try to fetch from Gist first
                 console.log('Fetching from Gist:', GIST_ID);
+                console.log('Gist API URL:', `https://api.github.com/gists/${GIST_ID}`);
                 const response = await fetch(`https://api.github.com/gists/${GIST_ID}`);
                 
                 if (!response.ok) {
@@ -672,15 +673,25 @@
                 loadArticles();
             } catch (error) {
                 console.error('Error fetching from Gist:', error);
+                console.error('Error type:', error.name);
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
                 console.error('Gist ID:', GIST_ID);
                 console.error('Filename:', GIST_FILENAME);
                 console.error('Gist URL:', `https://gist.github.com/${GIST_ID}`);
+                
+                // Determine if it's a network/CORS issue
+                let errorDetails = error.message;
+                if (error.name === 'TypeError' && error.message.toLowerCase().includes('failed to fetch')) {
+                    errorDetails += ' (This is likely due to browser blocking the request - possibly an ad-blocker or privacy extension)';
+                }
                 
                 // Show detailed error message to user
                 const errorHtml = `
                     <div class="loading">
                         <h3>Failed to load articles from Gist</h3>
-                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Error Type:</strong> ${error.name}</p>
+                        <p><strong>Error:</strong> ${errorDetails}</p>
                         <p><strong>Gist ID:</strong> ${GIST_ID}</p>
                         <p><strong>File:</strong> ${GIST_FILENAME}</p>
                         <p><a href="https://gist.github.com/${GIST_ID}" target="_blank">View Gist directly</a></p>
@@ -688,8 +699,9 @@
                         <ul style="text-align: left; display: inline-block;">
                             <li>The Gist exists and is public</li>
                             <li>The file "${GIST_FILENAME}" exists in the Gist</li>
-                            <li>Your browser is not blocking the request</li>
-                            <li>Check browser console for more details</li>
+                            <li><strong>Disable ad-blockers or privacy extensions (like uBlock Origin, Privacy Badger)</strong></li>
+                            <li>Your browser is not blocking requests to api.github.com</li>
+                            <li>Check browser console (F12) for more details</li>
                         </ul>
                     </div>
                 `;

@@ -17,141 +17,141 @@ def import_scraper(module_name, func_name):
     return getattr(mod, func_name)
 
 SCRAPERS = [
-    # India News (30 articles each)
-    ("thehindu_scraper", "fetch_thehindu_articles", 30),
-    ("timesofindia_scraper", "fetch_timesofindia_articles", 30),
-    ("indianexpress_scraper", "fetch_indianexpress_articles", 30),
-    ("ndtv_scraper", "fetch_ndtv_articles", 30),
-    ("hindustantimes_scraper", "fetch_hindustantimes_articles", 30),
-    ("zeenews_scraper", "fetch_zeenews_articles", 30),
-    ("indiatoday_scraper", "fetch_indiatoday_articles", 30),
-    ("ddnews_scraper", "fetch_ddnews_articles", 30),
-    ("livemint_scraper", "fetch_livemint_articles", 30),
-    ("thewire_scraper", "fetch_thewire_articles", 30),
-    ("scroll_scraper", "fetch_scroll_articles", 30),
-    ("newindianexpress_scraper", "fetch_newindianexpress_articles", 30),
-    ("deccanherald_scraper", "fetch_deccanherald_articles", 30),
+    # India News (10 articles each)
+    ("thehindu_scraper", "fetch_thehindu_articles", 10),
+    ("timesofindia_scraper", "fetch_timesofindia_articles", 10),
+    ("indianexpress_scraper", "fetch_indianexpress_articles", 10),
+    ("ndtv_scraper", "fetch_ndtv_articles", 10),
+    ("hindustantimes_scraper", "fetch_hindustantimes_articles", 10),
+    ("zeenews_scraper", "fetch_zeenews_articles", 10),
+    ("indiatoday_scraper", "fetch_indiatoday_articles", 10),
+    ("ddnews_scraper", "fetch_ddnews_articles", 10),
+    ("livemint_scraper", "fetch_livemint_articles", 10),
+    ("thewire_scraper", "fetch_thewire_articles", 10),
+    ("scroll_scraper", "fetch_scroll_articles", 10),
+    ("newindianexpress_scraper", "fetch_newindianexpress_articles", 10),
+    ("deccanherald_scraper", "fetch_deccanherald_articles", 10),
     
-    # Tamil Nadu News (30 articles each)
-    ("dinamalar_scraper", "fetch_dinamalar_articles", 30),
-    ("dinamani_scraper", "fetch_dinamani_articles", 30),
-    ("thanthi_scraper", "fetch_thanthi_articles", 30),
+    # Tamil Nadu News (10 articles each)
+    ("dinamalar_scraper", "fetch_dinamalar_articles", 10),
+    ("dinamani_scraper", "fetch_dinamani_articles", 10),
+    ("thanthi_scraper", "fetch_thanthi_articles", 10),
     
-    # Code & Tech (30 articles each)
-    ("dev_to_scraper", "fetch_dev_to_articles", 30),
-    ("hackernews_scraper", "fetch_hackernews_articles", 30),
-    ("css_tricks_scraper", "fetch_css_tricks_articles", 30),
+    # Code & Tech (10 articles each)
+    ("dev_to_scraper", "fetch_dev_to_articles", 10),
+    ("hackernews_scraper", "fetch_hackernews_articles", 10),
+    ("css_tricks_scraper", "fetch_css_tricks_articles", 10),
     
-    # Literature (30 articles each)
-    ("lithub_scraper", "fetch_lithub_articles", 30),
-    ("bookpage_scraper", "fetch_bookpage_articles", 30),
-    ("litreactor_scraper", "fetch_litreactor_articles", 30),
+    # Literature (10 articles each)
+    ("lithub_scraper", "fetch_lithub_articles", 10),
+    ("bookpage_scraper", "fetch_bookpage_articles", 10),
+    ("litreactor_scraper", "fetch_litreactor_articles", 10),
     
-    # Movie (30 articles each)
-    ("mubi_scraper", "fetch_mubi_articles", 30),
-    ("filmcomment_scraper", "fetch_filmcomment_articles", 30),
-    ("criterion_scraper", "fetch_criterion_articles", 30),
+    # Movie (10 articles each)
+    ("mubi_scraper", "fetch_mubi_articles", 10),
+    ("filmcomment_scraper", "fetch_filmcomment_articles", 10),
+    ("criterion_scraper", "fetch_criterion_articles", 10),
     
-    # Writing (30 articles each)
-    ("writersdigest_scraper", "fetch_writersdigest_articles", 30),
-    ("thewritelife_scraper", "fetch_thewritelife_articles", 30),
+    # Writing (10 articles each)
+    ("writersdigest_scraper", "fetch_writersdigest_articles", 10),
+    ("thewritelife_scraper", "fetch_thewritelife_articles", 10),
     
-    # Reddit (30 posts each)
-    ("reddit_scraper", "fetch_reddit_worldnews", 30),
-    ("reddit_scraper", "fetch_reddit_india", 30),
-    ("reddit_scraper", "fetch_reddit_chennai", 30),
-    ("reddit_scraper", "fetch_reddit_programming", 30),
-    ("reddit_scraper", "fetch_reddit_technology", 30),
-    ("reddit_scraper", "fetch_reddit_science", 30),
+    # Reddit (10 posts each)
+    ("reddit_scraper", "fetch_reddit_worldnews", 10),
+    ("reddit_scraper", "fetch_reddit_india", 10),
+    ("reddit_scraper", "fetch_reddit_chennai", 10),
+    ("reddit_scraper", "fetch_reddit_programming", 10),
+    ("reddit_scraper", "fetch_reddit_technology", 10),
+    ("reddit_scraper", "fetch_reddit_science", 10),
     
-    # AI's Choice - Art & Photography (30 articles each)
-    ("colossal_scraper", "fetch_colossal_articles", 30),
+    # AI's Choice - Art & Photography (10 articles each)
+    ("colossal_scraper", "fetch_colossal_articles", 10),
     
-    # AI's Choice - Design Trends (30 articles each)
-    ("smashingmagazine_scraper", "fetch_smashingmagazine_articles", 30),
-    ("dezeen_scraper", "fetch_dezeen_articles", 30),
+    # AI's Choice - Design Trends (10 articles each)
+    ("smashingmagazine_scraper", "fetch_smashingmagazine_articles", 10),
+    ("dezeen_scraper", "fetch_dezeen_articles", 10),
     
-    # AI's Choice - Minimalist Living (30 articles each)
-    ("becomingminimalist_scraper", "fetch_becomingminimalist_articles", 30),
+    # AI's Choice - Minimalist Living (10 articles each)
+    ("becomingminimalist_scraper", "fetch_becomingminimalist_articles", 10),
     
-    # AI's Choice - Indie Web Projects (30 articles each)
-    ("indieweb_scraper", "fetch_indieweb_articles", 30),
+    # AI's Choice - Indie Web Projects (10 articles each)
+    ("indieweb_scraper", "fetch_indieweb_articles", 10),
     
-    # World News (30 articles each)
-    ("reuters_scraper", "fetch_reuters_articles", 30),
-    ("time_scraper", "fetch_time_articles", 30),
-    ("atlantic_scraper", "fetch_atlantic_articles", 30),
-    ("npr_scraper", "fetch_npr_articles", 30),
-    ("bbc_scraper", "fetch_bbc_articles", 30),
-    ("cnn_scraper", "fetch_cnn_articles", 30),
-    ("aljazeera_scraper", "fetch_aljazeera_articles", 30),
-    ("guardian_scraper", "fetch_guardian_articles", 30),
-    ("axios_scraper", "fetch_axios_articles", 30),
-    ("usatoday_scraper", "fetch_usatoday_articles", 30),
-    ("newsweek_scraper", "fetch_newsweek_articles", 30),
-    ("telegraph_scraper", "fetch_telegraph_articles", 30),
-    ("independent_scraper", "fetch_independent_articles", 30),
+    # World News (10 articles each)
+    ("reuters_scraper", "fetch_reuters_articles", 10),
+    ("time_scraper", "fetch_time_articles", 10),
+    ("atlantic_scraper", "fetch_atlantic_articles", 10),
+    ("npr_scraper", "fetch_npr_articles", 10),
+    ("bbc_scraper", "fetch_bbc_articles", 10),
+    ("cnn_scraper", "fetch_cnn_articles", 10),
+    ("aljazeera_scraper", "fetch_aljazeera_articles", 10),
+    ("guardian_scraper", "fetch_guardian_articles", 10),
+    ("axios_scraper", "fetch_axios_articles", 10),
+    ("usatoday_scraper", "fetch_usatoday_articles", 10),
+    ("newsweek_scraper", "fetch_newsweek_articles", 10),
+    ("telegraph_scraper", "fetch_telegraph_articles", 10),
+    ("independent_scraper", "fetch_independent_articles", 10),
     
-    # Business & Economics (30 articles each)
-    ("forbes_scraper", "fetch_forbes_articles", 30),
-    ("economist_scraper", "fetch_economist_articles", 30),
-    ("bloomberg_scraper", "fetch_bloomberg_articles", 30),
-    ("wsj_scraper", "fetch_wsj_articles", 30),
-    ("businessinsider_scraper", "fetch_businessinsider_articles", 30),
-    ("fastcompany_scraper", "fetch_fastcompany_articles", 30),
+    # Business & Economics (10 articles each)
+    ("forbes_scraper", "fetch_forbes_articles", 10),
+    ("economist_scraper", "fetch_economist_articles", 10),
+    ("bloomberg_scraper", "fetch_bloomberg_articles", 10),
+    ("wsj_scraper", "fetch_wsj_articles", 10),
+    ("businessinsider_scraper", "fetch_businessinsider_articles", 10),
+    ("fastcompany_scraper", "fetch_fastcompany_articles", 10),
     
-    # Technology (30 articles each)
-    ("wired_scraper", "fetch_wired_articles", 30),
-    ("theverge_scraper", "fetch_theverge_articles", 30),
-    ("arstechnica_scraper", "fetch_arstechnica_articles", 30),
-    ("engadget_scraper", "fetch_engadget_articles", 30),
-    ("mashable_scraper", "fetch_mashable_articles", 30),
-    ("techcrunch_scraper", "fetch_techcrunch_articles", 30),
-    ("medium_scraper", "fetch_medium_articles", 30),
+    # Technology (10 articles each)
+    ("wired_scraper", "fetch_wired_articles", 10),
+    ("theverge_scraper", "fetch_theverge_articles", 10),
+    ("arstechnica_scraper", "fetch_arstechnica_articles", 10),
+    ("engadget_scraper", "fetch_engadget_articles", 10),
+    ("mashable_scraper", "fetch_mashable_articles", 10),
+    ("techcrunch_scraper", "fetch_techcrunch_articles", 10),
+    ("medium_scraper", "fetch_medium_articles", 10),
     
-    # Science & Nature (30 articles each)
-    ("natgeo_scraper", "fetch_natgeo_articles", 30),
-    ("scientificamerican_scraper", "fetch_scientificamerican_articles", 30),
-    ("popsci_scraper", "fetch_popsci_articles", 30),
-    ("newscientist_scraper", "fetch_newscientist_articles", 30),
-    ("nature_scraper", "fetch_nature_articles", 30),
+    # Science & Nature (10 articles each)
+    ("natgeo_scraper", "fetch_natgeo_articles", 10),
+    ("scientificamerican_scraper", "fetch_scientificamerican_articles", 10),
+    ("popsci_scraper", "fetch_popsci_articles", 10),
+    ("newscientist_scraper", "fetch_newscientist_articles", 10),
+    ("nature_scraper", "fetch_nature_articles", 10),
     
-    # Space & Astronomy (30 articles each)
-    ("space_scraper", "fetch_space_articles", 30),
+    # Space & Astronomy (10 articles each)
+    ("space_scraper", "fetch_space_articles", 10),
     
-    # Culture & Arts (30 articles each)
-    ("newyorker_scraper", "fetch_newyorker_articles", 30),
-    ("smithsonian_scraper", "fetch_smithsonian_articles", 30),
-    ("artnet_scraper", "fetch_artnet_articles", 30),
-    ("slate_scraper", "fetch_slate_articles", 30),
-    ("theatlantic_scraper", "fetch_theatlantic_articles", 30),
+    # Culture & Arts (10 articles each)
+    ("newyorker_scraper", "fetch_newyorker_articles", 10),
+    ("smithsonian_scraper", "fetch_smithsonian_articles", 10),
+    ("artnet_scraper", "fetch_artnet_articles", 10),
+    ("slate_scraper", "fetch_slate_articles", 10),
+    ("theatlantic_scraper", "fetch_theatlantic_articles", 10),
     
-    # Sports (30 articles each)
-    ("espn_scraper", "fetch_espn_articles", 30),
+    # Sports (10 articles each)
+    ("espn_scraper", "fetch_espn_articles", 10),
     
-    # Health (30 articles each)
-    ("healthline_scraper", "fetch_healthline_articles", 30),
+    # Health (10 articles each)
+    ("healthline_scraper", "fetch_healthline_articles", 10),
     
-    # Environment (30 articles each)
-    ("treehugger_scraper", "fetch_treehugger_articles", 30),
+    # Environment (10 articles each)
+    ("treehugger_scraper", "fetch_treehugger_articles", 10),
     
-    # Politics (30 articles each)
-    ("politico_scraper", "fetch_politico_articles", 30),
-    ("fivethirtyeight_scraper", "fetch_fivethirtyeight_articles", 30),
+    # Politics (10 articles each)
+    ("politico_scraper", "fetch_politico_articles", 10),
+    ("fivethirtyeight_scraper", "fetch_fivethirtyeight_articles", 10),
     
-    # Entertainment (30 articles each)
-    ("variety_scraper", "fetch_variety_articles", 30),
-    ("rollingstone_scraper", "fetch_rollingstone_articles", 30),
+    # Entertainment (10 articles each)
+    ("variety_scraper", "fetch_variety_articles", 10),
+    ("rollingstone_scraper", "fetch_rollingstone_articles", 10),
     
-    # Fashion & Lifestyle (30 articles each)
-    ("vogue_scraper", "fetch_vogue_articles", 30),
-    ("gq_scraper", "fetch_gq_articles", 30),
+    # Fashion & Lifestyle (10 articles each)
+    ("vogue_scraper", "fetch_vogue_articles", 10),
+    ("gq_scraper", "fetch_gq_articles", 10),
     
-    # Food (30 articles each)
-    ("bonappetit_scraper", "fetch_bonappetit_articles", 30),
+    # Food (10 articles each)
+    ("bonappetit_scraper", "fetch_bonappetit_articles", 10),
     
-    # Education (30 articles each)
-    ("edweek_scraper", "fetch_edweek_articles", 30),
+    # Education (10 articles each)
+    ("edweek_scraper", "fetch_edweek_articles", 10),
     
     # Wikipedia & Special Content (1 article each - special content)
     ("wikipedia_scraper", "fetch_wikipedia_article_of_day", 1),

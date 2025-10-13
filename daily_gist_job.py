@@ -30,7 +30,7 @@ SCRAPERS = [
     ("thewire_scraper", "fetch_thewire_articles", 30),
     ("scroll_scraper", "fetch_scroll_articles", 30),
     ("newindianexpress_scraper", "fetch_newindianexpress_articles", 30),
-    ("hindustanexpress_scraper", "fetch_hindustanexpress_articles", 30),
+    ("deccanherald_scraper", "fetch_deccanherald_articles", 30),
     
     # Tamil Nadu News (30 articles each)
     ("dinamalar_scraper", "fetch_dinamalar_articles", 30),

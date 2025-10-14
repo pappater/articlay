@@ -1453,8 +1453,18 @@
         }
 
         function handleTouchStart(event) {
+            // Don't track swipe if user touches a link or button
+            const target = event.target;
+            if (target.tagName === 'A' || target.closest('a') || target.tagName === 'BUTTON' || target.closest('button')) {
+                touchStartX = null;
+                touchStartY = null;
+                return;
+            }
+
             touchStartX = event.touches[0].clientX;
             touchStartY = event.touches[0].clientY;
+            touchEndX = touchStartX;
+            touchEndY = touchStartY;
             
             // Pull to refresh start
             if (window.pageYOffset === 0) {
@@ -1464,6 +1474,8 @@
         }
 
         function handleTouchMove(event) {
+            if (touchStartX === null || touchStartY === null) return;
+
             touchEndX = event.touches[0].clientX;
             touchEndY = event.touches[0].clientY;
             
@@ -1477,6 +1489,12 @@
         }
 
         function handleTouchEnd(event) {
+            // If touch started on a link/button, don't process swipe
+            if (touchStartX === null || touchStartY === null) {
+                isPulling = false;
+                return;
+            }
+
             const diffX = touchStartX - touchEndX;
             const diffY = touchStartY - touchEndY;
             const absDiffX = Math.abs(diffX);
@@ -1493,7 +1511,8 @@
             
             // Horizontal swipe to switch tabs (NO REFRESH)
             // Only trigger if horizontal swipe is more significant than vertical
-            if (absDiffX > 50 && absDiffX > absDiffY * 1.5) {
+            // AND the movement is substantial (not just a tap)
+            if (absDiffX > 80 && absDiffX > absDiffY * 2) {
                 if (diffX > 0) {
                     // Swiped left - go to next tab
                     switchToNextTab();
@@ -1502,6 +1521,10 @@
                     switchToPreviousTab();
                 }
             }
+
+            // Reset touch coordinates
+            touchStartX = null;
+            touchStartY = null;
         }
 
         function switchToNextTab() {

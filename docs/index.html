@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Articlay - Daily News & Articles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -40,13 +43,16 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.65;
             color: var(--text-primary);
             background-color: var(--bg-primary);
             padding: 0;
             margin: 0;
             transition: background-color 0.3s, color 0.3s;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
@@ -91,31 +97,31 @@
         }
 
         h1 {
-            font-size: 3em;
+            font-size: 3.5em;
             font-weight: 900;
-            color: #ff0000;
+            color: #000;
             margin: 0;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.02em;
             text-transform: uppercase;
-            font-family: 'Courier New', 'Courier', monospace;
-            text-shadow: 
-                3px 3px 0px #000000,
-                6px 6px 0px rgba(0,0,0,0.3);
+            font-family: 'Black Ops One', 'Impact', 'Arial Black', sans-serif;
             position: relative;
             display: inline-block;
+            text-shadow: none;
         }
 
         [data-theme="dark"] h1 {
-            color: #ff0000;
+            color: #fff;
             text-shadow: 
-                3px 3px 0px #ffffff,
-                6px 6px 0px rgba(255,255,255,0.3);
+                5px 5px 0px #222;
         }
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 0.95em;
+            font-size: 1em;
             margin: 5px 0 0 0;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            font-family: 'Inter', sans-serif;
         }
 
         .header-controls {
@@ -346,13 +352,15 @@
         }
 
         .article-title {
-            font-size: 1.15em;
+            font-size: 1.25em;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 10px;
-            line-height: 1.4;
+            line-height: 1.45;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.01em;
         }
 
         .article-link:hover .article-title {
@@ -360,9 +368,9 @@
         }
 
         .article-description {
-            font-size: 0.9em;
+            font-size: 0.95em;
             color: var(--text-tertiary);
-            line-height: 1.5;
+            line-height: 1.7;
             margin-bottom: 12px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -373,14 +381,17 @@
             word-wrap: break-word;
             overflow-wrap: break-word;
             word-break: break-word;
+            font-family: 'Libre Baskerville', Georgia, serif;
         }
 
         .article-meta {
-            font-size: 0.8em;
+            font-size: 0.85em;
             color: var(--text-secondary);
             margin-top: auto;
             padding-top: 10px;
             border-top: 1px solid var(--border-color);
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.005em;
         }
 
         .article-meta span {
@@ -393,6 +404,7 @@
         .meta-label {
             font-weight: 600;
             color: var(--text-tertiary);
+            font-family: 'Inter', sans-serif;
         }
 
         .load-more-btn {

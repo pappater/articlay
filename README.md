@@ -31,7 +31,10 @@ A comprehensive news aggregator that fetches articles from popular magazines and
 - 🎭 **Easter Egg**: Jean-Michel Basquiat-style art revealed when scrolling to bottom (footer fades away)
 - 👆 **Touch Gestures**: Swipe left/right to switch between tabs (no refresh), pull down to refresh
 - 🌓 **Dark Mode**: Toggle between light and dark themes with localStorage persistence
-- 🔍 **Search & Filter**: Real-time search across articles by title, source, or category
+- 🔍 **Powerful Search**: Real-time search by keywords or source names (e.g., "forbes", "technology", "climate")
+  - Search across all fields or filter by source name, title, description, or category
+  - Case-insensitive with instant results as you type
+  - Clear search to return to all articles
 - 📊 **Statistics Dashboard**: View article counts, sources, and categories at a glance
 - 📱 **Responsive Design**: Works perfectly on desktop, tablet, and mobile
 - 🕐 **IST Timezone**: All times and dates use Indian Standard Time

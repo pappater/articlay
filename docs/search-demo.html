@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articlay Search Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .demo-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .search-example {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+        .search-example h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .search-query {
+            background: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        .result-count {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:before {
+            content: "✅ ";
+            margin-right: 10px;
+        }
+        .demo-link {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px 30px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .demo-link:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🔍 Articlay Search Feature</h1>
+        
+        <p>The Articlay web interface now includes a powerful search feature that allows you to find articles by keywords or source names. Here's how it works:</p>
+        
+        <h2>🎯 Search Examples</h2>
+        
+        <div class="search-example">
+            <h3>Search by Source Name</h3>
+            <p>Search: <span class="search-query">forbes</span></p>
+            <p>Result: <span class="result-count">Shows all Forbes articles</span></p>
+            <p>Perfect for when you want to read articles from specific news sources.</p>
+        </div>
+        
+        <div class="search-example">
+            <h3>Search by Keyword</h3>
+            <p>Search: <span class="search-query">technology</span></p>
+            <p>Result: <span class="result-count">Shows tech-related articles from all sources</span></p>
+            <p>Great for finding articles about specific topics across multiple publications.</p>
+        </div>
+        
+        <div class="search-example">
+            <h3>Search by Topic</h3>
+            <p>Search: <span class="search-query">climate</span></p>
+            <p>Result: <span class="result-count">Shows climate change and environmental articles</span></p>
+            <p>Useful for tracking coverage of important issues.</p>
+        </div>
+        
+        <div class="search-example">
+            <h3>Mixed Search</h3>
+            <p>Search: <span class="search-query">AI</span></p>
+            <p>Result: <span class="result-count">Shows articles with "AI" in title/description + AI-related sources</span></p>
+            <p>The search works across all fields by default.</p>
+        </div>
+        
+        <h2>✨ Key Features</h2>
+        <ul class="feature-list">
+            <li>Real-time search as you type</li>
+            <li>Case-insensitive matching</li>
+            <li>Search by source name (e.g., "forbes", "bbc", "reddit")</li>
+            <li>Search by keywords in titles and descriptions</li>
+            <li>Filter by specific fields (source only, title only, etc.)</li>
+            <li>Shows search result counts</li>
+            <li>Works on mobile and desktop</li>
+            <li>Clear button to reset search</li>
+            <li>Maintains category organization in results</li>
+            <li>Fast client-side filtering (no server requests)</li>
+        </ul>
+        
+        <h2>🎮 How to Use</h2>
+        <ol>
+            <li>Open the main Articlay interface</li>
+            <li>Look for the search bar below the header</li>
+            <li>Type your search query (source name or keyword)</li>
+            <li>Use the dropdown to filter by specific fields if needed</li>
+            <li>Results update automatically as you type</li>
+            <li>Click "Clear" to return to all articles</li>
+        </ol>
+        
+        <h2>🔍 Search Filter Options</h2>
+        <ul>
+            <li><strong>All Fields</strong> - Search across source names, titles, descriptions, and categories</li>
+            <li><strong>Source Only</strong> - Find specific news sources and publications</li>
+            <li><strong>Title Only</strong> - Search only in article headlines</li>
+            <li><strong>Description Only</strong> - Search only in article content</li>
+            <li><strong>Category Only</strong> - Filter by topic categories</li>
+        </ul>
+        
+        <a href="index.html" class="demo-link">🚀 Try the Search Feature</a>
+        
+        <h2>📱 Mobile Friendly</h2>
+        <p>The search feature is fully responsive and works great on mobile devices. The search bar adapts to smaller screens with a vertical layout for easy use on phones and tablets.</p>
+        
+        <h2>🚀 Performance</h2>
+        <p>The search is lightning-fast because it works entirely in your browser - no server requests needed! It uses smart debouncing to avoid lag while typing and efficiently filters through thousands of articles in milliseconds.</p>
+        
+        <div style="margin-top: 40px; text-align: center; color: #666; font-size: 0.9em;">
+            <p>Enhanced by the Articlay Development Team | October 2024</p>
+        </div>
+    </div>
+</body>
+</html>

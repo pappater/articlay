@@ -78,6 +78,35 @@
             margin: 0 auto;
         }
 
+        .search-input {
+            width: 300px;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-family: inherit;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--text-primary);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-results-info {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
         .theme-toggle {
             padding: 8px 16px;
             font-size: 1.2em;
@@ -182,6 +211,8 @@
             padding: 0 30px;
             scrollbar-width: none; /* Firefox */
             touch-action: pan-x;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .tab-nav::-webkit-scrollbar {
@@ -635,10 +666,34 @@
             }
 
             .header-content {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
+                flex-direction: column;
+                align-items: stretch;
                 gap: 15px;
+            }
+
+            .header-controls {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+
+            .search-input {
+                width: 100%;
+                order: 1;
+            }
+
+            .date-selector {
+                order: 2;
+            }
+
+            .theme-toggle {
+                order: 3;
+                align-self: flex-end;
+            }
+
+            .search-results-info {
+                font-size: 0.85em;
+                padding: 8px 0;
             }
 
             h1 {
@@ -693,6 +748,13 @@
                             <option value="">Loading...</option>
                         </select>
                     </div>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        class="search-input" 
+                        placeholder="Search articles by keyword or source name..."
+                        oninput="handleSearchInput()"
+                    >
                     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌓</button>
                 </div>
             </div>
@@ -955,6 +1017,9 @@
         function loadArticles() {
             const selectedDate = document.getElementById('date-select').value;
             if (!selectedDate) return;
+
+            // Clear search when changing dates
+            clearSearch();
 
             currentDate = selectedDate;
             const dayData = allData[selectedDate];
@@ -1565,6 +1630,184 @@
                 }, 500);
             }
         }
+
+        // Search functionality
+        let originalArticles = {}; // Store original articles before filtering
+        let isSearchActive = false;
+        let searchTimeout = null;
+
+        function handleSearchInput() {
+            const searchInput = document.getElementById('search-input');
+            const query = searchInput.value.trim();
+            
+            // Clear previous timeout
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
+            }
+            
+            // Debounce search to avoid excessive filtering
+            searchTimeout = setTimeout(() => {
+                if (query === '') {
+                    clearSearch();
+                } else {
+                    performSearch(query, 'all');
+                }
+            }, 300);
+        }
+
+        function performSearch(query, filterType) {
+            if (!isSearchActive) {
+                // Store original articles before first search
+                originalArticles = JSON.parse(JSON.stringify(allData[currentDate] || {}));
+                isSearchActive = true;
+            }
+            
+            const filteredData = filterArticles(originalArticles, query, filterType);
+            
+            // Update the current data
+            allData[currentDate] = filteredData;
+            
+            // Re-organize and display articles
+            const categorizedArticles = organizeByCategory(filteredData);
+            createTabs(categorizedArticles);
+            
+            // Activate the first tab or maintain current tab if it still exists
+            const availableTabs = Object.keys(categorizedArticles);
+            const targetTab = availableTabs.includes(currentActiveTab) ? currentActiveTab : availableTabs[0];
+            if (targetTab) {
+                activateTab(targetTab);
+            }
+            
+            // Show search results info
+            showSearchResultsInfo(query, 'all', filteredData);
+        }
+
+        function filterArticles(articles, query, filterType) {
+            const filtered = {};
+            const queryLower = query.toLowerCase();
+            
+            for (const [source, sourceArticles] of Object.entries(articles)) {
+                const matchingArticles = [];
+                
+                for (const article of sourceArticles) {
+                    let shouldInclude = false;
+                    
+                    // Add source to article if not present
+                    if (!article.source) {
+                        article.source = source;
+                    }
+                    
+                    switch (filterType) {
+                        case 'source':
+                            shouldInclude = source.toLowerCase().includes(queryLower) || 
+                                          (article.source && article.source.toLowerCase().includes(queryLower));
+                            break;
+                        case 'title':
+                            shouldInclude = article.title && article.title.toLowerCase().includes(queryLower);
+                            break;
+                        case 'description':
+                            shouldInclude = article.description && article.description.toLowerCase().includes(queryLower);
+                            break;
+                        case 'category':
+                            shouldInclude = article.category && article.category.toLowerCase().includes(queryLower);
+                            break;
+                        case 'all':
+                        default:
+                            shouldInclude = (source.toLowerCase().includes(queryLower)) ||
+                                          (article.source && article.source.toLowerCase().includes(queryLower)) ||
+                                          (article.title && article.title.toLowerCase().includes(queryLower)) ||
+                                          (article.description && article.description.toLowerCase().includes(queryLower)) ||
+                                          (article.category && article.category.toLowerCase().includes(queryLower));
+                            break;
+                    }
+                    
+                    if (shouldInclude) {
+                        matchingArticles.push(article);
+                    }
+                }
+                
+                if (matchingArticles.length > 0) {
+                    filtered[source] = matchingArticles;
+                }
+            }
+            
+            return filtered;
+        }
+
+        function showSearchResultsInfo(query, filterType, filteredData) {
+            // Remove existing search info
+            const existingInfo = document.querySelector('.search-results-info');
+            if (existingInfo) {
+                existingInfo.remove();
+            }
+            
+            // Count total articles and sources
+            let totalArticles = 0;
+            const sourceCount = Object.keys(filteredData).length;
+            
+            for (const articles of Object.values(filteredData)) {
+                totalArticles += articles.length;
+            }
+            
+            // Create search results info
+            const searchInfo = document.createElement('div');
+            searchInfo.className = 'search-results-info';
+            
+            searchInfo.innerHTML = `
+                🔍 <strong>Search Results:</strong> Found ${totalArticles} articles from ${sourceCount} sources 
+                for "${query}"
+            `;
+            
+            // Insert after tab container
+            const tabContainer = document.querySelector('.tab-container');
+            const contentArea = document.querySelector('.content-area');
+            contentArea.insertBefore(searchInfo, contentArea.firstChild);
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('search-input');
+            
+            // Clear input
+            searchInput.value = '';
+            
+            // Remove search results info
+            const existingInfo = document.querySelector('.search-results-info');
+            if (existingInfo) {
+                existingInfo.remove();
+            }
+            
+            if (isSearchActive) {
+                // Restore original articles
+                allData[currentDate] = originalArticles;
+                isSearchActive = false;
+                originalArticles = {};
+                
+                // Re-organize and display articles
+                const categorizedArticles = organizeByCategory(allData[currentDate]);
+                createTabs(categorizedArticles);
+                
+                // Activate first tab or try to restore previous tab
+                const availableTabs = Object.keys(categorizedArticles);
+                const targetTab = availableTabs.includes(currentActiveTab) ? currentActiveTab : availableTabs[0];
+                if (targetTab) {
+                    activateTab(targetTab);
+                }
+            }
+        }
+
+        // Add keyboard support for search
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        handleSearchInput();
+                    } else if (event.key === 'Escape') {
+                        clearSearch();
+                    }
+                });
+            }
+        });
 
         // Close modal when clicking outside
         window.onclick = function(event) {

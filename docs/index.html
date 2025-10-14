@@ -319,36 +319,10 @@
             padding: 20px;
             background-color: var(--bg-card);
             border-radius: 8px;
-            transition: box-shadow 0.3s, transform 0.2s, background-color 0.3s, border-color 0.3s;
+            transition: background-color 0.3s;
             display: flex;
             flex-direction: column;
             position: relative;
-        }
-
-        .article-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, 
-                #ff0000 0%, 
-                #ff6600 25%, 
-                #ffcc00 50%, 
-                #00cc66 75%, 
-                #0066cc 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .article-card:hover {
-            box-shadow: 0 4px 12px var(--shadow-light);
-            transform: translateY(-2px);
-        }
-
-        .article-card:hover::before {
-            opacity: 0.7;
         }
 
         .article-link {
@@ -369,10 +343,6 @@
             overflow-wrap: break-word;
             font-family: 'Inter', sans-serif;
             letter-spacing: -0.01em;
-        }
-
-        .article-link:hover .article-title {
-            color: #0066cc;
         }
 
         .article-description {

@@ -83,7 +83,81 @@ The repository is configured to automatically fetch articles every day at **6:00
 
 No manual intervention is required!
 
-### Manual Execution
+### Command-Line Interface (CLI)
+
+Articlay provides a powerful CLI for viewing articles right in your terminal.
+
+#### Installation
+
+```bash
+pip install articlay
+```
+
+Or install from source:
+
+```bash
+git clone https://github.com/pappater/articlay.git
+cd articlay
+pip install -e .
+```
+
+#### Quick Start
+
+```bash
+# Show For You articles (default)
+articlay
+
+# Show 10 India news articles
+articlay --india --limit 10
+
+# Get one random article
+articlay random
+
+# Show all Tamil Nadu articles
+articlay --tamilnadu --limit 0
+
+# Show 15 tech articles
+articlay --tech -l 15
+```
+
+#### Available Category Flags
+
+- `--foryou` - Curated selection from all sources
+- `--india` or `--indi` - India news
+- `--tamilnadu` or `--tn` - Tamil Nadu news
+- `--movie` - Movie reviews and film news
+- `--literature` or `--lit` - Literature and books
+- `--writing` - Writing tips and author resources
+- `--reddit` - Popular Reddit posts
+- `--codetech` or `--tech` - Technology and programming
+- `--artculture` or `--art` - Art exhibitions and culture
+- `--others` - All other categories
+- `--all` - Show all articles from today
+
+#### Examples
+
+```bash
+# View help
+articlay --help
+
+# Show specific category with limit
+articlay --india --limit 10
+articlay --movie -l 5
+
+# Random article discovery
+articlay random
+
+# Show all available articles
+articlay --all --limit 0
+
+# With GitHub token (for private Gists)
+export GITHUB_TOKEN=your_token_here
+articlay --india
+```
+
+For complete CLI documentation, see [CLI_GUIDE.md](CLI_GUIDE.md).
+
+### Manual Scraper Execution
 
 To manually run the article scraper:
 
@@ -96,7 +170,7 @@ python daily_gist_job.py
 ```
 
 This will:
-- Fetch 5 articles from each news source
+- Fetch articles from all configured news sources
 - Store them in the configured GitHub Gist
 - Organize them by date and category
 
@@ -105,10 +179,7 @@ This will:
 The original `articlay.py` tool for Magzter is still available:
 
 ```bash
-# Basic usage
-python articlay.py
-
-# With options
+# Basic usage (uses placeholder data)
 python articlay.py --magazines 20 --articles 10
 ```
 

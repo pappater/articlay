@@ -1020,6 +1020,7 @@
                         <div class="search-loading" id="search-loading"></div>
                     </div>
                     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+                    <button class="theme-toggle" onclick="openCliModal()" title="Try Articlay CLI">💻</button>
                 </div>
             </div>
         </header>
@@ -1083,6 +1084,112 @@
                 </p>
                 <ul class="source-list" id="custom-sources-list">
                     <!-- Custom sources will be listed here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLI Guide Modal -->
+    <div id="cli-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>💻 Try Articlay CLI</h2>
+                <button class="close-btn" onclick="closeCliModal()">&times;</button>
+            </div>
+
+            <div class="settings-section">
+                <h3>📦 Installation</h3>
+                <p>Install Articlay command-line tool using pip:</p>
+                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;">pip install articlay</pre>
+                
+                <p style="margin-top: 15px;">Or install from source:</p>
+                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;">git clone https://github.com/pappater/articlay.git
+cd articlay
+pip install -r requirements.txt
+pip install -e .</pre>
+            </div>
+
+            <div class="settings-section">
+                <h3>🚀 Quick Start</h3>
+                <p>After installation, run Articlay from your terminal:</p>
+                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;">articlay</pre>
+                <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-secondary);">This displays 5 articles from the "For You" tab by default.</p>
+            </div>
+
+            <div class="settings-section">
+                <h3>✨ Features</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                        <strong>📰 Category Filters:</strong> View articles by specific categories
+                        <pre style="background: var(--bg-primary); padding: 10px; margin-top: 5px; border-radius: 4px; font-size: 0.85em;">articlay --india        # India news
+articlay --tamilnadu    # Tamil Nadu news
+articlay --movie        # Movie articles
+articlay --tech         # Technology articles</pre>
+                    </li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                        <strong>🎲 Random Article:</strong> Get one random article
+                        <pre style="background: var(--bg-primary); padding: 10px; margin-top: 5px; border-radius: 4px; font-size: 0.85em;">articlay random</pre>
+                    </li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                        <strong>🔢 Control Limit:</strong> Choose how many articles to display
+                        <pre style="background: var(--bg-primary); padding: 10px; margin-top: 5px; border-radius: 4px; font-size: 0.85em;">articlay --india --limit 10    # Show 10 articles
+articlay --all --limit 0       # Show ALL articles</pre>
+                    </li>
+                    <li style="padding: 8px 0;">
+                        <strong>📚 All Categories Available:</strong>
+                        <span style="display: block; margin-top: 5px; font-size: 0.9em; color: var(--text-secondary);">
+                            For You, India, Tamil Nadu, Movie, Literature, Writing, Reddit, Code & Tech, Art & Culture, Others
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="settings-section">
+                <h3>📖 Examples</h3>
+                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.85em; line-height: 1.6;"># Show For You articles (default)
+articlay
+
+# Show 10 India news articles
+articlay --india --limit 10
+
+# Get one random article
+articlay random
+
+# Show all Tamil Nadu articles
+articlay --tamilnadu --limit 0
+
+# Show 15 tech articles
+articlay --tech -l 15
+
+# Show first 50 articles from all categories
+articlay --all --limit 50</pre>
+            </div>
+
+            <div class="settings-section">
+                <h3>🔧 Configuration</h3>
+                <p>For private Gists, set your GitHub token:</p>
+                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;">export GITHUB_TOKEN=your_token_here
+articlay</pre>
+            </div>
+
+            <div class="settings-section">
+                <h3>📚 Full Documentation</h3>
+                <p>For complete CLI documentation, see the 
+                    <a href="https://github.com/pappater/articlay/blob/main/CLI_GUIDE.md" target="_blank" style="color: var(--text-primary); text-decoration: underline;">
+                        CLI Guide on GitHub
+                    </a>
+                </p>
+            </div>
+
+            <div class="settings-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px;">
+                <h3 style="color: white; margin-bottom: 10px;">🌟 Why Use the CLI?</h3>
+                <ul style="list-style: none; padding-left: 0; margin: 0;">
+                    <li style="padding: 5px 0;">⚡ Fast and lightweight</li>
+                    <li style="padding: 5px 0;">🎯 Filter by category instantly</li>
+                    <li style="padding: 5px 0;">🎲 Discover random articles</li>
+                    <li style="padding: 5px 0;">📱 Works in any terminal</li>
+                    <li style="padding: 5px 0;">🔄 Same content as web UI</li>
+                    <li style="padding: 5px 0;">💾 Export and save articles</li>
                 </ul>
             </div>
         </div>
@@ -1636,6 +1743,14 @@
             document.getElementById('settings-modal').classList.remove('active');
         }
 
+        function openCliModal() {
+            document.getElementById('cli-modal').classList.add('active');
+        }
+
+        function closeCliModal() {
+            document.getElementById('cli-modal').classList.remove('active');
+        }
+
         function saveDefaultCount() {
             const count = parseInt(document.getElementById('default-count').value);
             if (count >= 5 && count <= 50) {
@@ -2149,9 +2264,14 @@
 
         // Close modal when clicking outside
         window.onclick = function(event) {
-            const modal = document.getElementById('settings-modal');
-            if (event.target === modal) {
+            const settingsModal = document.getElementById('settings-modal');
+            const cliModal = document.getElementById('cli-modal');
+            
+            if (event.target === settingsModal) {
                 closeSettings();
+            }
+            if (event.target === cliModal) {
+                closeCliModal();
             }
         }
 

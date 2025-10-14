@@ -11,6 +11,7 @@ import random
 import argparse
 from datetime import datetime
 from typing import List, Dict, Optional
+from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
@@ -168,6 +169,123 @@ class Articlay:
     def __init__(self, github_token: Optional[str] = None):
         self.scraper = MagzterScraper()
         self.archiver = GistArchiver(github_token)
+        self.gist_id = None
+        # Try to load gist config
+        try:
+            from gist_config import GIST_ID
+            self.gist_id = GIST_ID
+        except ImportError:
+            pass
+    
+    def fetch_gist_articles(self) -> Dict[str, List[Dict]]:
+        """
+        Fetch articles from the configured GitHub Gist.
+        
+        Returns:
+            Dictionary with date as key and list of articles as value
+        """
+        if not self.gist_id:
+            print("No Gist ID configured. Cannot fetch articles.")
+            return {}
+        
+        try:
+            url = f"https://api.github.com/gists/{self.gist_id}"
+            headers = {}
+            
+            # Add authentication if token is available
+            if self.archiver.token:
+                headers['Authorization'] = f'token {self.archiver.token}'
+            
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            
+            gist_data = response.json()
+            files = gist_data.get('files', {})
+            
+            # Look for the main data file
+            data_file = None
+            for filename, file_info in files.items():
+                if filename.endswith('.json'):
+                    data_file = file_info
+                    break
+            
+            if data_file:
+                content = data_file.get('content', '{}')
+                articles_data = json.loads(content)
+                return articles_data
+            else:
+                print("No JSON file found in Gist.")
+                return {}
+                
+        except Exception as e:
+            print(f"Error fetching articles from Gist: {e}")
+            print("Note: If the Gist is private, you need to provide a GitHub token using --token or GITHUB_TOKEN env var.")
+            return {}
+    
+    def get_articles_by_category(self, category: Optional[str] = None, limit: int = 5) -> List[Dict]:
+        """
+        Get articles filtered by category.
+        
+        Args:
+            category: Category to filter by (None for all)
+            limit: Maximum number of articles to return
+            
+        Returns:
+            List of articles
+        """
+        articles_data = self.fetch_gist_articles()
+        
+        if not articles_data:
+            return []
+        
+        # Get today's date
+        today = datetime.now().strftime("%Y-%m-%d")
+        
+        # Try to get today's articles, or the most recent date
+        if today in articles_data:
+            all_articles = articles_data[today]
+        else:
+            # Get the most recent date
+            dates = sorted(articles_data.keys(), reverse=True)
+            if dates:
+                all_articles = articles_data[dates[0]]
+                print(f"Using articles from {dates[0]} (today's articles not available)")
+            else:
+                return []
+        
+        # Filter by category if specified
+        if category:
+            filtered = [a for a in all_articles if a.get('category', '').lower() == category.lower()]
+        else:
+            filtered = all_articles
+        
+        # Return limited results
+        return filtered[:limit] if limit > 0 else filtered
+    
+    def display_articles_table(self, articles: List[Dict], category: Optional[str] = None):
+        """Display articles in a formatted table."""
+        if not articles:
+            print(f"\nNo articles found" + (f" in category '{category}'" if category else "") + ".")
+            return
+        
+        print(f"\n📚 Articles" + (f" in '{category}'" if category else "") + f" ({len(articles)} total):")
+        print(f"{'=' * 80}\n")
+        
+        for i, article in enumerate(articles, 1):
+            title = article.get('title', 'No title')
+            source = article.get('source', 'Unknown')
+            cat = article.get('category', 'Uncategorized')
+            link = article.get('link', '')
+            
+            # Truncate title if too long
+            if len(title) > 60:
+                title = title[:57] + '...'
+            
+            print(f"{i:2d}. {title}")
+            print(f"    Source: {source} | Category: {cat}")
+            if link:
+                print(f"    Link: {link}")
+            print()
     
     def select_random_articles(self, magazines: List[Dict], 
                               count: int = 5) -> List[Dict]:
@@ -253,28 +371,121 @@ class Articlay:
 def main():
     """CLI entry point"""
     parser = argparse.ArgumentParser(
-        description='Articlay - Aggregate popular magazine articles from Magzter'
+        description='Articlay - News & Magazine Article Aggregator',
+        epilog='Examples:\n'
+               '  articlay                  # Show For You tab articles (default 5)\n'
+               '  articlay --foryou         # Show For You tab articles\n'
+               '  articlay --india          # Show India news articles\n'
+               '  articlay --tamilnadu      # Show Tamil Nadu news articles\n'
+               '  articlay random           # Show one random article\n'
+               '  articlay --all            # Show all articles from today\n',
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
     
+    # Create subparsers for commands
+    subparsers = parser.add_subparsers(dest='command', help='Command to execute')
+    
+    # Random command
+    random_parser = subparsers.add_parser('random', help='Display one random article')
+    
+    # Category filter arguments
+    parser.add_argument(
+        '--foryou',
+        action='store_true',
+        help='Show articles from "For You" tab'
+    )
+    
+    parser.add_argument(
+        '--india', '--indi',
+        action='store_true',
+        dest='india',
+        help='Show articles from India news'
+    )
+    
+    parser.add_argument(
+        '--tamilnadu', '--tn',
+        action='store_true',
+        dest='tamilnadu',
+        help='Show articles from Tamil Nadu news'
+    )
+    
+    parser.add_argument(
+        '--movie',
+        action='store_true',
+        help='Show articles from Movie category'
+    )
+    
+    parser.add_argument(
+        '--literature', '--lit',
+        action='store_true',
+        dest='literature',
+        help='Show articles from Literature category'
+    )
+    
+    parser.add_argument(
+        '--writing',
+        action='store_true',
+        help='Show articles from Writing category'
+    )
+    
+    parser.add_argument(
+        '--reddit',
+        action='store_true',
+        help='Show articles from Reddit category'
+    )
+    
+    parser.add_argument(
+        '--codetech', '--tech',
+        action='store_true',
+        dest='codetech',
+        help='Show articles from Code & Tech category'
+    )
+    
+    parser.add_argument(
+        '--artculture', '--art',
+        action='store_true',
+        dest='artculture',
+        help='Show articles from Art & Culture category'
+    )
+    
+    parser.add_argument(
+        '--others',
+        action='store_true',
+        help='Show articles from Others category'
+    )
+    
+    parser.add_argument(
+        '--all',
+        action='store_true',
+        help='Show all articles from today'
+    )
+    
+    # Number of articles to display
+    parser.add_argument(
+        '--limit', '-l',
+        type=int,
+        default=5,
+        help='Number of articles to display (default: 5, use 0 for all)'
+    )
+    
+    # Legacy Magzter scraper arguments
     parser.add_argument(
         '--magazines', '-m',
         type=int,
         choices=[10, 20, 30],
-        default=10,
-        help='Number of top magazines to consider (default: 10)'
+        help='[Legacy] Number of top magazines to consider'
     )
     
     parser.add_argument(
         '--articles', '-a',
         type=int,
-        default=5,
-        help='Number of articles to select (default: 5)'
+        help='[Legacy] Number of articles to select'
     )
     
     parser.add_argument(
         '--no-archive',
         action='store_true',
-        help='Skip archiving to GitHub Gist'
+        help='[Legacy] Skip archiving to GitHub Gist'
     )
     
     parser.add_argument(
@@ -288,24 +499,80 @@ def main():
     # Get GitHub token from args or environment
     github_token = args.token or os.getenv('GITHUB_TOKEN')
     
-    # Create and run application
+    # Create application instance
     app = Articlay(github_token)
-    articles = app.run(
-        magazine_count=args.magazines,
-        article_count=args.articles,
-        archive=not args.no_archive
-    )
     
-    # Save to local file as backup
-    date_str = datetime.now().strftime("%Y-%m-%d")
-    output_file = f"articlay-{date_str}.json"
+    # Handle random command
+    if args.command == 'random':
+        print("\n🎲 Fetching a random article...\n")
+        articles = app.get_articles_by_category(limit=0)  # Get all articles
+        if articles:
+            random_article = random.choice(articles)
+            app.display_articles_table([random_article])
+        else:
+            print("No articles available.")
+        return 0
     
-    with open(output_file, 'w') as f:
-        json.dump(articles, f, indent=2)
+    # Check if using new tab-based interface
+    category_flags = [
+        ('foryou', 'For You'),
+        ('india', 'India'),
+        ('tamilnadu', 'Tamil Nadu'),
+        ('movie', 'Movie'),
+        ('literature', 'Literature'),
+        ('writing', 'Writing'),
+        ('reddit', 'Reddit'),
+        ('codetech', 'Code & Tech'),
+        ('artculture', 'Art & Culture'),
+        ('others', 'Others'),
+    ]
     
-    print(f"\n✓ Articles saved to: {output_file}")
+    selected_category = None
+    for flag, category in category_flags:
+        if getattr(args, flag, False):
+            selected_category = category
+            break
     
-    return 0 if articles else 1
+    # If --all flag is set or no specific category selected, show For You by default
+    if args.all:
+        articles = app.get_articles_by_category(limit=args.limit)
+        app.display_articles_table(articles)
+        return 0
+    elif selected_category:
+        articles = app.get_articles_by_category(category=selected_category, limit=args.limit)
+        app.display_articles_table(articles, category=selected_category)
+        return 0
+    elif not args.magazines and not args.articles:
+        # Default behavior: show For You tab
+        articles = app.get_articles_by_category(category='For You', limit=args.limit)
+        app.display_articles_table(articles, category='For You')
+        return 0
+    
+    # Legacy Magzter mode
+    if args.magazines or args.articles:
+        magazine_count = args.magazines or 10
+        article_count = args.articles or 5
+        
+        articles = app.run(
+            magazine_count=magazine_count,
+            article_count=article_count,
+            archive=not args.no_archive
+        )
+        
+        # Save to local file as backup
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        output_file = f"articlay-{date_str}.json"
+        
+        with open(output_file, 'w') as f:
+            json.dump(articles, f, indent=2)
+        
+        print(f"\n✓ Articles saved to: {output_file}")
+        
+        return 0 if articles else 1
+    
+    # Should not reach here
+    parser.print_help()
+    return 1
 
 
 if __name__ == '__main__':

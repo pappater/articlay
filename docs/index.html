@@ -385,6 +385,21 @@
             font-family: 'Inter', sans-serif;
         }
 
+        .premium-indicator {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #FFD700;
+            margin-left: 8px;
+            vertical-align: middle;
+            box-shadow: 0 0 4px rgba(255, 215, 0, 0.5);
+        }
+
+        [data-theme="dark"] .premium-indicator {
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
+        }
+
         .load-more-btn {
             display: block;
             margin: 20px auto;
@@ -1208,6 +1223,15 @@
             const title = document.createElement('h3');
             title.className = 'article-title';
             title.textContent = article.title;
+            
+            // Add premium indicator if article is flagged as premium
+            if (article.premium) {
+                const premiumDot = document.createElement('span');
+                premiumDot.className = 'premium-indicator';
+                premiumDot.title = 'Premium Source';
+                title.appendChild(premiumDot);
+            }
+            
             link.appendChild(title);
 
             if (article.description) {

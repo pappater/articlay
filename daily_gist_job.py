@@ -261,6 +261,60 @@ def strip_images_from_description(description):
     
     return description
 
+# Premium/Featured sources that should be flagged
+PREMIUM_SOURCES = {
+    'wsj', 'wall street journal', 'wallstreetjournal',
+    'time',
+    'washingtonpost', 'washington post', 'the washington post',
+    'indiatoday', 'india today',
+    'vogueindia', 'vogue india',
+    'businessstandard', 'business standard',
+    'outlookindia', 'outlook',
+    'feminaindia', 'femina india',
+    'cosmopolitanindia', 'cosmopolitan india',
+    'theweek', 'the week',
+    'openthemagazine', 'open',
+    'filmfare',
+    'businesstoday', 'business today',
+    'gqindia', 'gq india',
+    'readersdigestindia', 'readers digest india',
+    'graziaindia', 'grazia india',
+    'exhibit',
+    'outlooktraveller', 'outlook traveller',
+    'mansworld',
+    'goodhomesindia', 'goodhomes india',
+    'elledecor', 'elle decor india',
+    'architectandinteriors', 'architect and interiors india',
+    'businesstravellerindia', 'business traveller india',
+    'fortuneindia', 'fortune india',
+    'livemint', 'mint',
+    'hindustantimes', 'hindustan times',
+    'forbesindia', 'forbes india',
+    't3india', 't3 india',
+    'caravan', 'the caravan',
+    'admagazine', 'ad architectural digest',
+    'topgearindia', 'top gear india',
+    'harpersbazaar', 'bazaar',
+    'elle',
+    'pcquest', 'pc quest',
+    'electronicsforyou', 'electronics for you',
+    'autocar',
+    'opensourceforyou', 'open source for you',
+    'rollingstone',
+    'bakeryreview', 'bakery review',
+    'mathematicstoday', 'mathematics today',
+    'bikeindia', 'bike india',
+    'carindia', 'car india',
+    'womenfitnessindia', 'women fitness india',
+    'smartphotography', 'smart photography'
+}
+
+def is_premium_source(source_name):
+    """Check if a source should be flagged as premium."""
+    source_normalized = source_name.lower().strip().replace(' ', '').replace('-', '')
+    return any(premium.replace(' ', '').replace('-', '') in source_normalized 
+               for premium in PREMIUM_SOURCES)
+
 def run_all_scrapers():
     all_articles = {}
     successful = 0
@@ -312,6 +366,11 @@ def run_all_scrapers():
                             source_name = func.replace('fetch_reddit_', 'Reddit ').title()
                     else:
                         source_name = module.replace('_scraper', '').capitalize()
+                    
+                    # Add premium flag to articles if source is premium
+                    if is_premium_source(source_name):
+                        for article in unique_articles:
+                            article['premium'] = True
                     
                     all_articles[source_name] = unique_articles
                     successful += 1

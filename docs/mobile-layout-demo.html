@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Search Layout Demo</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .demo-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2em;
+            font-weight: 700;
+        }
+        
+        .demo-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .layout-comparison {
+            padding: 40px;
+        }
+        
+        .comparison-section {
+            margin-bottom: 40px;
+        }
+        
+        .comparison-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .device-mockup {
+            border: 3px solid #34495e;
+            border-radius: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .device-mockup::before {
+            content: attr(data-device);
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #34495e;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .mockup-header {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .mockup-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .mockup-title {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #000;
+            margin: 0;
+        }
+        
+        .mockup-subtitle {
+            color: #666;
+            font-size: 0.9em;
+            margin: 5px 0 0 0;
+        }
+        
+        .mockup-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .mockup-search {
+            flex: 1;
+            padding: 8px 12px 8px 35px;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9em;
+            background: #fff;
+            position: relative;
+        }
+        
+        .mockup-search-container {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .mockup-search-icon {
+            position: absolute;
+            left: 12px;
+            color: #999;
+            font-size: 0.9em;
+            z-index: 1;
+        }
+        
+        .mockup-theme {
+            background: #fff;
+            border: 1px solid #000;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        
+        .mockup-date-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+        }
+        
+        .mockup-date-selector select {
+            padding: 6px 10px;
+            border: 1px solid #000;
+            background: #fff;
+            border-radius: 4px;
+        }
+        
+        .improvement-list {
+            background: #e8f5e8;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #27ae60;
+            margin: 20px 0;
+        }
+        
+        .improvement-list h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .improvement-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .improvement-list li {
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .old-layout {
+            opacity: 0.7;
+            background: #fff5f5;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .old-layout h3 {
+            color: #e74c3c;
+        }
+        
+        .old-layout .mockup-controls {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+        
+        .old-layout .mockup-search-container {
+            order: 1;
+        }
+        
+        .old-layout .mockup-date-selector {
+            order: 2;
+        }
+        
+        .old-layout .mockup-theme {
+            order: 3;
+            align-self: flex-start;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .demo-header {
+                padding: 20px;
+            }
+            
+            .layout-comparison {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>📱 Mobile Layout Improvements</h1>
+            <p>Simplified and optimized mobile search experience</p>
+        </div>
+        
+        <div class="layout-comparison">
+            <div class="comparison-section">
+                <h2>✨ New Improved Mobile Layout</h2>
+                <div class="device-mockup" data-device="📱 Mobile (≤768px)">
+                    <div class="mockup-header">
+                        <div class="mockup-header-content">
+                            <div>
+                                <h1 class="mockup-title">ARTICLAY</h1>
+                                <p class="mockup-subtitle">Your Daily Curated News & Articles</p>
+                            </div>
+                        </div>
+                        <div class="mockup-controls">
+                            <div class="mockup-search-container">
+                                <span class="mockup-search-icon">🔍</span>
+                                <input type="text" class="mockup-search" placeholder="Search articles..." readonly>
+                            </div>
+                            <button class="mockup-theme">🌓</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="improvement-list">
+                    <h3>🎯 Key Improvements</h3>
+                    <ul>
+                        <li><strong>Single Row Layout:</strong> Search and theme toggle in one horizontal line</li>
+                        <li><strong>No Date Dropdown:</strong> Removed unnecessary date selector on mobile</li>
+                        <li><strong>Left-Right Alignment:</strong> Search bar fills available space, theme button on right</li>
+                        <li><strong>Optimized Space:</strong> More room for search input on small screens</li>
+                        <li><strong>Touch-Friendly:</strong> Proper spacing between interactive elements</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="comparison-section">
+                <h2>📱 Responsive Breakpoints</h2>
+                
+                <div class="device-mockup" data-device="🖥️ Desktop (1024px+)">
+                    <div class="mockup-header">
+                        <div class="mockup-header-content">
+                            <div>
+                                <h1 class="mockup-title">ARTICLAY</h1>
+                                <p class="mockup-subtitle">Your Daily Curated News & Articles</p>
+                            </div>
+                        </div>
+                        <div class="mockup-controls">
+                            <div class="mockup-date-selector">
+                                <label>Date:</label>
+                                <select><option>2025-10-14</option></select>
+                            </div>
+                            <div class="mockup-search-container">
+                                <span class="mockup-search-icon">🔍</span>
+                                <input type="text" class="mockup-search" placeholder="Search articles..." readonly>
+                            </div>
+                            <button class="mockup-theme">🌓</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="device-mockup" data-device="📱 Tablet (768px-1024px)">
+                    <div class="mockup-header">
+                        <div class="mockup-header-content">
+                            <div>
+                                <h1 class="mockup-title">ARTICLAY</h1>
+                                <p class="mockup-subtitle">Your Daily Curated News & Articles</p>
+                            </div>
+                        </div>
+                        <div class="mockup-controls">
+                            <div class="mockup-date-selector">
+                                <label>Date:</label>
+                                <select><option>2025-10-14</option></select>
+                            </div>
+                            <div class="mockup-search-container">
+                                <span class="mockup-search-icon">🔍</span>
+                                <input type="text" class="mockup-search" placeholder="Search articles..." readonly>
+                            </div>
+                            <button class="mockup-theme">🌓</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="comparison-section">
+                <h2>🔄 Before vs After</h2>
+                
+                <div class="improvement-list old-layout">
+                    <h3>❌ Previous Mobile Layout Issues</h3>
+                    <ul>
+                        <li>Date dropdown took up valuable space on mobile</li>
+                        <li>Vertical stacking made the header too tall</li>
+                        <li>Search bar didn't utilize full available width</li>
+                        <li>Less intuitive layout for mobile users</li>
+                        <li>More complex visual hierarchy</li>
+                    </ul>
+                </div>
+                
+                <div class="improvement-list">
+                    <h3>✅ New Mobile Layout Benefits</h3>
+                    <ul>
+                        <li><strong>Cleaner Interface:</strong> Removed clutter from mobile view</li>
+                        <li><strong>Better Space Usage:</strong> Search bar uses maximum available width</li>
+                        <li><strong>Faster Access:</strong> Primary functions (search + theme) easily accessible</li>
+                        <li><strong>Mobile-First:</strong> Optimized specifically for touch interfaces</li>
+                        <li><strong>Consistent UX:</strong> Familiar left-right layout pattern</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="comparison-section">
+                <h2>📏 Screen Size Optimizations</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="background: #f0f8ff; padding: 20px; border-radius: 10px; border-left: 4px solid #3498db;">
+                        <h4 style="margin-top: 0; color: #2c3e50;">📱 Small Mobile (≤480px)</h4>
+                        <ul style="font-size: 0.9em; margin: 0; padding-left: 20px;">
+                            <li>Compact search input padding</li>
+                            <li>Smaller theme toggle button</li>
+                            <li>Optimized icon sizes</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #f0fff0; padding: 20px; border-radius: 10px; border-left: 4px solid #27ae60;">
+                        <h4 style="margin-top: 0; color: #2c3e50;">📱 Extra Small (≤360px)</h4>
+                        <ul style="font-size: 0.9em; margin: 0; padding-left: 20px;">
+                            <li>Ultra-compact design</li>
+                            <li>Minimal padding and gaps</li>
+                            <li>Tiny but touch-friendly controls</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; color: white;">
+                <h3 style="margin-bottom: 10px;">🚀 Experience the Improved Mobile Layout</h3>
+                <p style="margin: 0; opacity: 0.9;">Visit Articlay on your mobile device to see the enhanced search experience in action!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

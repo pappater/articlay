@@ -78,25 +78,162 @@
             margin: 0 auto;
         }
 
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-width: 280px;
+            max-width: 400px;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .search-container:hover .search-input:not(:focus) {
+            border-color: var(--text-tertiary);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+        }
+
         .search-input {
-            width: 300px;
-            padding: 8px 16px;
+            width: 100%;
+            padding: 10px 16px 10px 40px;
             font-size: 0.9em;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             background-color: var(--bg-card);
             color: var(--text-primary);
-            border-radius: 6px;
+            border-radius: 25px;
             font-family: inherit;
-            transition: border-color 0.3s, background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
         }
 
         .search-input::placeholder {
             color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .search-input:focus::placeholder {
+            color: transparent;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            pointer-events: none;
+            transition: color 0.3s ease;
+            z-index: 1;
+        }
+
+        .search-input:focus + .search-icon {
+            color: var(--text-primary);
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 2px;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .search-clear:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .search-input:not(:placeholder-shown) + .search-icon + .search-clear {
+            display: flex;
+        }
+
+        /* Search loading indicator */
+        .search-loading {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        /* Enhanced search results info */
+        .search-results-info {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 4px solid var(--text-primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Search input states */
+        .search-input.searching {
+            border-color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .search-input.has-results {
+            border-color: #28a745;
+        }
+
+        .search-input.no-results {
+            border-color: #dc3545;
         }
 
         .search-results-info {
@@ -383,6 +520,7 @@
             margin-bottom: 12px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
+            line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -672,23 +810,39 @@
             }
 
             .header-controls {
-                flex-direction: column;
-                gap: 10px;
-                align-items: stretch;
+                flex-direction: row;
+                gap: 15px;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .search-container {
+                flex: 1;
+                min-width: unset;
+                max-width: none;
+                margin: 0;
             }
 
             .search-input {
-                width: 100%;
-                order: 1;
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 12px 16px 12px 40px;
             }
 
             .date-selector {
-                order: 2;
+                display: none; /* Hide date selector on mobile */
             }
 
             .theme-toggle {
-                order: 3;
-                align-self: flex-end;
+                flex-shrink: 0;
+                margin-left: 10px;
+            }
+
+            .search-results-info {
+                font-size: 0.85em;
+                margin: 0 -20px 15px -20px;
+                border-radius: 0;
+                border-left: none;
+                border-top: 4px solid var(--text-primary);
             }
 
             .search-results-info {
@@ -731,6 +885,109 @@
                 padding: 20px;
             }
         }
+
+        /* Tablet breakpoint */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .search-container {
+                min-width: 250px;
+                max-width: 300px;
+            }
+
+            .header-controls {
+                gap: 15px;
+            }
+        }
+
+        /* Large mobile breakpoint */
+        @media (max-width: 480px) {
+            .header-content {
+                gap: 10px;
+            }
+
+            h1 {
+                font-size: 1.4em;
+            }
+
+            .subtitle {
+                font-size: 0.9em;
+            }
+
+            .header-controls {
+                gap: 12px;
+            }
+
+            .search-container {
+                min-width: 0; /* Allow container to shrink */
+            }
+
+            .search-input {
+                padding: 10px 14px 10px 36px;
+                border-radius: 20px;
+                min-width: 0; /* Allow input to shrink */
+            }
+
+            .search-icon {
+                left: 12px;
+                font-size: 0.8em;
+            }
+
+            .search-clear {
+                right: 10px;
+                width: 18px;
+                height: 18px;
+                font-size: 1em;
+            }
+
+            .theme-toggle {
+                padding: 8px 12px;
+                font-size: 1em;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 360px) {
+            header {
+                padding: 12px 15px;
+            }
+
+            .header-content {
+                gap: 8px;
+            }
+
+            h1 {
+                font-size: 1.2em;
+            }
+
+            .subtitle {
+                font-size: 0.8em;
+            }
+
+            .header-controls {
+                gap: 10px;
+            }
+
+            .search-input {
+                padding: 8px 12px 8px 32px;
+                font-size: 0.85em;
+            }
+
+            .search-icon {
+                left: 10px;
+                font-size: 0.75em;
+            }
+
+            .search-clear {
+                right: 8px;
+                width: 16px;
+                height: 16px;
+                font-size: 0.9em;
+            }
+
+            .theme-toggle {
+                font-size: 0.9em;
+                padding: 6px 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -748,13 +1005,20 @@
                             <option value="">Loading...</option>
                         </select>
                     </div>
-                    <input 
-                        type="text" 
-                        id="search-input" 
-                        class="search-input" 
-                        placeholder="Search articles by keyword or source name..."
-                        oninput="handleSearchInput()"
-                    >
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            class="search-input" 
+                            placeholder="Search articles by keyword or source name..."
+                            oninput="handleSearchInput()"
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+                        <span class="search-icon">🔍</span>
+                        <button class="search-clear" onclick="clearSearchClick()" title="Clear search">×</button>
+                        <div class="search-loading" id="search-loading"></div>
+                    </div>
                     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌓</button>
                 </div>
             </div>
@@ -1639,14 +1903,22 @@
         function handleSearchInput() {
             const searchInput = document.getElementById('search-input');
             const query = searchInput.value.trim();
+            const loadingIndicator = document.getElementById('search-loading');
             
             // Clear previous timeout
             if (searchTimeout) {
                 clearTimeout(searchTimeout);
             }
             
+            // Show/hide loading indicator
+            if (query !== '') {
+                loadingIndicator.style.display = 'block';
+            }
+            
             // Debounce search to avoid excessive filtering
             searchTimeout = setTimeout(() => {
+                loadingIndicator.style.display = 'none';
+                
                 if (query === '') {
                     clearSearch();
                 } else {
@@ -1655,7 +1927,16 @@
             }, 300);
         }
 
+        function clearSearchClick() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.value = '';
+            searchInput.focus();
+            clearSearch();
+        }
+
         function performSearch(query, filterType) {
+            const searchInput = document.getElementById('search-input');
+            
             if (!isSearchActive) {
                 // Store original articles before first search
                 originalArticles = JSON.parse(JSON.stringify(allData[currentDate] || {}));
@@ -1663,6 +1944,16 @@
             }
             
             const filteredData = filterArticles(originalArticles, query, filterType);
+            
+            // Update search input visual state based on results
+            searchInput.classList.remove('searching', 'has-results', 'no-results');
+            const totalArticles = Object.values(filteredData).reduce((sum, articles) => sum + articles.length, 0);
+            
+            if (totalArticles > 0) {
+                searchInput.classList.add('has-results');
+            } else {
+                searchInput.classList.add('no-results');
+            }
             
             // Update the current data
             allData[currentDate] = filteredData;
@@ -1738,7 +2029,8 @@
             // Remove existing search info
             const existingInfo = document.querySelector('.search-results-info');
             if (existingInfo) {
-                existingInfo.remove();
+                existingInfo.style.animation = 'slideUp 0.2s ease forwards';
+                setTimeout(() => existingInfo.remove(), 200);
             }
             
             // Count total articles and sources
@@ -1749,31 +2041,42 @@
                 totalArticles += articles.length;
             }
             
-            // Create search results info
-            const searchInfo = document.createElement('div');
-            searchInfo.className = 'search-results-info';
-            
-            searchInfo.innerHTML = `
-                🔍 <strong>Search Results:</strong> Found ${totalArticles} articles from ${sourceCount} sources 
-                for "${query}"
-            `;
-            
-            // Insert after tab container
-            const tabContainer = document.querySelector('.tab-container');
-            const contentArea = document.querySelector('.content-area');
-            contentArea.insertBefore(searchInfo, contentArea.firstChild);
+            // Create search results info with better messaging
+            setTimeout(() => {
+                const searchInfo = document.createElement('div');
+                searchInfo.className = 'search-results-info';
+                
+                let resultsText = '';
+                if (totalArticles === 0) {
+                    resultsText = `🔍 <strong>No results found</strong> for "${query}". Try different keywords or check spelling.`;
+                } else if (totalArticles === 1) {
+                    resultsText = `🔍 <strong>Found 1 article</strong> from ${sourceCount} source for "${query}"`;
+                } else {
+                    resultsText = `🔍 <strong>Found ${totalArticles} articles</strong> from ${sourceCount} ${sourceCount === 1 ? 'source' : 'sources'} for "${query}"`;
+                }
+                
+                searchInfo.innerHTML = resultsText;
+                
+                // Insert after tab container
+                const contentArea = document.querySelector('.content-area');
+                contentArea.insertBefore(searchInfo, contentArea.firstChild);
+            }, existingInfo ? 200 : 0);
         }
 
         function clearSearch() {
             const searchInput = document.getElementById('search-input');
+            const loadingIndicator = document.getElementById('search-loading');
             
-            // Clear input
+            // Clear input and reset visual states
             searchInput.value = '';
+            searchInput.classList.remove('searching', 'has-results', 'no-results');
+            loadingIndicator.style.display = 'none';
             
-            // Remove search results info
+            // Remove search results info with animation
             const existingInfo = document.querySelector('.search-results-info');
             if (existingInfo) {
-                existingInfo.remove();
+                existingInfo.style.animation = 'slideUp 0.2s ease forwards';
+                setTimeout(() => existingInfo.remove(), 200);
             }
             
             if (isSearchActive) {
@@ -1793,20 +2096,55 @@
                     activateTab(targetTab);
                 }
             }
+            
+            // Update placeholder
+            updateSearchPlaceholder();
         }
 
-        // Add keyboard support for search
+        // Enhanced search functionality
+        let searchSuggestions = ['forbes', 'technology', 'climate', 'AI', 'business', 'science', 'reddit', 'india', 'politics'];
+        
+        function updateSearchPlaceholder() {
+            const searchInput = document.getElementById('search-input');
+            const randomSuggestion = searchSuggestions[Math.floor(Math.random() * searchSuggestions.length)];
+            
+            if (!searchInput.value && !document.activeElement === searchInput) {
+                searchInput.placeholder = `Search articles... Try "${randomSuggestion}"`;
+            }
+        }
+
+        // Add enhanced keyboard support for search
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search-input');
             if (searchInput) {
+                // Keyboard events
                 searchInput.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {
+                        const loadingIndicator = document.getElementById('search-loading');
+                        loadingIndicator.style.display = 'none';
                         handleSearchInput();
                     } else if (event.key === 'Escape') {
-                        clearSearch();
+                        clearSearchClick();
                     }
                 });
+
+                // Focus events for better UX
+                searchInput.addEventListener('focus', function() {
+                    this.placeholder = 'Type to search articles...';
+                });
+
+                searchInput.addEventListener('blur', function() {
+                    if (!this.value) {
+                        updateSearchPlaceholder();
+                    }
+                });
+
+                // Initialize placeholder
+                updateSearchPlaceholder();
             }
+
+            // Update placeholder periodically for variety
+            setInterval(updateSearchPlaceholder, 30000); // Every 30 seconds
         });
 
         // Close modal when clicking outside

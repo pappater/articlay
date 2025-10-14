@@ -56,8 +56,8 @@
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 100%;
+            margin: 0;
             background-color: var(--bg-secondary);
             min-height: 100vh;
             transition: background-color 0.3s;
@@ -70,6 +70,12 @@
             position: relative;
             z-index: 100;
             transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-content,
+        .search-bar {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .theme-toggle {
@@ -224,6 +230,8 @@
             min-height: 500px;
             position: relative;
             touch-action: pan-y;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .tab-content {
@@ -610,20 +618,16 @@
         }
 
         footer {
-            margin-top: 60px;
-            padding: 20px 30px;
+            margin-top: 40px;
+            padding: 30px;
             border-top: 1px solid var(--border-color);
             font-size: 0.85em;
             color: var(--text-secondary);
-            background-color: var(--hover-bg);
+            background-color: var(--bg-secondary);
             position: relative;
-            z-index: 2;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        footer.fade-away {
-            opacity: 0;
-            transform: translateY(-20px);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         footer a {
@@ -633,63 +637,6 @@
 
         footer a:hover {
             text-decoration: none;
-        }
-
-        /* Basquiat-style art easter egg */
-        .basquiat-art {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 300px;
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-            background: linear-gradient(180deg, transparent 0%, var(--bg-primary) 30%);
-        }
-
-        .basquiat-art.visible {
-            opacity: 1;
-        }
-
-        .basquiat-canvas {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Basquiat-inspired abstract elements */
-        .basquiat-element {
-            position: absolute;
-            opacity: 0.8;
-        }
-
-        .crown {
-            font-size: 60px;
-            color: #FFD700;
-            text-shadow: 2px 2px 0 #000;
-        }
-
-        .scribble {
-            border: 3px solid;
-            border-radius: 50%;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .text-element {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 24px;
-            text-transform: uppercase;
-            color: var(--text-primary);
-            text-decoration: line-through;
         }
 
         @media (max-width: 768px) {
@@ -781,19 +728,6 @@
         <footer id="footer">
             <p>Powered by <a href="https://github.com/pappater/articlay" target="_blank">Articlay</a> · Data sourced from various news outlets and magazines</p>
         </footer>
-    </div>
-
-    <!-- Basquiat-style Art Easter Egg -->
-    <div class="basquiat-art" id="basquiat-art">
-        <div class="basquiat-canvas">
-            <div class="basquiat-element crown" style="top: 20%; left: 10%;">👑</div>
-            <div class="basquiat-element scribble" style="top: 40%; left: 25%; width: 80px; height: 80px; border-color: #ff0000;"></div>
-            <div class="basquiat-element scribble" style="top: 60%; left: 70%; width: 60px; height: 60px; border-color: #00ff00;"></div>
-            <div class="basquiat-element text-element" style="top: 30%; left: 60%;">ART</div>
-            <div class="basquiat-element text-element" style="top: 70%; left: 40%;">LIFE</div>
-            <div class="basquiat-element crown" style="top: 50%; left: 85%;">👑</div>
-            <div class="basquiat-element scribble" style="top: 25%; left: 50%; width: 70px; height: 70px; border-color: #0000ff;"></div>
-        </div>
     </div>
 
     <!-- Settings Modal -->
@@ -1625,31 +1559,6 @@
 
         // No longer need scroll handler - tabs are always sticky at top
         // Header is no longer sticky, only tabs are sticky
-
-        // Basquiat art easter egg - reveal on deep scroll
-        function handleScroll() {
-            const footer = document.getElementById('footer');
-            const basquiatArt = document.getElementById('basquiat-art');
-            const scrollHeight = document.documentElement.scrollHeight;
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const clientHeight = document.documentElement.clientHeight;
-            
-            // Calculate how close we are to the bottom
-            const scrolledToBottom = scrollTop + clientHeight >= scrollHeight - 100;
-            
-            if (scrolledToBottom) {
-                // Fade away footer and reveal Basquiat art
-                footer.classList.add('fade-away');
-                basquiatArt.classList.add('visible');
-            } else {
-                // Show footer and hide art
-                footer.classList.remove('fade-away');
-                basquiatArt.classList.remove('visible');
-            }
-        }
-        
-        // Add scroll event listener
-        window.addEventListener('scroll', handleScroll);
 
         // Initialize
         loadTheme();

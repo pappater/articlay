@@ -306,7 +306,11 @@ PREMIUM_SOURCES = {
     'bikeindia', 'bike india',
     'carindia', 'car india',
     'womenfitnessindia', 'women fitness india',
-    'smartphotography', 'smart photography'
+    'smartphotography', 'smart photography',
+    'newyorker', 'new yorker', 'the new yorker',
+    'gq',
+    'wired',
+    'forbes'
 }
 
 def is_premium_source(source_name):

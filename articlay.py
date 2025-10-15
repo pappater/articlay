@@ -166,16 +166,23 @@ class GistArchiver:
 class Articlay:
     """Main application class"""
     
-    def __init__(self, github_token: Optional[str] = None):
+    def __init__(self, github_token: Optional[str] = None, gist_id: Optional[str] = None):
         self.scraper = MagzterScraper()
         self.archiver = GistArchiver(github_token)
-        self.gist_id = None
-        # Try to load gist config
-        try:
-            from gist_config import GIST_ID
-            self.gist_id = GIST_ID
-        except ImportError:
-            pass
+        self.gist_id = gist_id
+        
+        # Try multiple sources for Gist ID (in priority order)
+        if not self.gist_id:
+            # 1. Check environment variable
+            self.gist_id = os.getenv('ARTICLAY_GIST_ID') or os.getenv('GIST_ID')
+        
+        if not self.gist_id:
+            # 2. Try to load from gist_config.py
+            try:
+                from gist_config import GIST_ID
+                self.gist_id = GIST_ID
+            except ImportError:
+                pass
     
     def fetch_gist_articles(self) -> Dict[str, List[Dict]]:
         """
@@ -238,26 +245,46 @@ class Articlay:
         if not articles_data:
             return []
         
-        # Get today's date
+        # Check if data structure is date-based or source-based
+        all_articles = []
+        
+        # Check if there's a nested date structure like {"2025-10-15": {...}}
         today = datetime.now().strftime("%Y-%m-%d")
         
-        # Try to get today's articles, or the most recent date
-        if today in articles_data:
-            all_articles = articles_data[today]
+        # If the top level has a date key
+        if today in articles_data and isinstance(articles_data[today], dict):
+            # Date-based with nested sources: {"2025-10-15": {"Healthline": [...], ...}}
+            for source_name, source_articles in articles_data[today].items():
+                if isinstance(source_articles, list):
+                    all_articles.extend(source_articles)
         else:
-            # Get the most recent date
-            dates = sorted(articles_data.keys(), reverse=True)
-            if dates:
-                all_articles = articles_data[dates[0]]
-                print(f"Using articles from {dates[0]} (today's articles not available)")
+            # Try to find date-like keys
+            date_keys = [k for k in articles_data.keys() if '-' in k and len(k) == 10]
+            if date_keys:
+                # Use the most recent date
+                dates = sorted(date_keys, reverse=True)
+                recent_date = dates[0]
+                print(f"Using articles from {recent_date} (today's articles not available)")
+                
+                if isinstance(articles_data[recent_date], dict):
+                    # Nested structure
+                    for source_name, source_articles in articles_data[recent_date].items():
+                        if isinstance(source_articles, list):
+                            all_articles.extend(source_articles)
+                elif isinstance(articles_data[recent_date], list):
+                    # Flat list
+                    all_articles = articles_data[recent_date]
             else:
-                return []
+                # Assume source-based structure at top level (e.g., {"Healthline": [...], "Vogue": [...]})
+                for source_name, source_articles in articles_data.items():
+                    if isinstance(source_articles, list):
+                        all_articles.extend(source_articles)
         
         # Filter by category if specified
         if category:
-            filtered = [a for a in all_articles if a.get('category', '').lower() == category.lower()]
+            filtered = [a for a in all_articles if isinstance(a, dict) and a.get('category', '').lower() == category.lower()]
         else:
-            filtered = all_articles
+            filtered = [a for a in all_articles if isinstance(a, dict)]
         
         # Return limited results
         return filtered[:limit] if limit > 0 else filtered
@@ -494,13 +521,22 @@ def main():
         help='GitHub personal access token (or set GITHUB_TOKEN env var)'
     )
     
+    parser.add_argument(
+        '--gist-id', '-g',
+        type=str,
+        help='GitHub Gist ID containing articles (or set ARTICLAY_GIST_ID env var)'
+    )
+    
     args = parser.parse_args()
     
     # Get GitHub token from args or environment
     github_token = args.token or os.getenv('GITHUB_TOKEN')
     
+    # Get Gist ID from args or environment
+    gist_id = args.gist_id or os.getenv('ARTICLAY_GIST_ID') or os.getenv('GIST_ID')
+    
     # Create application instance
-    app = Articlay(github_token)
+    app = Articlay(github_token, gist_id=gist_id)
     
     # Handle random command
     if args.command == 'random':

@@ -6,12 +6,17 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-with open("requirements.txt", "r", encoding="utf-8") as fh:
-    requirements = [line.strip() for line in fh if line.strip() and not line.startswith("#")]
+# Define requirements directly instead of reading from file
+# This is more reliable for packaging
+requirements = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0",
+]
 
 setup(
     name="articlay",
-    version="1.1.0",
+    version="1.1.3",  # Fixed Gist data parsing for nested date/source structure
     author="Articlay Contributors",
     description="A CLI tool to aggregate and view curated news articles from 100+ sources",
     long_description=long_description,

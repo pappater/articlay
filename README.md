@@ -1,6 +1,13 @@
 # Articlay 📰
 
+[![PyPI version](https://badge.fury.io/py/articlay.svg)](https://badge.fury.io/py/articlay)
+[![Python](https://img.shields.io/pypi/pyversions/articlay.svg)](https://pypi.org/project/articlay/)
+[![Downloads](https://pepy.tech/badge/articlay)](https://pepy.tech/project/articlay)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A comprehensive news aggregator that fetches articles from popular magazines and news sources worldwide, including India and Tamil Nadu, and presents them in a beautiful, minimalistic UI.
+
+**✨ Zero Configuration CLI** - Install and use immediately with `pip install articlay`!
 
 ## Features
 
@@ -87,38 +94,49 @@ No manual intervention is required!
 
 Articlay provides a powerful CLI for viewing articles right in your terminal.
 
+✨ **Zero Configuration Required!** The CLI works immediately after installation with no setup needed.
+
 #### Installation
 
+Install from PyPI (recommended):
 ```bash
 pip install articlay
 ```
 
-Or install from source:
+That's it! No configuration, no Gist ID, no setup. Just install and use.
 
+Or install from source:
 ```bash
 git clone https://github.com/pappater/articlay.git
 cd articlay
 pip install -e .
 ```
 
-#### Quick Start
+#### Quick Start (No Setup Needed!)
 
 ```bash
-# Show For You articles (default)
-articlay
+# Install and use immediately
+pip install articlay
 
-# Show 10 India news articles
+# Show all articles
+articlay --all
+
+# Show India news
 articlay --india --limit 10
 
 # Get one random article
 articlay random
 
-# Show all Tamil Nadu articles
-articlay --tamilnadu --limit 0
+# Show Tamil Nadu news
+articlay --tamilnadu --limit 5
 
-# Show 15 tech articles
-articlay --tech -l 15
+# Show tech articles
+articlay --codetech -l 15
 ```
+
+✅ **Works out of the box** - No Gist ID or environment variables needed!  
+✅ **Same content as web UI** - Access all articles from the terminal  
+✅ **Perfect for developers** - Fast, lightweight, and scriptable
 
 #### Available Category Flags
 
@@ -149,10 +167,23 @@ articlay random
 
 # Show all available articles
 articlay --all --limit 0
+```
 
-# With GitHub token (for private Gists)
-export GITHUB_TOKEN=your_token_here
+#### Advanced Configuration (Optional)
+
+**Note:** Configuration is NOT required for normal use! Only needed for advanced scenarios.
+
+```bash
+# Use your own Gist ID (optional)
+export ARTICLAY_GIST_ID="your_gist_id"
+articlay --all
+
+# Use a private Gist (optional)
+export GITHUB_TOKEN="your_token"
 articlay --india
+
+# Or pass Gist ID as argument (optional)
+articlay --gist-id your_gist_id --all
 ```
 
 For complete CLI documentation, see [CLI_GUIDE.md](CLI_GUIDE.md).

@@ -16,7 +16,7 @@ requirements = [
 
 setup(
     name="articlay",
-    version="1.1.5",  # Default command now shows one random article
+    version="1.1.6",  # Removed 'Source: Unknown' from article display
     author="Articlay Contributors",
     description="A CLI tool to aggregate and view curated news articles from 100+ sources",
     long_description=long_description,

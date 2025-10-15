@@ -313,7 +313,6 @@ class Articlay:
         
         for i, article in enumerate(articles, 1):
             title = article.get('title', 'No title')
-            source = article.get('source', 'Unknown')
             cat = article.get('category', 'Uncategorized')
             link = article.get('link', '')
             
@@ -322,7 +321,7 @@ class Articlay:
                 title = title[:57] + '...'
             
             print(f"{i:2d}. {title}")
-            print(f"    Source: {source} | Category: {cat}")
+            print(f"    Category: {cat}")
             if link:
                 print(f"    Link: {link}")
             print()

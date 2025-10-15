@@ -169,20 +169,33 @@ class Articlay:
     def __init__(self, github_token: Optional[str] = None, gist_id: Optional[str] = None):
         self.scraper = MagzterScraper()
         self.archiver = GistArchiver(github_token)
+        
+        # Default Gist ID - can be overridden by user
+        DEFAULT_GIST_ID = "17c58ca69bfa6f204a353a76f21b7774"
+        
+        # Priority order for Gist ID:
+        # 1. Provided as argument
+        # 2. Environment variable
+        # 3. gist_config.py file
+        # 4. Default hardcoded ID
+        
         self.gist_id = gist_id
         
-        # Try multiple sources for Gist ID (in priority order)
         if not self.gist_id:
-            # 1. Check environment variable
+            # Check environment variable
             self.gist_id = os.getenv('ARTICLAY_GIST_ID') or os.getenv('GIST_ID')
         
         if not self.gist_id:
-            # 2. Try to load from gist_config.py
+            # Try to load from gist_config.py
             try:
                 from gist_config import GIST_ID
                 self.gist_id = GIST_ID
             except ImportError:
                 pass
+        
+        if not self.gist_id:
+            # Use default Gist ID
+            self.gist_id = DEFAULT_GIST_ID
     
     def fetch_gist_articles(self) -> Dict[str, List[Dict]]:
         """

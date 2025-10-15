@@ -16,7 +16,7 @@ requirements = [
 
 setup(
     name="articlay",
-    version="1.1.3",  # Fixed Gist data parsing for nested date/source structure
+    version="1.1.4",  # Added default hardcoded Gist ID for zero-config usage
     author="Articlay Contributors",
     description="A CLI tool to aggregate and view curated news articles from 100+ sources",
     long_description=long_description,

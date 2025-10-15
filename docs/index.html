@@ -1102,18 +1102,16 @@
                 <p>Install Articlay command-line tool using pip:</p>
                 <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;">pip install articlay</pre>
                 
-                <p style="margin-top: 15px;">Or install from source:</p>
-                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;">git clone https://github.com/pappater/articlay.git
-cd articlay
-pip install -r requirements.txt
-pip install -e .</pre>
+                <p style="margin-top: 15px; color: #10b981; font-weight: 600;">✨ Zero Configuration Required! Works immediately after installation.</p>
             </div>
 
             <div class="settings-section">
-                <h3>🚀 Quick Start</h3>
-                <p>After installation, run Articlay from your terminal:</p>
-                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;">articlay</pre>
-                <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-secondary);">This displays 5 articles from the "For You" tab by default.</p>
+                <h3>🚀 Quick Start (No Setup Needed!)</h3>
+                <p>After installation, just run Articlay from your terminal - no configuration required:</p>
+                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;"># Install and use immediately - that's it!
+pip install articlay
+articlay --all</pre>
+                <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-secondary);">✨ Works out of the box with no Gist ID or configuration needed!</p>
             </div>
 
             <div class="settings-section">
@@ -1166,9 +1164,17 @@ articlay --all --limit 50</pre>
             </div>
 
             <div class="settings-section">
-                <h3>🔧 Configuration</h3>
-                <p>For private Gists, set your GitHub token:</p>
-                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;">export GITHUB_TOKEN=your_token_here
+                <h3>🔧 Advanced Configuration (Optional)</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9em; margin-bottom: 10px;">
+                    ⚠️ Configuration is <strong>NOT required</strong> for normal use! The CLI works immediately after installation.
+                </p>
+                <p>Only needed if you want to use your own private Gist or override the default:</p>
+                <pre style="background: var(--bg-primary); padding: 15px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9em;"># Optional: Use your own Gist ID
+export ARTICLAY_GIST_ID=your_gist_id_here
+articlay
+
+# Optional: For private Gists
+export GITHUB_TOKEN=your_token_here
 articlay</pre>
             </div>
 
@@ -1184,12 +1190,13 @@ articlay</pre>
             <div class="settings-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px;">
                 <h3 style="color: white; margin-bottom: 10px;">🌟 Why Use the CLI?</h3>
                 <ul style="list-style: none; padding-left: 0; margin: 0;">
+                    <li style="padding: 5px 0;">✨ <strong>Zero configuration</strong> - works immediately!</li>
                     <li style="padding: 5px 0;">⚡ Fast and lightweight</li>
                     <li style="padding: 5px 0;">🎯 Filter by category instantly</li>
                     <li style="padding: 5px 0;">🎲 Discover random articles</li>
                     <li style="padding: 5px 0;">📱 Works in any terminal</li>
                     <li style="padding: 5px 0;">🔄 Same content as web UI</li>
-                    <li style="padding: 5px 0;">💾 Export and save articles</li>
+                    <li style="padding: 5px 0;">💾 No setup, no config files needed</li>
                 </ul>
             </div>
         </div>

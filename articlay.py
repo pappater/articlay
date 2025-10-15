@@ -592,9 +592,14 @@ def main():
         app.display_articles_table(articles, category=selected_category)
         return 0
     elif not args.magazines and not args.articles:
-        # Default behavior: show For You tab
-        articles = app.get_articles_by_category(category='For You', limit=args.limit)
-        app.display_articles_table(articles, category='For You')
+        # Default behavior: show one random article
+        print("\n🎲 Fetching a random article...\n")
+        articles = app.get_articles_by_category(limit=0)  # Get all articles
+        if articles:
+            random_article = random.choice(articles)
+            app.display_articles_table([random_article])
+        else:
+            print("No articles available.")
         return 0
     
     # Legacy Magzter mode

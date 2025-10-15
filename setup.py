@@ -11,9 +11,9 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="articlay",
-    version="1.0.0",
+    version="1.1.0",
     author="Articlay Contributors",
-    description="A tool to aggregate popular magazine articles from Magzter",
+    description="A CLI tool to aggregate and view curated news articles from 100+ sources",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/pappater/articlay",
